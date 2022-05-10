@@ -1,6 +1,13 @@
 {
   "root": true,
   "ignorePatterns": ["projects/**/*"],
+  "plugins": [],
+  "extends": [
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended",
+    "prettier"
+  ],
   "overrides": [
     {
       "files": ["*.ts"],
@@ -8,12 +15,16 @@
         "project": ["tsconfig.json", "e2e/tsconfig.json"],
         "createDefaultProgram": true
       },
+      "plugins": ["simple-import-sort"],
       "extends": [
         "plugin:@angular-eslint/ng-cli-compat",
         "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
       "rules": {
+        "simple-import-sort/imports": "error",
+        "simple-import-sort/exports": "error",
+
         "@angular-eslint/component-class-suffix": [
           "error",
           {
