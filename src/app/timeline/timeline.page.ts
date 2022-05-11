@@ -7,8 +7,8 @@ const dummy_data = [
   {
     id: 1,
     user: {
-      id: 1,
-      user_name: 'user_name_1',
+      id: 'user_1',
+      user_name: 'ユーザー1',
       avatar: dummy_avatar,
     },
     updated_at: 1588888888,
@@ -18,8 +18,8 @@ const dummy_data = [
   {
     id: 2,
     user: {
-      id: 2,
-      user_name: 'user_name_2',
+      id: 'user_2',
+      user_name: 'ユーザー2',
       avatar: dummy_avatar,
     },
     updated_at: 1588888888,
@@ -29,8 +29,8 @@ const dummy_data = [
   {
     id: 3,
     user: {
-      id: 3,
-      user_name: 'user_name_3',
+      id: 'user_3',
+      user_name: 'ユーザー3',
       avatar: dummy_avatar,
     },
     updated_at: 1588888888,
