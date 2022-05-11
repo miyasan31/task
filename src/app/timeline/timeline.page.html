@@ -11,5 +11,11 @@
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Timeline page"></app-explore-container>
+  <div *ngFor="let data of timeline_data">
+    <app-task-card
+      [user]="data.user"
+      [updated_at]="data.updated_at"
+      [task_list]="data.task_list"
+    ></app-task-card>
+  </div>
 </ion-content>
