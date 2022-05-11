@@ -15,4 +15,9 @@ export class TaskCardComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+
+  handleClick($event) {
+    $event.stopPropagation();
+    $event.preventDefault();
+  }
 }
