@@ -7,11 +7,16 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">プロフィール</ion-title>
+      <ion-title>みやさんのプロフィール</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <ion-segment [(ngModel)]="scene" (ionChange)="segmentChanged($event)" scrollable>
+  <ion-segment
+    [(ngModel)]="scene"
+    (ionChange)="segmentChanged($event)"
+    scrollable
+    class="ion-margin-horizontal"
+  >
     <ion-segment-button value="profile" checked>
       <ion-label>プロフィール</ion-label>
     </ion-segment-button>
@@ -24,11 +29,46 @@
   </ion-segment>
 
   <div [ngSwitch]="scene">
-    <ion-list *ngSwitchCase="'profile'">
-      <ion-thumbnail slot="start">
-        <img src="{{ timeline_data[0].user.avatar }}" />
-      </ion-thumbnail>
-    </ion-list>
+    <div *ngSwitchCase="'profile'">
+      <ion-grid class="ion-padding">
+        <ion-row class="ion-align-items-center">
+          <ion-col size="3">
+            <img src="{{ timeline_data[0].user.avatar }}" />
+          </ion-col>
+
+          <ion-col size="9">
+            <ion-row class="ion-align-items-center">
+              <ion-col size="4">
+                <ion-text class="ion-text-center">
+                  <p class="count-text">20</p>
+                  <p class="count-label">連続コミット</p>
+                </ion-text>
+              </ion-col>
+              <ion-col size="4">
+                <ion-text class="ion-text-center">
+                  <p class="count-text">100</p>
+                  <p class="count-label">タスク完了</p>
+                </ion-text>
+              </ion-col>
+              <ion-col size="4">
+                <ion-text class="ion-text-center">
+                  <p class="count-text">230</p>
+                  <p class="count-label">貰ったいいね</p>
+                </ion-text>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+
+        <ion-text
+          ><p class="font-bold text-lg">{{ timeline_data[0].user.userName }}</p>
+          <p>
+            プロフィール。プロフィール。プロフィール。プロフィール。プロフィール。プロフィール。
+            プロフィール。プロフィール。プロフィール。プロフィール。 プロフィール。プロフィール。
+          </p>
+        </ion-text>
+      </ion-grid>
+    </div>
 
     <div *ngSwitchCase="'task'">
       <ion-card *ngFor="let data of timeline_data">
