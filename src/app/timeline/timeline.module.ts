@@ -8,6 +8,7 @@ import { ComponentsModule } from '~/components/components.module';
 
 import { TimelinePage } from './timeline.page';
 import { TimelinePageRoutingModule } from './timeline-routing.module';
+import { TimelineDetailPage } from '~/timeline-detail/timeline-detail.page';
 
 @NgModule({
   imports: [
@@ -18,6 +19,6 @@ import { TimelinePageRoutingModule } from './timeline-routing.module';
     ExploreContainerComponentModule,
     ComponentsModule,
   ],
-  declarations: [TimelinePage],
+  declarations: [TimelinePage, TimelineDetailPage],
 })
 export class TimelinePageModule {}
