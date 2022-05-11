@@ -8,7 +8,9 @@ import {
   signInWithPopup,
 } from '@angular/fire/auth';
 import { NavController, AlertController } from '@ionic/angular';
+
 import { firebaseError } from './firebase.error';
+import { Capacitor } from '@capacitor/core';
 
 type RedirectPath = '/signin' | '/signin/register' | '/task';
 
@@ -28,12 +30,24 @@ export class AuthService {
   }
 
   googleSignIn() {
+    if (Capacitor.isNativePlatform()) {
+      console.info('native google sign in');
+      return this.nativeGoogleSignIn();
+    } else {
+      console.info('web google sign in');
+      return this.webGoogleSignIn();
+    }
+  }
+
+  nativeGoogleSignIn() {
     return signInWithPopup(this.afAuth, new GoogleAuthProvider()).then(() => {
-      this.navController.navigateForward('/task').catch((error) => {
-        console.log(error.message);
-        this.alertError(error);
-        throw error;
-      });
+      this.navigatePath('/task');
+    });
+  }
+
+  webGoogleSignIn() {
+    return signInWithPopup(this.afAuth, new GoogleAuthProvider()).then(() => {
+      this.navigatePath('/task');
     });
   }
 
