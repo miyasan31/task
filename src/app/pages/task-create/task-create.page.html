@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>タスク{{ isEdit ? '編集' : '保存' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-item>
+    <ion-label>タスク名入力</ion-label>
+    <ion-input type="text" placeholder="タスクを入力してください"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>ラベル</ion-label>
+    <ion-select placeholder="Select One">
+      <ion-select-option value="f">Female</ion-select-option>
+      <ion-select-option value="m">Male</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>アウトプットメモ</ion-label>
+    <ion-textarea rows="6"></ion-textarea>
+  </ion-item>
+
+  <ion-button expand="block" (click)="modalDismiss()"
+    >{{ isEdit ? '編集' : '保存' }}する</ion-button
+  >
+  <ion-button expand="block" (click)="modalDismiss()"> キャンセル </ion-button>
+</ion-content>

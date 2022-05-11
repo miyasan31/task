@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/timeline"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>{{ userId }}さんのタスク</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngFor="let task of taskList" class="ion-no-padding">
+    <h1>{{ task.id }}:{{ task.taskName }}</h1>
+    <p>{{ task.description }}</p>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="heart"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

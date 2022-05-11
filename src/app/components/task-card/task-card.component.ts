@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { IUser } from '~/interface/IUser';
+import { IUser } from '~/interfaces/IUser';
 
 @Component({
   selector: 'app-task-card',
