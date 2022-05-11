@@ -8,6 +8,7 @@ import { ProfilePageRoutingModule } from './profile-routing.module';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
 import { ProfilePage } from './profile.page';
+import { ComponentsModule } from '~/components/components.module';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { ProfilePage } from './profile.page';
     IonicModule,
     ProfilePageRoutingModule,
     ExploreContainerComponentModule,
+    ComponentsModule,
   ],
   declarations: [ProfilePage],
 })

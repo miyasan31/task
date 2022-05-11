@@ -11,5 +11,43 @@
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Profile page"></app-explore-container>
+  <ion-segment [(ngModel)]="scene" (ionChange)="segmentChanged($event)" scrollable>
+    <ion-segment-button value="profile" checked>
+      <ion-label>プロフィール</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="task">
+      <ion-label>タスク</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="like">
+      <ion-label>いいね</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <div [ngSwitch]="scene">
+    <ion-list *ngSwitchCase="'profile'">
+      <ion-thumbnail slot="start">
+        <img src="{{ timeline_data[0].user.avatar }}" />
+      </ion-thumbnail>
+    </ion-list>
+
+    <div *ngSwitchCase="'task'">
+      <ion-card *ngFor="let data of timeline_data">
+        <app-task-card
+          [user]="data.user"
+          [updatedAt]="data.updatedAt"
+          [task_list]="data.task_list"
+        ></app-task-card>
+      </ion-card>
+    </div>
+
+    <div *ngSwitchCase="'like'">
+      <ion-card *ngFor="let data of timeline_data">
+        <app-task-card
+          [user]="data.user"
+          [updatedAt]="data.updatedAt"
+          [task_list]="data.task_list"
+        ></app-task-card>
+      </ion-card>
+    </div>
+  </div>
 </ion-content>
