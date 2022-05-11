@@ -55,7 +55,7 @@ export class ProfilePage implements OnInit {
     this.scene = 'profile';
   }
 
-  segmentChanged(ev: any) {
+  onSegmentChanged(ev: any) {
     console.log('Segment changed', ev);
   }
 

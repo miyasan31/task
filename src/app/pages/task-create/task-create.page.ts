@@ -14,7 +14,7 @@ export class TaskCreatePage implements OnInit {
 
   ngOnInit() {}
 
-  modalDismiss() {
+  onModalDismiss() {
     this.modalController.dismiss();
   }
 }

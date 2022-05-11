@@ -30,12 +30,12 @@ export class TaskPage implements OnInit {
 
   ngOnInit() {}
 
-  handleClick($event) {
+  onClickEvent($event) {
     $event.stopPropagation();
     $event.preventDefault();
   }
 
-  async presentModal(taskId?: number) {
+  async onPresentModal(taskId?: number) {
     const modal = await this.modalController.create({
       component: TaskCreatePage,
       componentProps: {

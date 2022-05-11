@@ -11,7 +11,7 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed" button (click)="presentModal(null)">
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" button (click)="onPresentModal(null)">
     <ion-fab-button>
       <ion-icon name="pencil"></ion-icon>
     </ion-fab-button>
@@ -22,9 +22,9 @@
     class="ion-align-items-center"
     detail="false"
     button
-    (click)="presentModal(task.id)"
+    (click)="onPresentModal(task.id)"
   >
-    <ion-checkbox color="primary" (click)="handleClick($event)"></ion-checkbox>
+    <ion-checkbox color="primary" (click)="onClickEvent($event)"></ion-checkbox>
     <ion-text class="ion-padding-start">{{ task.taskName }}</ion-text>
   </ion-item>
 </ion-content>
