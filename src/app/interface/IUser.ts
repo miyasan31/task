@@ -1,9 +1,9 @@
 export type IUser = {
   id: string;
-  user_name: string;
+  userName: string;
   email: string;
   profile: string;
   avatar: string;
-  created_at: number;
-  updated_at: number;
+  createdAt: number;
+  updatedAt: number;
 };

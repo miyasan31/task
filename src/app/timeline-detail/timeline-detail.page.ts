@@ -4,17 +4,17 @@ import { Component, OnInit } from '@angular/core';
 const dummy_data = [
   {
     id: 1,
-    task_name: 'Task 1',
+    taskName: 'Task 1',
     description: 'Task 1の詳細メモ',
   },
   {
     id: 2,
-    task_name: 'Task 2',
+    taskName: 'Task 2',
     description: 'Task 2の詳細メモ',
   },
   {
     id: 3,
-    task_name: 'Task 3',
+    taskName: 'Task 3',
     description: 'Task 3の詳細メモ',
   },
 ];

@@ -7,8 +7,8 @@ import { IUser } from '~/interface/IUser';
   styleUrls: ['./task-card.component.scss'],
 })
 export class TaskCardComponent implements OnInit {
-  @Input() user: Pick<IUser, 'id' | 'user_name' | 'avatar'>;
-  @Input() updated_at: number;
+  @Input() user: Pick<IUser, 'id' | 'userName' | 'avatar'>;
+  @Input() updatedAt: number;
   @Input() task_list: string[];
   @Input() is_like: boolean;
 

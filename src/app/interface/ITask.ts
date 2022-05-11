@@ -3,11 +3,11 @@ import type { ITag } from './ITag';
 
 export type ITask = {
   id: number;
-  task_name: string;
+  taskName: string;
   description: string;
-  is_done: boolean;
-  user_id: IUser['id'];
-  tag_id: ITag['id'];
-  created_at: number;
-  updated_at: number;
+  isDone: boolean;
+  userId: IUser['id'];
+  tagId: ITag['id'];
+  createdAt: number;
+  updatedAt: number;
 };
