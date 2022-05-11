@@ -29,11 +29,12 @@ export class TaskPage implements OnInit {
 
   ngOnInit() {}
 
-  async presentModal(taskId: number | null) {
+  async presentModal(taskId?: number) {
     const modal = await this.modalController.create({
       component: TaskCreatePage,
       componentProps: {
         taskId: taskId,
+        isEdit: !!taskId,
       },
     });
     return await modal.present();

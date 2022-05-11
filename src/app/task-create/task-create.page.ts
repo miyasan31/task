@@ -7,7 +7,8 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['./task-create.page.scss'],
 })
 export class TaskCreatePage implements OnInit {
-  @Input() taskId: number | null;
+  @Input() taskId?: number;
+  @Input() isEdit: boolean;
 
   constructor(public modalController: ModalController) {}
 
