@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '~/services/auth/auth.service';
 
 @Component({
   selector: 'app-signin',
@@ -6,7 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./signin.page.scss'],
 })
 export class SigninPage implements OnInit {
-  constructor() {}
+  constructor(public auth: AuthService) {}
 
   ngOnInit() {}
+
+  onGoogleSignIn() {
+    this.auth.googleSignIn();
+  }
 }
