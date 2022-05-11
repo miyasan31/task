@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '~/services/auth/auth.service';
 
 const dummy_avatar =
   'https://pbs.twimg.com/profile_images/1511856577942552576/ML2kSp4E_400x400.jpg';
@@ -48,7 +49,7 @@ export class ProfilePage implements OnInit {
   timeline_data = dummy_data;
   scene: string;
 
-  constructor() {}
+  constructor(public auth: AuthService) {}
 
   ngOnInit() {
     this.scene = 'profile';
@@ -56,5 +57,9 @@ export class ProfilePage implements OnInit {
 
   segmentChanged(ev: any) {
     console.log('Segment changed', ev);
+  }
+
+  onSignOut() {
+    this.auth.signOut();
   }
 }
