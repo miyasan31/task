@@ -24,7 +24,7 @@
     button
     (click)="presentModal(task.id)"
   >
-    <ion-checkbox color="primary"></ion-checkbox>
+    <ion-checkbox color="primary" (click)="handleClick($event)"></ion-checkbox>
     <ion-text class="ion-padding-start">{{ task.taskName }}</ion-text>
   </ion-item>
 </ion-content>
