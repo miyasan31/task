@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>ユーザー登録</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form #f="ngForm">
+    <ion-grid>
+      <ion-row class="ion-align-items-center">
+        <ion-col size="4">
+          <img src="{{ avatar }}" alt="{{ userName }}のユーザーアバター" />
+        </ion-col>
+        <ion-col size="8">
+          <ion-button>変更する</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-item>
+      <ion-label>ユーザー名</ion-label>
+      <ion-input
+        type="text"
+        name="userName"
+        [(ngModel)]="userName"
+        placeholder="ユーザー名を入力してください"
+      ></ion-input>
+    </ion-item>
+
+    <ion-button expand="full" (click)="onUserRegister()">登録する</ion-button>
+  </form>
+</ion-content>
