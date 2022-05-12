@@ -6,6 +6,7 @@ import {
   signOut,
   GoogleAuthProvider,
   signInWithPopup,
+  User,
 } from '@angular/fire/auth';
 import { NavController, AlertController } from '@ionic/angular';
 
@@ -14,7 +15,7 @@ import { Capacitor } from '@capacitor/core';
 import { IUser } from '~/interfaces/IUser';
 import { UserService } from '~/services/user/user.service';
 
-type RedirectPath = '/signin' | '/signin/register' | '/task';
+type RedirectPath = '/signin' | '/register' | '/task';
 
 @Injectable({
   providedIn: 'root',
@@ -27,18 +28,7 @@ export class AuthService {
     public alertController: AlertController,
   ) {}
 
-  // 認証済のユーザーIDを取得する
-  async getAuthUserId(): Promise<string> {
-    const user = await this.auth.currentUser;
-    return user.uid;
-  }
-
-  // 認証済のユーザー情報を取得する
-  async getAuthUserInfo(): Promise<IUser> {
-    const authUserId = await this.getAuthUserId();
-    return await this.userService.getUser(authUserId);
-  }
-
+  // Google
   googleSignIn() {
     if (Capacitor.isNativePlatform()) {
       console.info('native google sign in');
@@ -50,33 +40,64 @@ export class AuthService {
   }
 
   nativeGoogleSignIn() {
-    return signInWithPopup(this.auth, new GoogleAuthProvider()).then(() => {
-      this.navigatePath('/task');
+    // TODO:capacitorを使ってGoogleサインインを実装
+    return signInWithPopup(this.auth, new GoogleAuthProvider()).then(async (session) => {
+      await this.signedInCheckUserInfo(session.user.uid);
     });
   }
 
   webGoogleSignIn() {
-    return signInWithPopup(this.auth, new GoogleAuthProvider()).then(() => {
-      this.navigatePath('/task');
+    return signInWithPopup(this.auth, new GoogleAuthProvider()).then(async (session) => {
+      await this.signedInCheckUserInfo(session.user.uid);
     });
   }
 
+  // Email
   emailSignUp(data: { email: string; password: string }) {
-    return createUserWithEmailAndPassword(this.auth, data.email, data.password).then(() => {
-      this.navigatePath('/task');
-    });
+    return createUserWithEmailAndPassword(this.auth, data.email, data.password).then(
+      async (session) => {
+        await this.signedInCheckUserInfo(session.user.uid);
+      },
+    );
   }
 
   emailSignIn(data: { email: string; password: string }) {
-    return signInWithEmailAndPassword(this.auth, data.email, data.password).then(() => {
-      this.navigatePath('/task');
-    });
+    return signInWithEmailAndPassword(this.auth, data.email, data.password).then(
+      async (session) => {
+        await this.signedInCheckUserInfo(session.user.uid);
+      },
+    );
   }
 
   signOut() {
     return signOut(this.auth).then(() => {
       this.navigatePath('/signin');
     });
+  }
+
+  // 認証済のユーザーIDを取得する
+  async getAuthUser(): Promise<User> {
+    return await this.auth.currentUser;
+  }
+
+  // 認証済のユーザー情報を取得する
+  async getAuthUserInfo(): Promise<IUser> {
+    const authUser = await this.getAuthUser();
+    return await this.userService.getUser(authUser.uid);
+  }
+
+  async signedInCheckUserInfo(userId: IUser['id']) {
+    // 認証後、データベースにユーザー情報が存在するか確認
+    const userResult = await this.userService.getUser(userId);
+
+    // 存在しなかったらユーザー登録画面に遷移
+    if (!userResult) {
+      this.navigatePath('/register');
+      return;
+    }
+
+    // 存在したらメイン画面に遷移
+    this.navigatePath('/task');
   }
 
   navigatePath(path: RedirectPath) {
