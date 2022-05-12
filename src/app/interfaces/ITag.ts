@@ -1,11 +1,11 @@
 import { IUser } from './IUser';
 
 export type ITag = {
-  id: number;
+  id: string;
   tagName: string;
   color: string;
   isActive: boolean;
   userId: IUser['id'];
-  createdAt: number;
-  updatedAt: number;
+  createdAt: Date;
+  updatedAt: Date;
 };

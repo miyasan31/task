@@ -2,8 +2,8 @@ import type { IUser } from './IUser';
 import type { ITask } from './ITask';
 
 export type ILike = {
-  id: number;
+  id: string;
   userId: IUser['id'];
   taskId: ITask['id'];
-  createdAt: number;
+  createdAt: Date;
 };

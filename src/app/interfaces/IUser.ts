@@ -4,6 +4,6 @@ export type IUser = {
   email: string;
   profile: string;
   avatar: string;
-  createdAt: number;
-  updatedAt: number;
+  createdAt: Date;
+  updatedAt: Date;
 };
