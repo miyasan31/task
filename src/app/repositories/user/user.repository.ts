@@ -29,23 +29,25 @@ export class UserRepository {
 
   // ユーザー情報を取得する
   getUser(uerId: IUser['id']): Promise<IUser> {
-    const userDoc = doc(this.firestore, `users/${uerId}`) as UserDocRef;
-    return docData<IUser>(userDoc).pipe(first()).toPromise(Promise);
+    const userDocRef = doc(this.firestore, `users/${uerId}`) as UserDocRef;
+    return docData<IUser>(userDocRef).pipe(first()).toPromise(Promise);
   }
 
   // ユーザー情報を保存する
   createUser(userDto: IUser): Promise<void> {
-    return setDoc(this.userDocRef, userDto);
+    const userDocRef = doc(this.firestore, `users/${userDto.id}`) as DocumentReference<IUser>;
+    return setDoc(userDocRef, userDto);
   }
 
   // ユーザー情報を更新する
   updateUser(userDto: IUser): Promise<void> {
-    return setDoc(this.userDocRef, userDto, { merge: true });
+    const userDocRef = doc(this.firestore, `users/${userDto.id}`) as DocumentReference<IUser>;
+    return setDoc(userDocRef, userDto, { merge: true });
   }
 
   // ユーザー情報を削除する
   deleteUser(userId: IUser['id']): Promise<void> {
-    const userDoc = doc(this.firestore, `users/${userId}`) as UserDocRef;
-    return deleteDoc(userDoc);
+    const userDocRef = doc(this.firestore, `users/${userId}`) as UserDocRef;
+    return deleteDoc(userDocRef);
   }
 }
