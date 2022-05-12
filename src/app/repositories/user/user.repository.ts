@@ -12,7 +12,6 @@ import {
 import { first } from 'rxjs/operators';
 
 import { IUser } from '~/interfaces/IUser';
-import { AuthService } from '~/services/auth/auth.service';
 
 type UserDocument = DocumentReference<IUser>;
 type UserCollection = CollectionReference<IUser>;
@@ -24,7 +23,7 @@ export class UserRepository {
   userDoc: UserDocument;
   userCol: UserCollection;
 
-  constructor(public firestore: Firestore, public auth: AuthService) {
+  constructor(public firestore: Firestore) {
     this.userDoc = doc(this.firestore, 'users') as UserDocument;
     this.userCol = collection(this.firestore, 'users') as UserCollection;
   }

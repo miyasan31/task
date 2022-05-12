@@ -11,8 +11,8 @@ import { NavController, AlertController } from '@ionic/angular';
 
 import { firebaseError } from './firebase.error';
 import { Capacitor } from '@capacitor/core';
-import { UserRepository } from '~/repositories/user/user.repository';
 import { IUser } from '~/interfaces/IUser';
+import { UserService } from '~/services/user/user.service';
 
 type RedirectPath = '/signin' | '/signin/register' | '/task';
 
@@ -22,7 +22,7 @@ type RedirectPath = '/signin' | '/signin/register' | '/task';
 export class AuthService {
   constructor(
     public auth: Auth,
-    public userRepository: UserRepository,
+    public userService: UserService,
     public navController: NavController,
     public alertController: AlertController,
   ) {}
@@ -36,7 +36,7 @@ export class AuthService {
   // 認証済のユーザー情報を取得する
   async getAuthUserInfo(): Promise<IUser> {
     const authUserId = await this.getAuthUserId();
-    return await this.userRepository.getUser(authUserId);
+    return await this.userService.getUser(authUserId);
   }
 
   googleSignIn() {

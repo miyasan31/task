@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 
 import { IUser } from '~/interfaces/IUser';
-import { AuthService } from '~/services/auth/auth.service';
 import { UserRepository } from '~/repositories/user/user.repository';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  constructor(public auth: AuthService, public userRepository: UserRepository) {}
+  constructor(public userRepository: UserRepository) {}
 
   getUser(userId: IUser['id']): Promise<IUser> {
     return this.userRepository.getUser(userId);
