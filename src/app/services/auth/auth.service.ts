@@ -11,6 +11,8 @@ import { NavController, AlertController } from '@ionic/angular';
 
 import { firebaseError } from './firebase.error';
 import { Capacitor } from '@capacitor/core';
+import { UserRepository } from '~/repositories/user/user.repository';
+import { IUser } from '~/interfaces/IUser';
 
 type RedirectPath = '/signin' | '/signin/register' | '/task';
 
@@ -19,14 +21,22 @@ type RedirectPath = '/signin' | '/signin/register' | '/task';
 })
 export class AuthService {
   constructor(
-    public afAuth: Auth,
+    public auth: Auth,
+    public userRepository: UserRepository,
     public navController: NavController,
     public alertController: AlertController,
   ) {}
 
-  async getUserId(): Promise<string> {
-    const user = await this.afAuth.currentUser;
+  // 認証済のユーザーIDを取得する
+  async getAuthUserId(): Promise<string> {
+    const user = await this.auth.currentUser;
     return user.uid;
+  }
+
+  // 認証済のユーザー情報を取得する
+  async getAuthUserInfo(): Promise<IUser> {
+    const authUserId = await this.getAuthUserId();
+    return await this.userRepository.getUser(authUserId);
   }
 
   googleSignIn() {
@@ -40,31 +50,31 @@ export class AuthService {
   }
 
   nativeGoogleSignIn() {
-    return signInWithPopup(this.afAuth, new GoogleAuthProvider()).then(() => {
+    return signInWithPopup(this.auth, new GoogleAuthProvider()).then(() => {
       this.navigatePath('/task');
     });
   }
 
   webGoogleSignIn() {
-    return signInWithPopup(this.afAuth, new GoogleAuthProvider()).then(() => {
+    return signInWithPopup(this.auth, new GoogleAuthProvider()).then(() => {
       this.navigatePath('/task');
     });
   }
 
   emailSignUp(data: { email: string; password: string }) {
-    return createUserWithEmailAndPassword(this.afAuth, data.email, data.password).then(() => {
+    return createUserWithEmailAndPassword(this.auth, data.email, data.password).then(() => {
       this.navigatePath('/task');
     });
   }
 
   emailSignIn(data: { email: string; password: string }) {
-    return signInWithEmailAndPassword(this.afAuth, data.email, data.password).then(() => {
+    return signInWithEmailAndPassword(this.auth, data.email, data.password).then(() => {
       this.navigatePath('/task');
     });
   }
 
   signOut() {
-    return signOut(this.afAuth).then(() => {
+    return signOut(this.auth).then(() => {
       this.navigatePath('/signin');
     });
   }
