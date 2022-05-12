@@ -2,8 +2,8 @@ export interface IUser {
   id: string;
   userName: string;
   email: string;
-  profile: string;
+  profile?: string;
   avatar: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
