@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { IUser } from '~/interfaces/IUser';
 import { UserRepository } from '~/repositories/user/user.repository';
+import { UserPipe } from '~/services/user/user.pipe';
 
 @Injectable({
   providedIn: 'root',
@@ -14,11 +15,13 @@ export class UserService {
   }
 
   createUser(user: IUser): Promise<void> {
-    return this.userRepository.createUser(user);
+    const userDto = new UserPipe().create(user);
+    return this.userRepository.createUser(userDto);
   }
 
   updateUser(user: IUser): Promise<void> {
-    return this.userRepository.updateUser(user);
+    const userDto = new UserPipe().update(user);
+    return this.userRepository.updateUser(userDto);
   }
 
   deleteUser(userId: IUser['id']): Promise<void> {

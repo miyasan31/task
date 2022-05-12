@@ -31,17 +31,14 @@ export class RegisterPage implements OnInit {
   }
 
   async onUserRegister() {
-    const userDto = {
+    const createUser = {
       id: this.id,
       userName: this.userName,
       email: this.email,
-      profile: '',
       avatar: this.avatar,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     };
 
-    await this.userService.createUser(userDto);
+    await this.userService.createUser(createUser);
 
     this.authService.navigatePath('/task');
   }
