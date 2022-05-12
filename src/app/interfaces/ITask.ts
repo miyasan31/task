@@ -1,7 +1,7 @@
 import type { IUser } from './IUser';
 import type { ITag } from './ITag';
 
-export type ITask = {
+export interface ITask {
   id: string;
   taskName: string;
   description: string;
@@ -10,4 +10,4 @@ export type ITask = {
   tagId: ITag['id'];
   createdAt: Date;
   updatedAt: Date;
-};
+}

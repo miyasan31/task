@@ -1,6 +1,6 @@
 import { IUser } from './IUser';
 
-export type ITag = {
+export interface ITag {
   id: string;
   tagName: string;
   color: string;
@@ -8,4 +8,4 @@ export type ITag = {
   userId: IUser['id'];
   createdAt: Date;
   updatedAt: Date;
-};
+}
