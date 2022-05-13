@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-
-import { TaskCreatePage } from '~/pages/task-create/task-create.page';
+import { TaskModalComponent } from '~/components/task-modal/task-modal.component';
 
 const dummy_data = [
   {
@@ -37,7 +36,7 @@ export class TaskPage implements OnInit {
 
   async onPresentModal(taskId?: number) {
     const modal = await this.modalController.create({
-      component: TaskCreatePage,
+      component: TaskModalComponent,
       componentProps: {
         taskId: taskId,
         isEdit: !!taskId,
