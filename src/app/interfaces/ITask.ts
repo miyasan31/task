@@ -5,9 +5,9 @@ export interface ITask {
   id: string;
   taskName: string;
   description: string;
-  isDone: boolean;
+  isDone?: boolean;
   userId: IUser['id'];
   tagId: ITag['id'];
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
