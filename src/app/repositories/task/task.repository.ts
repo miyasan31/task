@@ -29,23 +29,26 @@ export class TaskRepository {
 
   // タスク情報を取得する
   getTask(taskId: ITask['id']): Promise<ITask> {
-    const taskDoc = doc(this.firestore, `tasks/${taskId}`) as TaskDocRef;
-    return docData<ITask>(taskDoc).pipe(first()).toPromise(Promise);
+    const taskDocRef = doc(this.firestore, `tasks/${taskId}`) as TaskDocRef;
+    return docData<ITask>(taskDocRef).pipe(first()).toPromise(Promise);
   }
 
   // タスク情報を保存する
   createTask(taskDto: ITask): Promise<void> {
-    return setDoc(this.taskDocRef, taskDto);
+    const taskId = doc(this.taskColRef).id;
+    const taskDocRef = doc(this.firestore, `tasks/${taskId}`) as TaskDocRef;
+    return setDoc(taskDocRef, { ...taskDto, id: taskId });
   }
 
   // タスク情報を更新する
   updateTask(taskDto: ITask): Promise<void> {
-    return setDoc(this.taskDocRef, taskDto, { merge: true });
+    const taskDocRef = doc(this.firestore, `tasks/${taskDto.id}`) as TaskDocRef;
+    return setDoc(taskDocRef, taskDto, { merge: true });
   }
 
   // タスク情報を削除する
   deleteTask(taskId: ITask['id']): Promise<void> {
-    const taskDoc = doc(this.firestore, `tasks/${taskId}`) as TaskDocRef;
-    return deleteDoc(taskDoc);
+    const taskDocRef = doc(this.firestore, `tasks/${taskId}`) as TaskDocRef;
+    return deleteDoc(taskDocRef);
   }
 }

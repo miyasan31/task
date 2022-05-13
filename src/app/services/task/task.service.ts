@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { ITask } from '~/interfaces/ITask';
 import { TaskRepository } from '~/repositories/task/task.repository';
+import { TaskPipe } from '~/services/task/task.pipe';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,8 @@ export class TaskService {
   }
 
   createTask(task: ITask): Promise<void> {
-    return this.taskRepository.createTask(task);
+    const taskDto = new TaskPipe().create(task);
+    return this.taskRepository.createTask(taskDto);
   }
 
   updateTask(task: ITask): Promise<void> {
