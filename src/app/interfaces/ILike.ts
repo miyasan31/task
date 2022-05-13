@@ -5,5 +5,5 @@ export interface ILike {
   id: string;
   userId: IUser['id'];
   taskId: ITask['id'];
-  createdAt: Date;
+  createdAt?: Date;
 }
