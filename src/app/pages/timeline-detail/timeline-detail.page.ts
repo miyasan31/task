@@ -2,9 +2,10 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { TaskService } from '~/services/task/task.service';
 import { Observable } from 'rxjs';
-import { ITask } from '~/interfaces/ITask';
 import { IUser } from '~/interfaces/IUser';
 import { UserService } from '~/services/user/user.service';
+import { AuthService } from '~/services/auth/auth.service';
+import { ITaskWithLike } from '~/interfaces/ITaskWithLike';
 
 @Component({
   selector: 'app-timeline-detail',
@@ -13,11 +14,12 @@ import { UserService } from '~/services/user/user.service';
 })
 export class TimelineDetailPage implements OnInit {
   userId: string;
-  taskList: Observable<ITask[]>;
+  taskList: Observable<ITaskWithLike[]>;
   user: IUser;
 
   constructor(
     public route: ActivatedRoute,
+    public authService: AuthService,
     public taskService: TaskService,
     public userService: UserService,
   ) {}
@@ -27,7 +29,9 @@ export class TimelineDetailPage implements OnInit {
       this.userId = prams.get('userId');
     });
 
+    const user = await this.authService.getAuthUser();
+
     this.user = await this.userService.getUser(this.userId);
-    this.taskList = this.taskService.getTaskList(this.userId);
+    this.taskList = this.taskService.getTaskListWithLike(this.userId, user.uid);
   }
 }

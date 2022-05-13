@@ -8,10 +8,11 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <div *ngFor="let task of taskList | async" class="ion-no-padding">
-    <h3 class="font-bold">{{ task.taskName }}</h3>
-    <p>{{ task.description }}</p>
+<ion-content>
+  <div *ngFor="let task of taskList | async">
+    <ion-card>
+      <app-task-detail-card [user]="user" [task]="task"></app-task-detail-card>
+    </ion-card>
   </div>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
