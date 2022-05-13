@@ -25,7 +25,8 @@ export class TaskService {
   }
 
   updateTask(task: ITask): Promise<void> {
-    return this.taskRepository.updateTask(task);
+    const taskDto = new TaskPipe().update(task);
+    return this.taskRepository.updateTask(taskDto);
   }
 
   deleteTask(taskId: ITask['id']): Promise<void> {

@@ -33,9 +33,17 @@ export class TaskModalComponent implements OnInit {
     public taskService: TaskService,
   ) {}
 
-  ngOnInit() {}
+  async ngOnInit() {
+    if (!this.taskId) return;
 
-  async onCreateTask() {
+    const task = await this.taskService.getTask(this.taskId);
+    this.taskName = task.taskName;
+    this.description = task.description;
+    this.isDone = task.isDone;
+    this.tagId = task.tagId;
+  }
+
+  async onUpsertTask() {
     // TODO:グローバルステートから参照する
     const uid = await (await this.authService.getAuthUser()).uid;
 
@@ -48,7 +56,11 @@ export class TaskModalComponent implements OnInit {
       tagId: this.tagId,
     };
 
-    await this.taskService.createTask(task);
+    if (this.isEdit) {
+      await this.taskService.updateTask(task);
+    } else {
+      await this.taskService.createTask(task);
+    }
 
     this.onModalDismiss();
   }
