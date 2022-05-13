@@ -35,13 +35,13 @@ export class UserRepository {
 
   // ユーザー情報を保存する
   createUser(userDto: IUser): Promise<void> {
-    const userDocRef = doc(this.firestore, `users/${userDto.id}`) as DocumentReference<IUser>;
+    const userDocRef = doc(this.firestore, `users/${userDto.id}`) as UserDocRef;
     return setDoc(userDocRef, userDto);
   }
 
   // ユーザー情報を更新する
   updateUser(userDto: IUser): Promise<void> {
-    const userDocRef = doc(this.firestore, `users/${userDto.id}`) as DocumentReference<IUser>;
+    const userDocRef = doc(this.firestore, `users/${userDto.id}`) as UserDocRef;
     return setDoc(userDocRef, userDto, { merge: true });
   }
 
