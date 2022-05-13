@@ -11,9 +11,9 @@
       </ion-col>
       <ion-col size="8">
         <ion-card-title class="text-base">{{ user.userName }}</ion-card-title>
-        <ion-card-subtitle class="text-sm font-normal">{{
-          updatedAt | date: 'yyyy/M/d HH:mm'
-        }}</ion-card-subtitle>
+        <ion-card-subtitle class="text-sm font-normal">
+          {{ taskList[0].updatedAt.toDate() | date: 'yyyy/M/d HH:mm' }}</ion-card-subtitle
+        >
       </ion-col>
       <ion-col size="2">
         <ion-fab-button size="small" (click)="onClickEvent($event)">
@@ -26,8 +26,8 @@
 
 <ion-card-content>
   <ul>
-    <li *ngFor="let task of task_list">
-      {{ task }}
+    <li *ngFor="let task of taskList">
+      {{ task.taskName }}
     </li>
   </ul>
 </ion-card-content>

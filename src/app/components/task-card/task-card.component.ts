@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ITask } from '~/interfaces/ITask';
 import { IUser } from '~/interfaces/IUser';
 
 @Component({
@@ -7,10 +8,9 @@ import { IUser } from '~/interfaces/IUser';
   styleUrls: ['./task-card.component.scss'],
 })
 export class TaskCardComponent implements OnInit {
-  @Input() user: Pick<IUser, 'id' | 'userName' | 'avatar'>;
-  @Input() updatedAt: number;
-  @Input() task_list: string[];
-  @Input() is_like: boolean;
+  @Input() user: IUser;
+  @Input() taskList: ITask[];
+  @Input() isLike: boolean;
 
   constructor() {}
 
