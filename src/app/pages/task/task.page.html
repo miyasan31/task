@@ -18,7 +18,7 @@
   </ion-fab>
 
   <ion-item
-    *ngFor="let task of taskList"
+    *ngFor="let task of taskList | async"
     class="ion-align-items-center"
     detail="false"
     button

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 import { ITask } from '~/interfaces/ITask';
 import { TaskRepository } from '~/repositories/task/task.repository';
@@ -9,6 +10,10 @@ import { TaskPipe } from '~/services/task/task.pipe';
 })
 export class TaskService {
   constructor(public taskRepository: TaskRepository) {}
+
+  getTaskList(userId: ITask['userId']): Observable<ITask[]> {
+    return this.taskRepository.getTaskList(userId);
+  }
 
   getTask(taskId: ITask['id']): Promise<ITask> {
     return this.taskRepository.getTask(taskId);

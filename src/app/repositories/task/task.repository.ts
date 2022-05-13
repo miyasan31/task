@@ -1,14 +1,18 @@
 import { Injectable } from '@angular/core';
 import {
   collection,
+  collectionData,
   CollectionReference,
   deleteDoc,
   doc,
   docData,
   DocumentReference,
   Firestore,
+  query,
   setDoc,
+  where,
 } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 
 import { ITask } from '~/interfaces/ITask';
@@ -25,6 +29,13 @@ export class TaskRepository {
 
   constructor(public firestore: Firestore) {
     this.taskColRef = collection(this.firestore, 'tasks') as TaskColRef;
+  }
+
+  // タスク情報を取得する
+  getTaskList(userId: ITask['userId']): Observable<ITask[]> {
+    // TODO:当日のタスクのみ取得する
+    const taskQuery = query(this.taskColRef, where('userId', '==', userId));
+    return collectionData<ITask>(taskQuery);
   }
 
   // タスク情報を取得する

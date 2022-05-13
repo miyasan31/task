@@ -1,21 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { Observable } from 'rxjs';
 import { TaskModalComponent } from '~/components/task-modal/task-modal.component';
-
-const dummy_data = [
-  {
-    id: 1,
-    taskName: 'Task 1',
-  },
-  {
-    id: 2,
-    taskName: 'Task 2',
-  },
-  {
-    id: 3,
-    taskName: 'Task 3',
-  },
-];
+import { ITask } from '~/interfaces/ITask';
+import { AuthService } from '~/services/auth/auth.service';
+import { TaskService } from '~/services/task/task.service';
 
 @Component({
   selector: 'app-task',
@@ -23,18 +12,26 @@ const dummy_data = [
   styleUrls: ['./task.page.scss'],
 })
 export class TaskPage implements OnInit {
-  taskList = dummy_data;
+  taskList: Observable<ITask[]>;
 
-  constructor(public modalController: ModalController) {}
+  constructor(
+    public authService: AuthService,
+    public taskService: TaskService,
+    public modalController: ModalController,
+  ) {}
 
-  ngOnInit() {}
+  async ngOnInit() {
+    // TODO:グローバルステートからuidを参照する
+    const uid = await (await this.authService.getAuthUser()).uid;
+    this.taskList = this.taskService.getTaskList(uid);
+  }
 
   onClickEvent($event) {
     $event.stopPropagation();
     $event.preventDefault();
   }
 
-  async onPresentModal(taskId?: number) {
+  async onPresentModal(taskId?: ITask['id']) {
     const modal = await this.modalController.create({
       component: TaskModalComponent,
       componentProps: {
