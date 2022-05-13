@@ -10,7 +10,6 @@ import { IUser } from '~/interfaces/IUser';
 export class TaskCardComponent implements OnInit {
   @Input() user: IUser;
   @Input() taskList: ITask[];
-  @Input() isLike: boolean;
 
   constructor() {}
 

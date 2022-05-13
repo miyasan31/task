@@ -1,7 +1,7 @@
 <ion-card-header>
   <ion-grid>
     <ion-row class="ion-align-items-center">
-      <ion-col size="2">
+      <ion-col size="3">
         <img
           class="square-12"
           src="{{ user.avatar }}"
@@ -9,16 +9,11 @@
           (click)="onClickEvent($event)"
         />
       </ion-col>
-      <ion-col size="8">
+      <ion-col size="9">
         <ion-card-title class="text-base">{{ user.userName }}</ion-card-title>
         <ion-card-subtitle class="text-sm font-normal">
           {{ taskList[0].updatedAt.toDate() | date: 'yyyy/M/d HH:mm' }}</ion-card-subtitle
         >
-      </ion-col>
-      <ion-col size="2">
-        <ion-fab-button size="small" (click)="onClickEvent($event)">
-          <ion-icon name="heart"></ion-icon>
-        </ion-fab-button>
       </ion-col>
     </ion-row>
   </ion-grid>
