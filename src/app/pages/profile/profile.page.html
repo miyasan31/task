@@ -33,7 +33,7 @@
       <ion-grid class="ion-padding">
         <ion-row class="ion-align-items-center">
           <ion-col size="3">
-            <img src="{{ timeline_data[0].user.avatar }}" alt="ユーザーアバター" />
+            <img src="{{ user.avatar }}" alt="{{ user.userName }}のユーザーアバター" />
           </ion-col>
 
           <ion-col size="9">
@@ -61,11 +61,8 @@
         </ion-row>
 
         <ion-text
-          ><p class="font-bold text-lg">{{ timeline_data[0].user.userName }}</p>
-          <p>
-            プロフィール。プロフィール。プロフィール。プロフィール。プロフィール。プロフィール。
-            プロフィール。プロフィール。プロフィール。プロフィール。 プロフィール。プロフィール。
-          </p>
+          ><p class="font-bold text-lg">{{ user.userName }}</p>
+          <p>{{ user.profile || 'プロフィール未入力' }}</p>
         </ion-text>
       </ion-grid>
 

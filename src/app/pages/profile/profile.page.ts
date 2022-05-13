@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { IUser } from '~/interfaces/IUser';
 import { AuthService } from '~/services/auth/auth.service';
 
 const dummy_avatar =
@@ -48,10 +49,13 @@ const dummy_data = [
 export class ProfilePage implements OnInit {
   timeline_data = dummy_data;
   scene: string;
+  user: IUser;
 
-  constructor(public auth: AuthService) {}
+  constructor(public authService: AuthService) {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.user = await this.authService.getAuthUserInfo();
+
     this.scene = 'profile';
   }
 
@@ -60,6 +64,6 @@ export class ProfilePage implements OnInit {
   }
 
   onSignOut() {
-    this.auth.signOut();
+    this.authService.signOut();
   }
 }
