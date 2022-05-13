@@ -1,23 +1,8 @@
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-
-const dummy_data = [
-  {
-    id: 1,
-    taskName: 'Task 1',
-    description: 'Task 1の詳細メモ',
-  },
-  {
-    id: 2,
-    taskName: 'Task 2',
-    description: 'Task 2の詳細メモ',
-  },
-  {
-    id: 3,
-    taskName: 'Task 3',
-    description: 'Task 3の詳細メモ',
-  },
-];
+import { TaskService } from '~/services/task/task.service';
+import { Observable } from 'rxjs';
+import { ITask } from '~/interfaces/ITask';
 
 @Component({
   selector: 'app-timeline-detail',
@@ -26,13 +11,14 @@ const dummy_data = [
 })
 export class TimelineDetailPage implements OnInit {
   userId: string;
-  taskList = dummy_data;
+  taskList: Observable<ITask[]>;
 
-  constructor(public route: ActivatedRoute) {}
+  constructor(public route: ActivatedRoute, public taskService: TaskService) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe((prams: ParamMap) => {
       this.userId = prams.get('userId');
     });
+    this.taskList = this.taskService.getTaskList(this.userId);
   }
 }
