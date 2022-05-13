@@ -4,12 +4,10 @@ import {
   CollectionReference,
   deleteDoc,
   doc,
-  docData,
   DocumentReference,
   Firestore,
   setDoc,
 } from '@angular/fire/firestore';
-import { first } from 'rxjs/operators';
 
 import { ILike } from '~/interfaces/ILike';
 
@@ -27,20 +25,11 @@ export class LikeRepository {
     this.likeColRef = collection(this.firestore, 'likes') as LikeColRef;
   }
 
-  // いいね情報を取得する
-  getLike(likeId: ILike['id']): Promise<ILike> {
-    const likeDoc = doc(this.firestore, `likes/${likeId}`) as LikeDocRef;
-    return docData<ILike>(likeDoc).pipe(first()).toPromise(Promise);
-  }
-
   // いいね情報を保存する
   createLike(likeDto: ILike): Promise<void> {
-    return setDoc(this.likeDocRef, likeDto);
-  }
-
-  // いいね情報を更新する
-  updateLike(likeDto: ILike): Promise<void> {
-    return setDoc(this.likeDocRef, likeDto, { merge: true });
+    const likeId = doc(this.likeColRef).id;
+    const likeDocRef = doc(this.firestore, `likes/${likeId}`) as LikeDocRef;
+    return setDoc(likeDocRef, { ...likeDto, id: likeId });
   }
 
   // いいね情報を削除する

@@ -9,16 +9,8 @@ import { LikeRepository } from '~/repositories/like/like.repository';
 export class LikeService {
   constructor(public likeRepository: LikeRepository) {}
 
-  getLike(likeId: ILike['id']): Promise<ILike> {
-    return this.likeRepository.getLike(likeId);
-  }
-
   createLike(like: ILike): Promise<void> {
     return this.likeRepository.createLike(like);
-  }
-
-  updateLike(like: ILike): Promise<void> {
-    return this.likeRepository.updateLike(like);
   }
 
   deleteLike(likeId: ILike['id']): Promise<void> {
