@@ -26,9 +26,16 @@ export class TaskPage implements OnInit {
     this.taskList = this.taskService.getTaskList(uid);
   }
 
-  onClickEvent($event) {
+  async onReversingTaskCompletion($event, task: ITask) {
     $event.stopPropagation();
     $event.preventDefault();
+
+    const updatedTask = {
+      ...task,
+      isDone: !task.isDone,
+    };
+
+    this.taskService.updateTask(updatedTask);
   }
 
   async onPresentModal(taskId?: ITask['id']) {

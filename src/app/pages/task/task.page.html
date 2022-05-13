@@ -24,7 +24,11 @@
     button
     (click)="onPresentModal(task.id)"
   >
-    <ion-checkbox color="primary" (click)="onClickEvent($event)"></ion-checkbox>
+    <ion-checkbox
+      color="primary"
+      [(ngModel)]="task.isDone"
+      (click)="onReversingTaskCompletion($event, task)"
+    ></ion-checkbox>
     <ion-text class="ion-padding-start">{{ task.taskName }}</ion-text>
   </ion-item>
 </ion-content>
