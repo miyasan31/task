@@ -36,8 +36,11 @@
     </ion-item>
 
     <ion-button expand="block" (click)="onUpsertTask()"
-      >{{ isEdit ? '編集' : '保存' }}する</ion-button
+      >{{ isEdit ? '保存' : '作成' }}する</ion-button
     >
     <ion-button expand="block" (click)="onModalDismiss()"> キャンセル </ion-button>
+    <ion-button *ngIf="isEdit" color="danger" expand="block" (click)="onDeleteTask(taskId)">
+      削除する
+    </ion-button>
   </form>
 </ion-content>

@@ -65,6 +65,11 @@ export class TaskModalComponent implements OnInit {
     this.onModalDismiss();
   }
 
+  async onDeleteTask(taskId: ITask['id']) {
+    await this.taskService.deleteTask(taskId);
+    this.onModalDismiss();
+  }
+
   onModalDismiss() {
     this.modalController.dismiss();
   }
