@@ -4,10 +4,10 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content class="ion-padding">
   <form #f="ngForm">
     <ion-item>
-      <ion-label>タスク名入力</ion-label>
+      <ion-label position="floating">タスク名入力</ion-label>
       <ion-input
         type="text"
         name="taskName"
@@ -17,7 +17,7 @@
     </ion-item>
 
     <ion-item>
-      <ion-label>ラベル</ion-label>
+      <ion-label position="floating">ラベル</ion-label>
       <ion-select placeholder="Select One" name="tagId" [(ngModel)]="tagId">
         <ion-select-option *ngFor="let tag of tag_list" value="{{ tag.id }}">{{
           tag.tagName
@@ -26,12 +26,12 @@
     </ion-item>
 
     <ion-item>
-      <ion-label>アウトプットメモ</ion-label>
+      <ion-label position="floating">アウトプットメモ</ion-label>
       <ion-textarea rows="6" name="description" [(ngModel)]="description"></ion-textarea>
     </ion-item>
 
     <ion-item class="ion-align-items-center" detail="false">
-      <ion-checkbox color="primary" name="isDone" [(ngModel)]="isDone"></ion-checkbox>
+      <ion-checkbox slot="start" color="primary" name="isDone" [(ngModel)]="isDone"></ion-checkbox>
       <ion-text class="ion-padding-start">完了</ion-text>
     </ion-item>
 
