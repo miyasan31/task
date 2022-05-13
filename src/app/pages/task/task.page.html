@@ -25,6 +25,7 @@
     (click)="onPresentModal(task.id)"
   >
     <ion-checkbox
+      slot="start"
       color="primary"
       [(ngModel)]="task.isDone"
       (click)="onReversingTaskCompletion($event, task)"
