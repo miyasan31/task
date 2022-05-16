@@ -11,6 +11,10 @@ import { UserPipe } from '~/services/user/user.pipe';
 export class UserService implements IUserRepository {
   constructor(public userRepository: UserRepository) {}
 
+  getUserTaskList() {
+    return this.userRepository.getUserTaskList();
+  }
+
   get(userId: IUser['id']) {
     return this.userRepository.get(userId);
   }

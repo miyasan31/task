@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ITimeline } from '~/interfaces/ITimeline';
-import { TimelineService } from '~/services/timeline/timeline.service';
+import { IUserTask } from '~/interfaces/user/IUserTask';
+import { UserService } from '~/services/user/user.service';
 
 @Component({
   selector: 'app-timeline',
@@ -9,11 +9,11 @@ import { TimelineService } from '~/services/timeline/timeline.service';
   styleUrls: ['./timeline.page.scss'],
 })
 export class TimelinePage implements OnInit {
-  timelineData: Observable<ITimeline[]>;
+  timelineData: Observable<IUserTask[]>;
 
-  constructor(public timelineService: TimelineService) {}
+  constructor(public userService: UserService) {}
 
   ngOnInit() {
-    this.timelineData = this.timelineService.getTimelineInfo();
+    this.timelineData = this.userService.getUserTaskList();
   }
 }

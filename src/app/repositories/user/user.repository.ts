@@ -1,18 +1,23 @@
 import { Injectable } from '@angular/core';
 import {
   collection,
+  collectionData,
   CollectionReference,
   deleteDoc,
   doc,
   docData,
   DocumentReference,
   Firestore,
+  query,
   setDoc,
+  where,
 } from '@angular/fire/firestore';
-import { first } from 'rxjs/operators';
+import { concatMap, first } from 'rxjs/operators';
+import { ITask } from '~/interfaces/task/ITask';
 
 import { IUser } from '~/interfaces/user/IUser';
 import { IUserRepository } from '~/interfaces/user/IUserRepository';
+import { taskConverter } from '~/libs/converter/task.converter';
 import { userConverter } from '~/libs/converter/user.converter';
 
 @Injectable({
@@ -21,9 +26,30 @@ import { userConverter } from '~/libs/converter/user.converter';
 export class UserRepository implements IUserRepository {
   userDocRef: DocumentReference<IUser>;
   userColRef: CollectionReference<IUser>;
+  taskDocRef: DocumentReference<ITask>;
+  taskColRef: CollectionReference<ITask>;
 
   constructor(public firestore: Firestore) {
     this.userColRef = collection(this.firestore, 'users').withConverter(userConverter);
+    this.taskColRef = collection(this.firestore, 'tasks').withConverter(taskConverter);
+  }
+
+  // ユーザーに作成したタスクを紐づけて取得
+  getUserTaskList() {
+    const userQuery = query(this.userColRef);
+    return collectionData(userQuery).pipe(
+      concatMap(async (userList) => {
+        const userIdList = userList.map((user) => user.id);
+        const taskQuery = query(this.taskColRef, where('userId', 'in', userIdList));
+        const taskList = await collectionData(taskQuery).pipe(first()).toPromise(Promise);
+        return userList
+          .map((user) => {
+            const task = taskList.filter((t) => t.userId === user.id);
+            return { user, task };
+          })
+          .filter((data) => data.task.length);
+      }),
+    );
   }
 
   // ユーザー情報を取得する
