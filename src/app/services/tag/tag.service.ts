@@ -1,27 +1,33 @@
 import { Injectable } from '@angular/core';
 
-import { ITag } from '~/interfaces/ITag';
+import { ITag } from '~/interfaces/tag/ITag';
+import { ITagRepository } from '~/interfaces/tag/ITagRepository';
+import { IUser } from '~/interfaces/user/IUser';
 import { TagRepository } from '~/repositories/tag/tag.repository';
 
 @Injectable({
   providedIn: 'root',
 })
-export class TagService {
+export class TagService implements ITagRepository {
   constructor(public tagRepository: TagRepository) {}
 
-  getTag(tagId: ITag['id']): Promise<ITag> {
-    return this.tagRepository.getTag(tagId);
+  getTagList(userId: IUser['id']) {
+    return this.tagRepository.getTagList(userId);
   }
 
-  createTag(tag: ITag): Promise<void> {
-    return this.tagRepository.createTag(tag);
+  get(tagId: ITag['id']) {
+    return this.tagRepository.get(tagId);
   }
 
-  updateTag(tag: ITag): Promise<void> {
-    return this.tagRepository.updateTag(tag);
+  create(tag: ITag) {
+    return this.tagRepository.create(tag);
   }
 
-  deleteTag(tagId: ITag['id']): Promise<void> {
-    return this.tagRepository.deleteTag(tagId);
+  update(tag: ITag) {
+    return this.tagRepository.update(tag);
+  }
+
+  delete(tagId: ITag['id']) {
+    return this.tagRepository.delete(tagId);
   }
 }

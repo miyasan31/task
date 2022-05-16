@@ -38,7 +38,7 @@ export class RegisterPage implements OnInit {
       avatar: this.avatar,
     };
 
-    await this.userService.createUser(createUser);
+    await this.userService.create(createUser);
 
     this.authService.navigatePath('/task');
   }

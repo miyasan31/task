@@ -1,4 +1,4 @@
-import { IUser } from '~/interfaces/IUser';
+import { IUser } from '~/interfaces/user/IUser';
 
 export class UserPipe implements IUser {
   id: IUser['id'];

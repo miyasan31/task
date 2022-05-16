@@ -7,7 +7,7 @@ import {
 } from '@angular/fire/firestore';
 import { Timestamp } from '@angular/fire/firestore';
 
-import type { ILike } from '~/interfaces/ILike';
+import type { ILike } from '~/interfaces/like/ILike';
 
 /**
  * FirestoreのドキュメントとTaskオブジェクトの型変換

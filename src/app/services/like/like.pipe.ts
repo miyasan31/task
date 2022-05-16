@@ -1,5 +1,4 @@
-import { Timestamp } from '@angular/fire/firestore';
-import { ILike } from '~/interfaces/ILike';
+import { ILike } from '~/interfaces/like/ILike';
 
 export class LikePipe implements ILike {
   id: ILike['id'];

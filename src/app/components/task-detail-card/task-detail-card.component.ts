@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ILike } from '~/interfaces/ILike';
-import { ITask } from '~/interfaces/ITask';
+import { ILike } from '~/interfaces/like/ILike';
+import { ITask } from '~/interfaces/task/ITask';
 import { ITaskWithLike } from '~/interfaces/ITaskWithLike';
-import { IUser } from '~/interfaces/IUser';
+import { IUser } from '~/interfaces/user/IUser';
 import { AuthService } from '~/services/auth/auth.service';
 import { LikeService } from '~/services/like/like.service';
 
@@ -25,7 +25,7 @@ export class TaskDetailCardComponent implements OnInit {
     $event.preventDefault();
 
     if (like) {
-      this.likeService.deleteLike(like.id);
+      this.likeService.delete(like.id);
     } else {
       const authUser = await this.authService.getAuthUserInfo();
 
@@ -35,7 +35,7 @@ export class TaskDetailCardComponent implements OnInit {
         taskId: taskId,
       };
 
-      this.likeService.createLike(createLike);
+      this.likeService.create(createLike);
     }
   }
 }

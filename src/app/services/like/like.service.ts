@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { ILike } from '~/interfaces/ILike';
+import { ILike } from '~/interfaces/like/ILike';
 import { LikeRepository } from '~/repositories/like/like.repository';
 import { LikePipe } from '~/services/like/like.pipe';
 
@@ -10,12 +10,12 @@ import { LikePipe } from '~/services/like/like.pipe';
 export class LikeService {
   constructor(public likeRepository: LikeRepository) {}
 
-  createLike(like: ILike): Promise<void> {
+  create(like: ILike) {
     const likeDto = new LikePipe().create(like);
-    return this.likeRepository.createLike(likeDto);
+    return this.likeRepository.create(likeDto);
   }
 
-  deleteLike(likeId: ILike['id']): Promise<void> {
-    return this.likeRepository.deleteLike(likeId);
+  delete(likeId: ILike['id']) {
+    return this.likeRepository.delete(likeId);
   }
 }

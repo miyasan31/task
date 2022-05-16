@@ -1,5 +1,4 @@
-import { Timestamp } from '@angular/fire/firestore';
-import { ITask } from '~/interfaces/ITask';
+import { ITask } from '~/interfaces/task/ITask';
 
 export class TaskPipe implements ITask {
   id: ITask['id'];

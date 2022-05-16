@@ -9,13 +9,14 @@ import {
   setDoc,
 } from '@angular/fire/firestore';
 
-import { ILike } from '~/interfaces/ILike';
+import { ILike } from '~/interfaces/like/ILike';
+import { ILikeRepository } from '~/interfaces/like/ILikeRepository';
 import { likeConverter } from '~/libs/converter/like.converter';
 
 @Injectable({
   providedIn: 'root',
 })
-export class LikeRepository {
+export class LikeRepository implements ILikeRepository {
   likeDocRef: DocumentReference<ILike>;
   likeColRef: CollectionReference<ILike>;
 
@@ -24,14 +25,14 @@ export class LikeRepository {
   }
 
   // いいね情報を保存する
-  createLike(likeDto: ILike): Promise<void> {
+  create(likeDto: ILike) {
     const likeId = doc(this.likeColRef).id;
     const likeDocRef = doc(this.firestore, `likes/${likeId}`).withConverter(likeConverter);
     return setDoc(likeDocRef, { ...likeDto, id: likeId });
   }
 
   // いいね情報を削除する
-  deleteLike(likeId: ILike['id']): Promise<void> {
+  delete(likeId: ILike['id']) {
     const likeDoc = doc(this.firestore, `likes/${likeId}`).withConverter(likeConverter);
     return deleteDoc(likeDoc);
   }

@@ -2,7 +2,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { TaskService } from '~/services/task/task.service';
 import { Observable } from 'rxjs';
-import { IUser } from '~/interfaces/IUser';
+import { IUser } from '~/interfaces/user/IUser';
 import { UserService } from '~/services/user/user.service';
 import { AuthService } from '~/services/auth/auth.service';
 import { ITaskWithLike } from '~/interfaces/ITaskWithLike';
@@ -31,7 +31,7 @@ export class TimelineDetailPage implements OnInit {
 
     const user = await this.authService.getAuthUser();
 
-    this.user = await this.userService.getUser(this.userId);
+    this.user = await this.userService.get(this.userId);
     this.taskList = this.taskService.getTaskListWithLike(this.userId, user.uid);
   }
 }

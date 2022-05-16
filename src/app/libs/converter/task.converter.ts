@@ -7,7 +7,7 @@ import {
 } from '@angular/fire/firestore';
 import { Timestamp } from '@angular/fire/firestore';
 
-import type { ITask } from '~/interfaces/ITask';
+import type { ITask } from '~/interfaces/task/ITask';
 
 /**
  * FirestoreのドキュメントとTaskオブジェクトの型変換

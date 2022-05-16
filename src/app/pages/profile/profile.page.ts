@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IUser } from '~/interfaces/IUser';
+import { IUser } from '~/interfaces/user/IUser';
 import { AuthService } from '~/services/auth/auth.service';
 
 const dummy_avatar =

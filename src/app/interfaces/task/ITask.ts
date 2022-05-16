@@ -1,6 +1,6 @@
-import type { IUser } from './IUser';
-import type { ITag } from './ITag';
 import { Timestamp } from '@angular/fire/firestore';
+import { ITag } from '~/interfaces/tag/ITag';
+import { IUser } from '~/interfaces/user/IUser';
 
 export interface ITask {
   id: string;

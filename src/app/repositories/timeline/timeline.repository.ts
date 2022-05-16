@@ -10,9 +10,9 @@ import {
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { concatMap, first } from 'rxjs/operators';
-import { ITask } from '~/interfaces/ITask';
+import { ITask } from '~/interfaces/task/ITask';
 import { ITimeline } from '~/interfaces/ITimeline';
-import { IUser } from '~/interfaces/IUser';
+import { IUser } from '~/interfaces/user/IUser';
 import { taskConverter } from '~/libs/converter/task.converter';
 import { userConverter } from '~/libs/converter/user.converter';
 

@@ -1,7 +1,5 @@
-import { ITask } from '~/interfaces/ITask';
-import { ILike } from '~/interfaces/ILike';
-
-// export interface ITimeline extends ILike, ITask {}
+import { ITask } from '~/interfaces/task/ITask';
+import { ILike } from '~/interfaces/like/ILike';
 
 export interface ITaskWithLike {
   task: ITask;

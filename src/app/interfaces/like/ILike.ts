@@ -1,10 +1,9 @@
-import type { IUser } from './IUser';
-import type { ITask } from './ITask';
 import { Timestamp } from '@angular/fire/firestore';
+import { ITask } from '~/interfaces/task/ITask';
+import { IUser } from '~/interfaces/user/IUser';
 
-export interface IComment {
+export interface ILike {
   id: string;
-  comment: string;
   userId: IUser['id'];
   taskId: ITask['id'];
   createdAt?: Timestamp;

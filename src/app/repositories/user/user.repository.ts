@@ -11,13 +11,14 @@ import {
 } from '@angular/fire/firestore';
 import { first } from 'rxjs/operators';
 
-import { IUser } from '~/interfaces/IUser';
+import { IUser } from '~/interfaces/user/IUser';
+import { IUserRepository } from '~/interfaces/user/IUserRepository';
 import { userConverter } from '~/libs/converter/user.converter';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UserRepository {
+export class UserRepository implements IUserRepository {
   userDocRef: DocumentReference<IUser>;
   userColRef: CollectionReference<IUser>;
 
@@ -26,25 +27,25 @@ export class UserRepository {
   }
 
   // ユーザー情報を取得する
-  getUser(uerId: IUser['id']): Promise<IUser> {
+  get(uerId: IUser['id']) {
     const userDocRef = doc(this.firestore, `users/${uerId}`).withConverter(userConverter);
     return docData<IUser>(userDocRef).pipe(first()).toPromise(Promise);
   }
 
   // ユーザー情報を保存する
-  createUser(userDto: IUser): Promise<void> {
+  create(userDto: IUser) {
     const userDocRef = doc(this.firestore, `users/${userDto.id}`).withConverter(userConverter);
     return setDoc(userDocRef, userDto);
   }
 
   // ユーザー情報を更新する
-  updateUser(userDto: IUser): Promise<void> {
+  update(userDto: IUser) {
     const userDocRef = doc(this.firestore, `users/${userDto.id}`).withConverter(userConverter);
     return setDoc(userDocRef, userDto, { merge: true });
   }
 
   // ユーザー情報を削除する
-  deleteUser(userId: IUser['id']): Promise<void> {
+  delete(userId: IUser['id']) {
     const userDocRef = doc(this.firestore, `users/${userId}`).withConverter(userConverter);
     return deleteDoc(userDocRef);
   }

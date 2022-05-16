@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { ITask } from '~/interfaces/ITask';
+import { ITask } from '~/interfaces/task/ITask';
 import { AuthService } from '~/services/auth/auth.service';
 import { TaskService } from '~/services/task/task.service';
 
@@ -36,7 +36,7 @@ export class TaskModalComponent implements OnInit {
   async ngOnInit() {
     if (!this.taskId) return;
 
-    const task = await this.taskService.getTask(this.taskId);
+    const task = await this.taskService.get(this.taskId);
     this.taskName = task.taskName;
     this.description = task.description;
     this.isDone = task.isDone;
@@ -57,16 +57,16 @@ export class TaskModalComponent implements OnInit {
     };
 
     if (this.isEdit) {
-      await this.taskService.updateTask(task);
+      await this.taskService.update(task);
     } else {
-      await this.taskService.createTask(task);
+      await this.taskService.create(task);
     }
 
     this.onModalDismiss();
   }
 
   async onDeleteTask(taskId: ITask['id']) {
-    await this.taskService.deleteTask(taskId);
+    await this.taskService.delete(taskId);
     this.onModalDismiss();
   }
 

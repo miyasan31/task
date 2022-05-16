@@ -7,7 +7,7 @@ import {
 } from '@angular/fire/firestore';
 import { Timestamp } from '@angular/fire/firestore';
 
-import type { ITag } from '~/interfaces/ITag';
+import type { ITag } from '~/interfaces/tag/ITag';
 
 /**
  * FirestoreのドキュメントとTagオブジェクトの型変換

@@ -12,7 +12,7 @@ import { NavController, AlertController } from '@ionic/angular';
 
 import { firebaseError } from './firebase.error';
 import { Capacitor } from '@capacitor/core';
-import { IUser } from '~/interfaces/IUser';
+import { IUser } from '~/interfaces/user/IUser';
 import { UserService } from '~/services/user/user.service';
 
 type RedirectPath = '/signin' | '/register' | '/task';
@@ -83,12 +83,12 @@ export class AuthService {
   // 認証済のユーザー情報を取得する
   async getAuthUserInfo(): Promise<IUser> {
     const authUser = await this.getAuthUser();
-    return await this.userService.getUser(authUser.uid);
+    return await this.userService.get(authUser.uid);
   }
 
   async signedInCheckUserInfo(userId: IUser['id']) {
     // 認証後、データベースにユーザー情報が存在するか確認
-    const userResult = await this.userService.getUser(userId);
+    const userResult = await this.userService.get(userId);
 
     // 存在しなかったらユーザー登録画面に遷移
     if (!userResult) {

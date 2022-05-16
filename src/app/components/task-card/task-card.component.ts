@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ITask } from '~/interfaces/ITask';
-import { IUser } from '~/interfaces/IUser';
+import { ITask } from '~/interfaces/task/ITask';
+import { IUser } from '~/interfaces/user/IUser';
 
 @Component({
   selector: 'app-task-card',

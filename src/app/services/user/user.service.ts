@@ -1,30 +1,31 @@
 import { Injectable } from '@angular/core';
 
-import { IUser } from '~/interfaces/IUser';
+import { IUser } from '~/interfaces/user/IUser';
+import { IUserRepository } from '~/interfaces/user/IUserRepository';
 import { UserRepository } from '~/repositories/user/user.repository';
 import { UserPipe } from '~/services/user/user.pipe';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UserService {
+export class UserService implements IUserRepository {
   constructor(public userRepository: UserRepository) {}
 
-  getUser(userId: IUser['id']): Promise<IUser> {
-    return this.userRepository.getUser(userId);
+  get(userId: IUser['id']) {
+    return this.userRepository.get(userId);
   }
 
-  createUser(user: IUser): Promise<void> {
+  create(user: IUser) {
     const userDto = new UserPipe().create(user);
-    return this.userRepository.createUser(userDto);
+    return this.userRepository.create(userDto);
   }
 
-  updateUser(user: IUser): Promise<void> {
+  update(user: IUser) {
     const userDto = new UserPipe().update(user);
-    return this.userRepository.updateUser(userDto);
+    return this.userRepository.update(userDto);
   }
 
-  deleteUser(userId: IUser['id']): Promise<void> {
-    return this.userRepository.deleteUser(userId);
+  delete(userId: IUser['id']) {
+    return this.userRepository.delete(userId);
   }
 }

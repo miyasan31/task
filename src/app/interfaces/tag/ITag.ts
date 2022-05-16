@@ -1,5 +1,5 @@
 import { Timestamp } from '@angular/fire/firestore';
-import { IUser } from './IUser';
+import { IUser } from '~/interfaces/user/IUser';
 
 export interface ITag {
   id: string;

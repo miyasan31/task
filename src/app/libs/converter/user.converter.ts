@@ -7,7 +7,7 @@ import {
   Timestamp,
 } from '@angular/fire/firestore';
 
-import type { IUser } from '~/interfaces/IUser';
+import type { IUser } from '~/interfaces/user/IUser';
 
 /**
  * FirestoreのドキュメントとUserオブジェクトの型変換

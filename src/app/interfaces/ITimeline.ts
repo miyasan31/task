@@ -1,5 +1,5 @@
-import { ITask } from '~/interfaces/ITask';
-import { IUser } from '~/interfaces/IUser';
+import { ITask } from '~/interfaces/task/ITask';
+import { IUser } from '~/interfaces/user/IUser';
 
 export interface ITimeline {
   user: IUser;
