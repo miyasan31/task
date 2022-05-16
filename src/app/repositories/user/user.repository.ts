@@ -12,8 +12,10 @@ import {
   setDoc,
   where,
 } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 import { concatMap, first } from 'rxjs/operators';
 import { ITask } from '~/interfaces/task/ITask';
+import { ITimeline } from '~/interfaces/user/ITimeline';
 
 import { IUser } from '~/interfaces/user/IUser';
 import { IUserRepository } from '~/interfaces/user/IUserRepository';
@@ -35,7 +37,7 @@ export class UserRepository implements IUserRepository {
   }
 
   // ユーザーに作成したタスクを紐づけて取得
-  getUserTaskList() {
+  getUserTaskList(): Observable<ITimeline[]> {
     const userQuery = query(this.userColRef);
     return collectionData(userQuery).pipe(
       concatMap(async (userList) => {
@@ -53,25 +55,25 @@ export class UserRepository implements IUserRepository {
   }
 
   // ユーザー情報を取得する
-  get(uerId: IUser['id']) {
+  get(uerId: IUser['id']): Promise<IUser> {
     const userDocRef = doc(this.firestore, `users/${uerId}`).withConverter(userConverter);
     return docData<IUser>(userDocRef).pipe(first()).toPromise(Promise);
   }
 
   // ユーザー情報を保存する
-  create(userDto: IUser) {
+  create(userDto: IUser): Promise<void> {
     const userDocRef = doc(this.firestore, `users/${userDto.id}`).withConverter(userConverter);
     return setDoc(userDocRef, userDto);
   }
 
   // ユーザー情報を更新する
-  update(userDto: IUser) {
+  update(userDto: IUser): Promise<void> {
     const userDocRef = doc(this.firestore, `users/${userDto.id}`).withConverter(userConverter);
     return setDoc(userDocRef, userDto, { merge: true });
   }
 
   // ユーザー情報を削除する
-  delete(userId: IUser['id']) {
+  delete(userId: IUser['id']): Promise<void> {
     const userDocRef = doc(this.firestore, `users/${userId}`).withConverter(userConverter);
     return deleteDoc(userDocRef);
   }

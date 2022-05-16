@@ -20,22 +20,23 @@ export class TaskDetailCardComponent implements OnInit {
 
   ngOnInit() {}
 
-  async onLikeClick($event, taskId: ITask['id'], like: ILike) {
+  async onLikeClick($event, taskId: ITask['id'], like: ILike): Promise<void> {
     $event.stopPropagation();
     $event.preventDefault();
 
     if (like) {
       this.likeService.delete(like.id);
-    } else {
-      const authUser = await this.authService.getAuthUserInfo();
-
-      const createLike = {
-        id: '',
-        userId: authUser.id,
-        taskId: taskId,
-      };
-
-      this.likeService.create(createLike);
+      return;
     }
+
+    const authUser = await this.authService.getAuthUserInfo();
+
+    const createLike = {
+      id: '',
+      userId: authUser.id,
+      taskId: taskId,
+    };
+
+    this.likeService.create(createLike);
   }
 }

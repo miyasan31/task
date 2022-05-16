@@ -10,12 +10,12 @@ import { LikePipe } from '~/services/like/like.pipe';
 export class LikeService {
   constructor(public likeRepository: LikeRepository) {}
 
-  create(like: ILike) {
+  create(like: ILike): Promise<void> {
     const likeDto = new LikePipe().create(like);
     return this.likeRepository.create(likeDto);
   }
 
-  delete(likeId: ILike['id']) {
+  delete(likeId: ILike['id']): Promise<void> {
     return this.likeRepository.delete(likeId);
   }
 }

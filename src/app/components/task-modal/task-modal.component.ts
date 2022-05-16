@@ -43,7 +43,7 @@ export class TaskModalComponent implements OnInit {
     this.tagId = task.tagId;
   }
 
-  async onUpsertTask() {
+  async onUpsertTask(): Promise<void> {
     // TODO:グローバルステートから参照する
     const uid = await (await this.authService.getAuthUser()).uid;
 
@@ -65,12 +65,12 @@ export class TaskModalComponent implements OnInit {
     this.onModalDismiss();
   }
 
-  async onDeleteTask(taskId: ITask['id']) {
+  async onDeleteTask(taskId: ITask['id']): Promise<void> {
     await this.taskService.delete(taskId);
     this.onModalDismiss();
   }
 
-  onModalDismiss() {
+  onModalDismiss(): void {
     this.modalController.dismiss();
   }
 }

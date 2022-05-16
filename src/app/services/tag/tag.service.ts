@@ -11,23 +11,23 @@ import { TagRepository } from '~/repositories/tag/tag.repository';
 export class TagService implements ITagRepository {
   constructor(public tagRepository: TagRepository) {}
 
-  getTagList(userId: IUser['id']) {
+  getTagList(userId: IUser['id']): Promise<ITag[]> {
     return this.tagRepository.getTagList(userId);
   }
 
-  get(tagId: ITag['id']) {
+  get(tagId: ITag['id']): Promise<ITag> {
     return this.tagRepository.get(tagId);
   }
 
-  create(tag: ITag) {
+  create(tag: ITag): Promise<void> {
     return this.tagRepository.create(tag);
   }
 
-  update(tag: ITag) {
+  update(tag: ITag): Promise<void> {
     return this.tagRepository.update(tag);
   }
 
-  delete(tagId: ITag['id']) {
+  delete(tagId: ITag['id']): Promise<void> {
     return this.tagRepository.delete(tagId);
   }
 }

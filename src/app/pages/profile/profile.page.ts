@@ -59,11 +59,11 @@ export class ProfilePage implements OnInit {
     this.scene = 'profile';
   }
 
-  onSegmentChanged(ev: any) {
+  onSegmentChanged(ev: any): void {
     console.log('Segment changed', ev);
   }
 
-  onSignOut() {
+  onSignOut(): void {
     this.authService.signOut();
   }
 }

@@ -25,14 +25,14 @@ export class LikeRepository implements ILikeRepository {
   }
 
   // いいね情報を保存する
-  create(likeDto: ILike) {
+  create(likeDto: ILike): Promise<void> {
     const likeId = doc(this.likeColRef).id;
     const likeDocRef = doc(this.firestore, `likes/${likeId}`).withConverter(likeConverter);
     return setDoc(likeDocRef, { ...likeDto, id: likeId });
   }
 
   // いいね情報を削除する
-  delete(likeId: ILike['id']) {
+  delete(likeId: ILike['id']): Promise<void> {
     const likeDoc = doc(this.firestore, `likes/${likeId}`).withConverter(likeConverter);
     return deleteDoc(likeDoc);
   }

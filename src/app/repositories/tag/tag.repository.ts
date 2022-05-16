@@ -31,29 +31,29 @@ export class TagRepository implements ITagRepository {
   }
 
   // ユーザー定義のタグ情報を取得する
-  getTagList(userId: IUser['id']) {
+  getTagList(userId: IUser['id']): Promise<ITag[]> {
     const tagDoc = query(this.tagColRef, where('userId', '==', userId)).withConverter(tagConverter);
     return collectionData<ITag>(tagDoc).pipe(first()).toPromise(Promise);
   }
 
   // タグ情報を取得する
-  get(tagId: ITag['id']) {
+  get(tagId: ITag['id']): Promise<ITag> {
     const tagDoc = doc(this.firestore, `tags/${tagId}`).withConverter(tagConverter);
     return docData<ITag>(tagDoc).pipe(first()).toPromise(Promise);
   }
 
   // タグ情報を保存する
-  create(tagDto: ITag) {
+  create(tagDto: ITag): Promise<void> {
     return setDoc(this.tagDocRef, tagDto);
   }
 
   // タグ情報を更新する
-  update(tagDto: ITag) {
+  update(tagDto: ITag): Promise<void> {
     return setDoc(this.tagDocRef, tagDto, { merge: true });
   }
 
   // タグ情報を削除する
-  delete(tagId: ITag['id']) {
+  delete(tagId: ITag['id']): Promise<void> {
     const tagDoc = doc(this.firestore, `tags/${tagId}`).withConverter(tagConverter);
     return deleteDoc(tagDoc);
   }

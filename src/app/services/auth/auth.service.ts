@@ -29,48 +29,42 @@ export class AuthService {
   ) {}
 
   // Google
-  googleSignIn() {
+  googleSignIn(): void {
     if (Capacitor.isNativePlatform()) {
-      console.info('native google sign in');
-      return this.nativeGoogleSignIn();
-    } else {
-      console.info('web google sign in');
-      return this.webGoogleSignIn();
+      this.nativeGoogleSignIn();
+      return;
     }
+    this.webGoogleSignIn();
   }
 
-  nativeGoogleSignIn() {
+  nativeGoogleSignIn(): void {
     // TODO:capacitorを使ってGoogleサインインを実装
-    return signInWithPopup(this.auth, new GoogleAuthProvider()).then(async (session) => {
+    signInWithPopup(this.auth, new GoogleAuthProvider()).then(async (session) => {
       await this.signedInCheckUserInfo(session.user.uid);
     });
   }
 
-  webGoogleSignIn() {
-    return signInWithPopup(this.auth, new GoogleAuthProvider()).then(async (session) => {
+  webGoogleSignIn(): void {
+    signInWithPopup(this.auth, new GoogleAuthProvider()).then(async (session) => {
       await this.signedInCheckUserInfo(session.user.uid);
     });
   }
 
   // Email
-  emailSignUp(data: { email: string; password: string }) {
-    return createUserWithEmailAndPassword(this.auth, data.email, data.password).then(
-      async (session) => {
-        await this.signedInCheckUserInfo(session.user.uid);
-      },
-    );
+  emailSignUp(data: { email: string; password: string }): void {
+    createUserWithEmailAndPassword(this.auth, data.email, data.password).then(async (session) => {
+      await this.signedInCheckUserInfo(session.user.uid);
+    });
   }
 
-  emailSignIn(data: { email: string; password: string }) {
-    return signInWithEmailAndPassword(this.auth, data.email, data.password).then(
-      async (session) => {
-        await this.signedInCheckUserInfo(session.user.uid);
-      },
-    );
+  emailSignIn(data: { email: string; password: string }): void {
+    signInWithEmailAndPassword(this.auth, data.email, data.password).then(async (session) => {
+      await this.signedInCheckUserInfo(session.user.uid);
+    });
   }
 
-  signOut() {
-    return signOut(this.auth).then(() => {
+  signOut(): void {
+    signOut(this.auth).then(() => {
       this.navigatePath('/signin');
     });
   }
@@ -86,7 +80,7 @@ export class AuthService {
     return await this.userService.get(authUser.uid);
   }
 
-  async signedInCheckUserInfo(userId: IUser['id']) {
+  async signedInCheckUserInfo(userId: IUser['id']): Promise<void> {
     // 認証後、データベースにユーザー情報が存在するか確認
     const userResult = await this.userService.get(userId);
 
@@ -100,7 +94,7 @@ export class AuthService {
     this.navigatePath('/task');
   }
 
-  navigatePath(path: RedirectPath) {
+  navigatePath(path: RedirectPath): void {
     this.navController.navigateForward(path).catch((error) => {
       console.log(error.message);
       this.alertError(error);
@@ -108,7 +102,7 @@ export class AuthService {
     });
   }
 
-  async alertError(e) {
+  async alertError(e): Promise<void> {
     if (firebaseError.hasOwnProperty(e.code)) {
       e = firebaseError[e.code];
     }

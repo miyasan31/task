@@ -26,7 +26,7 @@ export class TaskPage implements OnInit {
     this.taskList = this.taskService.getTaskList(uid);
   }
 
-  async onReversingTaskCompletion($event, task: ITask) {
+  async onReversingTaskCompletion($event, task: ITask): Promise<void> {
     $event.stopPropagation();
     $event.preventDefault();
 
@@ -38,7 +38,7 @@ export class TaskPage implements OnInit {
     this.taskService.update(updatedTask);
   }
 
-  async onPresentModal(taskId?: ITask['id']) {
+  async onPresentModal(taskId?: ITask['id']): Promise<void> {
     const modal = await this.modalController.create({
       component: TaskModalComponent,
       componentProps: {
@@ -46,6 +46,7 @@ export class TaskPage implements OnInit {
         isEdit: !!taskId,
       },
     });
+
     return await modal.present();
   }
 }

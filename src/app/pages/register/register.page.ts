@@ -30,7 +30,7 @@ export class RegisterPage implements OnInit {
     this.avatar = userInfo.photoURL;
   }
 
-  async onUserRegister() {
+  async onUserRegister(): Promise<void> {
     const createUser = {
       id: this.id,
       userName: this.userName,

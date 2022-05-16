@@ -12,10 +12,12 @@ import {
   setDoc,
   where,
 } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 import { first, concatMap } from 'rxjs/operators';
 import { ILike } from '~/interfaces/like/ILike';
 
 import { ITask } from '~/interfaces/task/ITask';
+import { ITaskCart } from '~/interfaces/task/ITaskCart';
 import { ITaskRepository } from '~/interfaces/task/ITaskRepository';
 import { IUser } from '~/interfaces/user/IUser';
 import { likeConverter } from '~/libs/converter/like.converter';
@@ -35,14 +37,17 @@ export class TaskRepository implements ITaskRepository {
     this.likeColRef = collection(this.firestore, 'likes').withConverter(likeConverter);
   }
 
-  getTaskList(userId: ITask['userId']) {
+  getTaskList(userId: ITask['userId']): Observable<ITask[]> {
     // TODO:当日のタスクのみ取得する
     const taskQuery = query(this.taskColRef, where('userId', '==', userId));
     return collectionData<ITask>(taskQuery);
   }
 
   // タスク情報を取得する
-  getTaskListWithLike(userId: ITask['userId'], currentUserId: IUser['id']) {
+  getTaskListWithLike(
+    userId: ITask['userId'],
+    currentUserId: IUser['id'],
+  ): Observable<ITaskCart[]> {
     // TODO:当日のタスクのみ取得する
     const taskQuery = query(this.taskColRef, where('userId', '==', userId));
     return collectionData(taskQuery).pipe(
@@ -64,26 +69,26 @@ export class TaskRepository implements ITaskRepository {
   }
 
   // タスク情報を取得する
-  get(taskId: ITask['id']) {
+  get(taskId: ITask['id']): Promise<ITask> {
     const taskDocRef = doc(this.firestore, `tasks/${taskId}`).withConverter(taskConverter);
     return docData<ITask>(taskDocRef).pipe(first()).toPromise(Promise);
   }
 
   // タスク情報を保存する
-  create(taskDto: ITask) {
+  create(taskDto: ITask): Promise<void> {
     const taskId = doc(this.taskColRef).id;
     const taskDocRef = doc(this.firestore, `tasks/${taskId}`).withConverter(taskConverter);
     return setDoc(taskDocRef, { ...taskDto, id: taskId });
   }
 
   // タスク情報を更新する
-  update(taskDto: ITask) {
+  update(taskDto: ITask): Promise<void> {
     const taskDocRef = doc(this.firestore, `tasks/${taskDto.id}`).withConverter(taskConverter);
     return setDoc(taskDocRef, taskDto, { merge: true });
   }
 
   // タスク情報を削除する
-  delete(taskId: ITask['id']) {
+  delete(taskId: ITask['id']): Promise<void> {
     const taskDocRef = doc(this.firestore, `tasks/${taskId}`).withConverter(taskConverter);
     return deleteDoc(taskDocRef);
   }
