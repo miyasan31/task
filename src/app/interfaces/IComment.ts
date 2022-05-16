@@ -7,5 +7,5 @@ export interface IComment {
   comment: string;
   userId: IUser['id'];
   taskId: ITask['id'];
-  createdAt: Timestamp;
+  createdAt?: Timestamp;
 }

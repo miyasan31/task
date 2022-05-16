@@ -7,6 +7,5 @@ export interface ITag {
   color: string;
   isActive: boolean;
   userId: IUser['id'];
-  createdAt: Timestamp;
-  updatedAt: Timestamp;
+  createdAt?: Timestamp;
 }
