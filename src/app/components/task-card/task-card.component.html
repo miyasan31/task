@@ -2,12 +2,7 @@
   <ion-grid>
     <ion-row class="ion-align-items-center">
       <ion-col size="3">
-        <img
-          class="square-12"
-          src="{{ user.avatar }}"
-          alt="ユーザーアバター"
-          (click)="onClickEvent($event)"
-        />
+        <img class="square-12" src="{{ user.avatar }}" alt="{{ user.userName }}のアバター" />
       </ion-col>
       <ion-col size="9">
         <ion-card-title class="text-base">{{ user.userName }}</ion-card-title>
