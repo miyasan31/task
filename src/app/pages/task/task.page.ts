@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
-import { TaskModalComponent } from '~/components/task-modal/task-modal.component';
 import { ITask } from '~/interfaces/task/ITask';
+import { TaskModalComponent } from '~/pages/task/components/task-modal/task-modal.component';
 import { AuthService } from '~/services/auth/auth.service';
 import { TaskService } from '~/services/task/task.service';
 
