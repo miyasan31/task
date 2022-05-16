@@ -3,13 +3,9 @@ import {
   collection,
   collectionData,
   CollectionReference,
-  deleteDoc,
-  doc,
-  docData,
   DocumentReference,
   Firestore,
   query,
-  setDoc,
   where,
 } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
@@ -17,24 +13,21 @@ import { concatMap, first } from 'rxjs/operators';
 import { ITask } from '~/interfaces/ITask';
 import { ITimeline } from '~/interfaces/ITimeline';
 import { IUser } from '~/interfaces/IUser';
-
-type UserDocRef = DocumentReference<IUser>;
-type UserColRef = CollectionReference<IUser>;
-type TaskDocRef = DocumentReference<ITask>;
-type TaskColRef = CollectionReference<ITask>;
+import { taskConverter } from '~/libs/converter/task.converter';
+import { userConverter } from '~/libs/converter/user.converter';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TimelineRepository {
-  userDocRef: UserDocRef;
-  userColRef: UserColRef;
-  taskDocRef: TaskDocRef;
-  taskColRef: TaskColRef;
+  userDocRef: DocumentReference<IUser>;
+  userColRef: CollectionReference<IUser>;
+  taskDocRef: DocumentReference<ITask>;
+  taskColRef: CollectionReference<ITask>;
 
   constructor(public firestore: Firestore) {
-    this.userColRef = collection(this.firestore, 'users') as UserColRef;
-    this.taskColRef = collection(this.firestore, 'tasks') as TaskColRef;
+    this.userColRef = collection(this.firestore, 'users').withConverter(userConverter);
+    this.taskColRef = collection(this.firestore, 'tasks').withConverter(taskConverter);
   }
 
   getTimelineInfo(): Observable<ITimeline[]> {

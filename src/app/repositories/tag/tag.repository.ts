@@ -12,24 +12,22 @@ import {
 import { first } from 'rxjs/operators';
 
 import { ITag } from '~/interfaces/ITag';
-
-type TagDocRef = DocumentReference<ITag>;
-type TagColRef = CollectionReference<ITag>;
+import { tagConverter } from '~/libs/converter/tag.converter';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TagRepository {
-  tagDocRef: TagDocRef;
-  tagColRef: TagColRef;
+  tagDocRef: DocumentReference<ITag>;
+  tagColRef: CollectionReference<ITag>;
 
   constructor(public firestore: Firestore) {
-    this.tagColRef = collection(this.firestore, 'tags') as TagColRef;
+    this.tagColRef = collection(this.firestore, 'tags').withConverter(tagConverter);
   }
 
   // タグ情報を取得する
   getTag(tagId: ITag['id']): Promise<ITag> {
-    const tagDoc = doc(this.firestore, `tags/${tagId}`) as TagDocRef;
+    const tagDoc = doc(this.firestore, `tags/${tagId}`).withConverter(tagConverter);
     return docData<ITag>(tagDoc).pipe(first()).toPromise(Promise);
   }
 
@@ -45,7 +43,7 @@ export class TagRepository {
 
   // タグ情報を削除する
   deleteTag(tagId: ITag['id']): Promise<void> {
-    const tagDoc = doc(this.firestore, `tags/${tagId}`) as TagDocRef;
+    const tagDoc = doc(this.firestore, `tags/${tagId}`).withConverter(tagConverter);
     return deleteDoc(tagDoc);
   }
 }
