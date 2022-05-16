@@ -70,23 +70,23 @@
     </div>
 
     <div *ngSwitchCase="'task'">
-      <ion-card *ngFor="let data of timeline_data">
+      <!-- <ion-card *ngFor="let data of timeline_data">
         <app-task-card
           [user]="data.user"
-          [updatedAt]="data.updatedAt"
+          [createdAt]="data.createdAt"
           [task_list]="data.task_list"
         ></app-task-card>
-      </ion-card>
+      </ion-card> -->
     </div>
 
     <div *ngSwitchCase="'like'">
-      <ion-card *ngFor="let data of timeline_data">
+      <!-- <ion-card *ngFor="let data of timeline_data">
         <app-task-card
           [user]="data.user"
-          [updatedAt]="data.updatedAt"
+          [createdAt]="data.createdAt"
           [task_list]="data.task_list"
         ></app-task-card>
-      </ion-card>
+      </ion-card> -->
     </div>
   </div>
 </ion-content>
