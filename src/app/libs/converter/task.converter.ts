@@ -29,7 +29,7 @@ export const taskConverter: FirestoreDataConverter<ITask> = {
   },
   // FireStore保存時の変換
   toFirestore: (task: PartialWithFieldValue<ITask>): DocumentData => {
-    return {
+    const data = {
       taskName: task.taskName,
       description: task.description,
       isDone: task.isDone,
@@ -37,5 +37,7 @@ export const taskConverter: FirestoreDataConverter<ITask> = {
       userId: task.userId,
       createdAt: Timestamp.now(),
     };
+
+    return data;
   },
 };
