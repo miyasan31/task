@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import type { ITask } from '~/interfaces/task/ITask';
-import { ITaskWithLike } from '~/interfaces/ITaskWithLike';
+import { ITaskWithLike } from '~/interfaces/task/ITaskWithLike';
 import { IUser } from '~/interfaces/user/IUser';
 
 export interface ITaskRepository {

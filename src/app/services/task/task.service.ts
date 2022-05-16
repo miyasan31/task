@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 
 import { ITask } from '~/interfaces/task/ITask';
 import { ITaskRepository } from '~/interfaces/task/ITaskRepository';
-import { ITaskWithLike } from '~/interfaces/ITaskWithLike';
 import { IUser } from '~/interfaces/user/IUser';
 import { TaskRepository } from '~/repositories/task/task.repository';
 import { TaskPipe } from '~/services/task/task.pipe';

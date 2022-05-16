@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { IUser } from '~/interfaces/user/IUser';
 import { UserService } from '~/services/user/user.service';
 import { AuthService } from '~/services/auth/auth.service';
-import { ITaskWithLike } from '~/interfaces/ITaskWithLike';
+import { ITaskWithLike } from '~/interfaces/task/ITaskWithLike';
 
 @Component({
   selector: 'app-timeline-detail',
