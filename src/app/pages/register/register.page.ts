@@ -13,7 +13,7 @@ export class RegisterPage implements OnInit {
   email: string;
   avatar: string;
 
-  constructor(public authService: AuthService, public userService: UserService) {}
+  constructor(private authService: AuthService, private userService: UserService) {}
 
   async ngOnInit() {
     const userInfo = await this.authService.getAuthUser();

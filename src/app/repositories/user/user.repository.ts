@@ -26,12 +26,12 @@ import { userConverter } from '~/libs/converter/user.converter';
   providedIn: 'root',
 })
 export class UserRepository implements IUserRepository {
-  userDocRef: DocumentReference<IUser>;
-  userColRef: CollectionReference<IUser>;
-  taskDocRef: DocumentReference<ITask>;
-  taskColRef: CollectionReference<ITask>;
+  private userDocRef: DocumentReference<IUser>;
+  private userColRef: CollectionReference<IUser>;
+  private taskDocRef: DocumentReference<ITask>;
+  private taskColRef: CollectionReference<ITask>;
 
-  constructor(public firestore: Firestore) {
+  constructor(private firestore: Firestore) {
     this.userColRef = collection(this.firestore, 'users').withConverter(userConverter);
     this.taskColRef = collection(this.firestore, 'tasks').withConverter(taskConverter);
   }

@@ -17,10 +17,10 @@ import { likeConverter } from '~/libs/converter/like.converter';
   providedIn: 'root',
 })
 export class LikeRepository implements ILikeRepository {
-  likeDocRef: DocumentReference<ILike>;
-  likeColRef: CollectionReference<ILike>;
+  private likeDocRef: DocumentReference<ILike>;
+  private likeColRef: CollectionReference<ILike>;
 
-  constructor(public firestore: Firestore) {
+  constructor(private firestore: Firestore) {
     this.likeColRef = collection(this.firestore, 'likes').withConverter(likeConverter);
   }
 

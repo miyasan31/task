@@ -12,7 +12,7 @@ import { TaskPipe } from '~/services/task/task.pipe';
   providedIn: 'root',
 })
 export class TaskService implements ITaskRepository {
-  constructor(public taskRepository: TaskRepository) {}
+  constructor(private taskRepository: TaskRepository) {}
 
   getTaskList(userId: ITask['userId']): Observable<ITask[]> {
     return this.taskRepository.getTaskList(userId);

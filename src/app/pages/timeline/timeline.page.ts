@@ -11,7 +11,7 @@ import { UserService } from '~/services/user/user.service';
 export class TimelinePage implements OnInit {
   timelineData: Observable<ITimeline[]>;
 
-  constructor(public userService: UserService) {}
+  constructor(private userService: UserService) {}
 
   ngOnInit() {
     this.timelineData = this.userService.getUserTaskList();

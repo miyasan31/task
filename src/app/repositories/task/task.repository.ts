@@ -27,12 +27,12 @@ import { taskConverter } from '~/libs/converter/task.converter';
   providedIn: 'root',
 })
 export class TaskRepository implements ITaskRepository {
-  taskDocRef: DocumentReference<ITask>;
-  taskColRef: CollectionReference<ITask>;
-  likeDocRef: DocumentReference<ILike>;
-  likeColRef: CollectionReference<ILike>;
+  private taskDocRef: DocumentReference<ITask>;
+  private taskColRef: CollectionReference<ITask>;
+  private likeDocRef: DocumentReference<ILike>;
+  private likeColRef: CollectionReference<ILike>;
 
-  constructor(public firestore: Firestore) {
+  constructor(private firestore: Firestore) {
     this.taskColRef = collection(this.firestore, 'tasks').withConverter(taskConverter);
     this.likeColRef = collection(this.firestore, 'likes').withConverter(likeConverter);
   }

@@ -22,10 +22,10 @@ type RedirectPath = '/signin' | '/register' | '/task';
 })
 export class AuthService {
   constructor(
-    public auth: Auth,
-    public userService: UserService,
-    public navController: NavController,
-    public alertController: AlertController,
+    private auth: Auth,
+    private userService: UserService,
+    private navController: NavController,
+    private alertController: AlertController,
   ) {}
 
   // Google
@@ -37,14 +37,14 @@ export class AuthService {
     this.webGoogleSignIn();
   }
 
-  nativeGoogleSignIn(): void {
+  private nativeGoogleSignIn(): void {
     // TODO:capacitorを使ってGoogleサインインを実装
     signInWithPopup(this.auth, new GoogleAuthProvider()).then(async (session) => {
       await this.signedInCheckUserInfo(session.user.uid);
     });
   }
 
-  webGoogleSignIn(): void {
+  private webGoogleSignIn(): void {
     signInWithPopup(this.auth, new GoogleAuthProvider()).then(async (session) => {
       await this.signedInCheckUserInfo(session.user.uid);
     });
@@ -80,7 +80,7 @@ export class AuthService {
     return await this.userService.get(authUser.uid);
   }
 
-  async signedInCheckUserInfo(userId: IUser['id']): Promise<void> {
+  private async signedInCheckUserInfo(userId: IUser['id']): Promise<void> {
     // 認証後、データベースにユーザー情報が存在するか確認
     const userResult = await this.userService.get(userId);
 
@@ -102,7 +102,7 @@ export class AuthService {
     });
   }
 
-  async alertError(e): Promise<void> {
+  private async alertError(e): Promise<void> {
     if (firebaseError.hasOwnProperty(e.code)) {
       e = firebaseError[e.code];
     }

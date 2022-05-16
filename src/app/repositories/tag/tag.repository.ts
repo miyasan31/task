@@ -23,10 +23,10 @@ import { tagConverter } from '~/libs/converter/tag.converter';
   providedIn: 'root',
 })
 export class TagRepository implements ITagRepository {
-  tagDocRef: DocumentReference<ITag>;
-  tagColRef: CollectionReference<ITag>;
+  private tagDocRef: DocumentReference<ITag>;
+  private tagColRef: CollectionReference<ITag>;
 
-  constructor(public firestore: Firestore) {
+  constructor(private firestore: Firestore) {
     this.tagColRef = collection(this.firestore, 'tags').withConverter(tagConverter);
   }
 

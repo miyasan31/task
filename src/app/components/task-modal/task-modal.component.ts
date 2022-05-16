@@ -28,9 +28,9 @@ export class TaskModalComponent implements OnInit {
   tagId: ITask['tagId'];
 
   constructor(
-    public modalController: ModalController,
-    public authService: AuthService,
-    public taskService: TaskService,
+    private modalController: ModalController,
+    private authService: AuthService,
+    private taskService: TaskService,
   ) {}
 
   async ngOnInit() {
@@ -70,7 +70,7 @@ export class TaskModalComponent implements OnInit {
     this.onModalDismiss();
   }
 
-  onModalDismiss(): void {
+  private onModalDismiss(): void {
     this.modalController.dismiss();
   }
 }

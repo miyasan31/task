@@ -51,7 +51,7 @@ export class ProfilePage implements OnInit {
   scene: string;
   user: IUser;
 
-  constructor(public authService: AuthService) {}
+  constructor(private authService: AuthService) {}
 
   async ngOnInit() {
     this.user = await this.authService.getAuthUserInfo();

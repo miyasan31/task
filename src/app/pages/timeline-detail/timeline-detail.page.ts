@@ -18,16 +18,17 @@ export class TimelineDetailPage implements OnInit {
   user: IUser;
 
   constructor(
-    public route: ActivatedRoute,
-    public authService: AuthService,
-    public taskService: TaskService,
-    public userService: UserService,
+    private route: ActivatedRoute,
+    private authService: AuthService,
+    private taskService: TaskService,
+    private userService: UserService,
   ) {}
 
   async ngOnInit() {
-    this.route.paramMap.subscribe((prams: ParamMap) => {
+    const subscribe = this.route.paramMap.subscribe((prams: ParamMap) => {
       this.userId = prams.get('userId');
     });
+    subscribe.unsubscribe();
 
     const user = await this.authService.getAuthUser();
 

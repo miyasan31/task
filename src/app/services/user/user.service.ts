@@ -11,7 +11,7 @@ import { UserPipe } from '~/services/user/user.pipe';
   providedIn: 'root',
 })
 export class UserService implements IUserRepository {
-  constructor(public userRepository: UserRepository) {}
+  constructor(private userRepository: UserRepository) {}
 
   getUserTaskList(): Observable<ITimeline[]> {
     return this.userRepository.getUserTaskList();

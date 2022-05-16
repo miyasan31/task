@@ -8,7 +8,7 @@ import { LikePipe } from '~/services/like/like.pipe';
   providedIn: 'root',
 })
 export class LikeService {
-  constructor(public likeRepository: LikeRepository) {}
+  constructor(private likeRepository: LikeRepository) {}
 
   create(like: ILike): Promise<void> {
     const likeDto = new LikePipe().create(like);

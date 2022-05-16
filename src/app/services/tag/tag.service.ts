@@ -9,7 +9,7 @@ import { TagRepository } from '~/repositories/tag/tag.repository';
   providedIn: 'root',
 })
 export class TagService implements ITagRepository {
-  constructor(public tagRepository: TagRepository) {}
+  constructor(private tagRepository: TagRepository) {}
 
   getTagList(userId: IUser['id']): Promise<ITag[]> {
     return this.tagRepository.getTagList(userId);

@@ -15,9 +15,9 @@ export class TaskPage implements OnInit {
   taskList: Observable<ITask[]>;
 
   constructor(
-    public authService: AuthService,
-    public taskService: TaskService,
-    public modalController: ModalController,
+    private authService: AuthService,
+    private taskService: TaskService,
+    private modalController: ModalController,
   ) {}
 
   async ngOnInit() {

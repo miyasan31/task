@@ -16,7 +16,7 @@ export class TaskDetailCardComponent implements OnInit {
   @Input() task: ITaskCart;
   @Input() like: ILike;
 
-  constructor(public authService: AuthService, public likeService: LikeService) {}
+  constructor(private authService: AuthService, private likeService: LikeService) {}
 
   ngOnInit() {}
 
