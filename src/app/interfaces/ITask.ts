@@ -1,5 +1,6 @@
 import type { IUser } from './IUser';
 import type { ITag } from './ITag';
+import { Timestamp } from '@angular/fire/firestore';
 
 export interface ITask {
   id: string;
@@ -8,6 +9,6 @@ export interface ITask {
   isDone?: boolean;
   userId: IUser['id'];
   tagId: ITag['id'];
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: Timestamp;
+  updatedAt?: Timestamp;
 }

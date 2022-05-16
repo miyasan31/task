@@ -1,5 +1,7 @@
+import { Timestamp } from '@angular/fire/firestore';
 import { IUser } from '~/interfaces/IUser';
 
+// useCase + Entity
 export class UserPipe implements IUser {
   id: IUser['id'];
   userName: IUser['userName'];
@@ -11,8 +13,8 @@ export class UserPipe implements IUser {
 
   constructor() {
     this.profile = '';
-    this.createdAt = new Date();
-    this.updatedAt = new Date();
+    this.createdAt = Timestamp.now();
+    this.updatedAt = Timestamp.now();
   }
 
   create(user: IUser): Required<IUser> {

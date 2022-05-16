@@ -1,5 +1,7 @@
+import { Timestamp } from '@angular/fire/firestore';
 import { ITask } from '~/interfaces/ITask';
 
+// useCase + Entity
 export class TaskPipe implements ITask {
   id: ITask['id'];
   taskName: ITask['taskName'];
@@ -12,8 +14,8 @@ export class TaskPipe implements ITask {
 
   constructor() {
     this.isDone = false;
-    this.createdAt = new Date();
-    this.updatedAt = new Date();
+    this.createdAt = Timestamp.now();
+    this.updatedAt = Timestamp.now();
   }
 
   create(task: ITask): Required<ITask> {

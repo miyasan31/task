@@ -1,3 +1,4 @@
+import { Timestamp } from '@angular/fire/firestore';
 import { IUser } from './IUser';
 
 export interface ITag {
@@ -6,6 +7,6 @@ export interface ITag {
   color: string;
   isActive: boolean;
   userId: IUser['id'];
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
 }
