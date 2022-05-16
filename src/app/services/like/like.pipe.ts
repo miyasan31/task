@@ -1,22 +1,16 @@
 import { Timestamp } from '@angular/fire/firestore';
 import { ILike } from '~/interfaces/ILike';
 
-// useCase + Entity
 export class LikePipe implements ILike {
   id: ILike['id'];
   userId: ILike['userId'];
   taskId: ILike['taskId'];
-  createdAt: ILike['createdAt'];
+  createdAt?: ILike['createdAt'];
 
-  constructor() {
-    this.createdAt = Timestamp.now();
-  }
+  constructor() {}
 
-  create(like: ILike): Required<ILike> {
+  create(like: ILike): ILike {
     // TODO:バリデーション追加
-    return {
-      ...like,
-      createdAt: this.createdAt,
-    };
+    return like;
   }
 }
