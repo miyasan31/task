@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IUserTask } from '~/interfaces/user/IUserTask';
+import { ITimeline } from '~/interfaces/user/ITimeline';
 import { UserService } from '~/services/user/user.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { UserService } from '~/services/user/user.service';
   styleUrls: ['./timeline.page.scss'],
 })
 export class TimelinePage implements OnInit {
-  timelineData: Observable<IUserTask[]>;
+  timelineData: Observable<ITimeline[]>;
 
   constructor(public userService: UserService) {}
 

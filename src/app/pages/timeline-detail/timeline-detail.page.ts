@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { IUser } from '~/interfaces/user/IUser';
 import { UserService } from '~/services/user/user.service';
 import { AuthService } from '~/services/auth/auth.service';
-import { ITaskWithLike } from '~/interfaces/task/ITaskWithLike';
+import { ITaskCart } from '~/interfaces/task/ITaskCart';
 
 @Component({
   selector: 'app-timeline-detail',
@@ -14,7 +14,7 @@ import { ITaskWithLike } from '~/interfaces/task/ITaskWithLike';
 })
 export class TimelineDetailPage implements OnInit {
   userId: string;
-  taskList: Observable<ITaskWithLike[]>;
+  taskList: Observable<ITaskCart[]>;
   user: IUser;
 
   constructor(
