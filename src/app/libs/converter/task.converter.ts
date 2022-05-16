@@ -5,6 +5,7 @@ import {
   DocumentData,
   PartialWithFieldValue,
 } from '@angular/fire/firestore';
+import { Timestamp } from '@angular/fire/firestore';
 
 import type { ITask } from '~/interfaces/ITask';
 
@@ -24,7 +25,6 @@ export const taskConverter: FirestoreDataConverter<ITask> = {
       tagId: data.tagId,
       userId: data.userId,
       createdAt: data.createdAt,
-      updatedAt: data.updatedAt,
     };
   },
   // FireStore保存時の変換
@@ -35,8 +35,7 @@ export const taskConverter: FirestoreDataConverter<ITask> = {
       isDone: task.isDone,
       tagId: task.tagId,
       userId: task.userId,
-      createdAt: task.createdAt,
-      updatedAt: task.updatedAt,
+      createdAt: Timestamp.now(),
     };
   },
 };

@@ -4,6 +4,7 @@ import {
   SnapshotOptions,
   DocumentData,
   PartialWithFieldValue,
+  Timestamp,
 } from '@angular/fire/firestore';
 
 import type { IUser } from '~/interfaces/IUser';
@@ -22,7 +23,6 @@ export const userConverter: FirestoreDataConverter<IUser> = {
       email: data.email,
       avatar: data.avatar,
       createdAt: data.createdAt,
-      updatedAt: data.updatedAt,
     };
   },
   // FireStore保存時の変換
@@ -31,8 +31,7 @@ export const userConverter: FirestoreDataConverter<IUser> = {
       userName: user.userName,
       email: user.email,
       avatar: user.avatar,
-      createdAt: user.createdAt,
-      updatedAt: user.updatedAt,
+      createdAt: Timestamp.now(),
     };
   },
 };

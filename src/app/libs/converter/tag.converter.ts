@@ -5,6 +5,7 @@ import {
   DocumentData,
   PartialWithFieldValue,
 } from '@angular/fire/firestore';
+import { Timestamp } from '@angular/fire/firestore';
 
 import type { ITag } from '~/interfaces/ITag';
 
@@ -23,7 +24,6 @@ export const tagConverter: FirestoreDataConverter<ITag> = {
       isActive: data.isActive,
       userId: data.userId,
       createdAt: data.createdAt,
-      updatedAt: data.updatedAt,
     };
   },
   // FireStore保存時の変換
@@ -33,8 +33,7 @@ export const tagConverter: FirestoreDataConverter<ITag> = {
       color: tag.color,
       isActive: tag.isActive,
       userId: tag.userId,
-      createdAt: tag.createdAt,
-      updatedAt: tag.updatedAt,
+      createdAt: Timestamp.now(),
     };
   },
 };

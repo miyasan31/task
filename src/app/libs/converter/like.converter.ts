@@ -5,6 +5,7 @@ import {
   DocumentData,
   PartialWithFieldValue,
 } from '@angular/fire/firestore';
+import { Timestamp } from '@angular/fire/firestore';
 
 import type { ILike } from '~/interfaces/ILike';
 
@@ -28,7 +29,7 @@ export const likeConverter: FirestoreDataConverter<ILike> = {
     return {
       userId: like.userId,
       taskId: like.taskId,
-      createdAt: like.createdAt,
+      createdAt: Timestamp.now(),
     };
   },
 };
