@@ -38,7 +38,7 @@ export class TaskPage implements OnInit {
     this.taskService.update(updatedTask);
   }
 
-  async onPresentModal(taskId?: ITask['id']): Promise<void> {
+  async onPresentTaskModal(taskId?: ITask['id']): Promise<void> {
     const modal = await this.modalController.create({
       component: TaskModalComponent,
       componentProps: {
