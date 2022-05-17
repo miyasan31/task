@@ -22,7 +22,7 @@
           <ion-item>
             <ion-label position="floating">ラベル</ion-label>
             <ion-select name="tagId" [(ngModel)]="tagId">
-              <ion-select-option *ngFor="let tag of tag_list" value="{{ tag.id }}">{{
+              <ion-select-option *ngFor="let tag of userTagList" value="{{ tag.id }}">{{
                 tag.tagName
               }}</ion-select-option>
             </ion-select>

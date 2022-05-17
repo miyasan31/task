@@ -3,14 +3,8 @@ import { ModalController } from '@ionic/angular';
 import { ITask } from '~/interfaces/task/ITask';
 import { TagModalComponent } from '~/pages/task/components/tag-modal/tag-modal.component';
 import { AuthService } from '~/services/auth/auth.service';
+import { TagService } from '~/services/tag/tag.service';
 import { TaskService } from '~/services/task/task.service';
-
-const tag_list = [
-  { id: 'aaaaa', tagName: '読書' },
-  { id: 'bbbbb', tagName: '筋トレ' },
-  { id: 'ccccc', tagName: '開発' },
-  { id: 'ddddd', tagName: 'ランニング' },
-];
 
 @Component({
   selector: 'app-task-modal',
@@ -21,7 +15,7 @@ export class TaskModalComponent implements OnInit {
   @Input() taskId?: ITask['id'];
   @Input() isEdit: boolean;
 
-  tag_list = tag_list;
+  userTagList;
 
   taskName: ITask['taskName'];
   description: ITask['description'];
@@ -31,10 +25,14 @@ export class TaskModalComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private taskService: TaskService,
+    private tagService: TagService,
     private modalController: ModalController,
   ) {}
 
   async ngOnInit() {
+    const user = await this.authService.getAuthUser();
+    this.userTagList = await this.tagService.getTagList(user.uid);
+
     if (!this.taskId) return;
 
     const task = await this.taskService.get(this.taskId);
@@ -46,14 +44,14 @@ export class TaskModalComponent implements OnInit {
 
   async onUpsertTask(): Promise<void> {
     // TODO:グローバルステートから参照する
-    const uid = await (await this.authService.getAuthUser()).uid;
+    const user = await this.authService.getAuthUser();
 
     const task = {
       id: this.taskId,
       taskName: this.taskName,
       description: this.description,
       isDone: this.isDone,
-      userId: uid,
+      userId: user.uid,
       tagId: this.tagId,
     };
 
