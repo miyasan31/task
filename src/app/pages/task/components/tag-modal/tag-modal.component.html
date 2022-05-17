@@ -1,0 +1,27 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>タグ編集</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="onModalDismiss()">閉じる</ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="onCreateTag()">作成</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item *ngFor="let color of userTagList; let i = index">
+    <ion-input
+      type="text"
+      value="{{ color.name }}"
+      (ionChange)="onChangeTagName(i, $event)"
+    ></ion-input>
+    <ion-badge
+      slot="end"
+      (click)="onPresentPicker(i, color.color)"
+      style="background-color: {{ color.color || '#000' }}"
+      >{{ color.color || '未選択' | uppercase }}</ion-badge
+    >
+  </ion-item>
+</ion-content>

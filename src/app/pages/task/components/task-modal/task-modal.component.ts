@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { ITask } from '~/interfaces/task/ITask';
+import { TagModalComponent } from '~/pages/task/components/tag-modal/tag-modal.component';
 import { AuthService } from '~/services/auth/auth.service';
 import { TaskService } from '~/services/task/task.service';
 
@@ -28,9 +29,9 @@ export class TaskModalComponent implements OnInit {
   tagId: ITask['tagId'];
 
   constructor(
-    private modalController: ModalController,
     private authService: AuthService,
     private taskService: TaskService,
+    private modalController: ModalController,
   ) {}
 
   async ngOnInit() {
@@ -70,7 +71,20 @@ export class TaskModalComponent implements OnInit {
     this.onModalDismiss();
   }
 
-  private onModalDismiss(): void {
+  async onPresentTagModal($event): Promise<void> {
+    $event.stopPropagation();
+    $event.preventDefault();
+
+    const modal = await this.modalController.create({
+      component: TagModalComponent,
+      canDismiss: true,
+      presentingElement: await this.modalController.getTop(),
+    });
+
+    return await modal.present();
+  }
+
+  onModalDismiss(): void {
     this.modalController.dismiss();
   }
 }
