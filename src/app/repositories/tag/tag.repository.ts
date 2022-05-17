@@ -43,13 +43,17 @@ export class TagRepository implements ITagRepository {
   }
 
   // タグ情報を保存する
-  create(tagDto: ITag): Promise<void> {
-    return setDoc(this.tagDocRef, tagDto);
+  async create(tagDto: ITag): Promise<ITag['id']> {
+    const tagId = doc(this.tagColRef).id;
+    const tagDocRef = doc(this.firestore, `tags/${tagId}`).withConverter(tagConverter);
+    await setDoc(tagDocRef, { ...tagDto, id: tagId });
+    return tagId;
   }
 
   // タグ情報を更新する
   update(tagDto: ITag): Promise<void> {
-    return setDoc(this.tagDocRef, tagDto, { merge: true });
+    const tagDocRef = doc(this.firestore, `tags/${tagDto.id}`).withConverter(tagConverter);
+    return setDoc(tagDocRef, tagDto, { merge: true });
   }
 
   // タグ情報を削除する

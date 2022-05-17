@@ -4,7 +4,7 @@ import { IUser } from '~/interfaces/user/IUser';
 export interface ITagRepository {
   get(tagId: ITag['id']): Promise<ITag>;
   getTagList(userId: IUser['id']): Promise<ITag[]>;
-  create(tag: ITag): Promise<void>;
+  create(tag: ITag): Promise<ITag['id']>;
   update(tag: ITag): Promise<void>;
   delete(tagId: ITag['id']): Promise<void>;
 }

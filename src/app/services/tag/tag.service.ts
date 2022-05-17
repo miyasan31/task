@@ -19,7 +19,7 @@ export class TagService implements ITagRepository {
     return this.tagRepository.get(tagId);
   }
 
-  create(tag: ITag): Promise<void> {
+  create(tag: ITag): Promise<ITag['id']> {
     return this.tagRepository.create(tag);
   }
 
