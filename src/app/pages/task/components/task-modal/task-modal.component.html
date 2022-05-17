@@ -4,7 +4,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content>
   <form #f="ngForm">
     <ion-item>
       <ion-label position="floating">タスク名入力</ion-label>
@@ -16,32 +16,26 @@
       ></ion-input>
     </ion-item>
 
-    <ion-grid>
-      <ion-row class="ion-align-items-end">
-        <ion-col size="10">
-          <ion-item>
-            <ion-label position="floating">ラベル</ion-label>
-            <ion-select name="tagId" [(ngModel)]="tagId">
-              <ion-select-option *ngFor="let tag of tagList" value="{{ tag.id }}">{{
-                tag.tagName
-              }}</ion-select-option>
-            </ion-select>
-          </ion-item>
-        </ion-col>
+    <div class="flex align-end">
+      <ion-item class="flex-1">
+        <ion-label position="floating">ラベル</ion-label>
+        <ion-select name="tagId" [(ngModel)]="tagId">
+          <ion-select-option *ngFor="let tag of tagList" value="{{ tag.id }}">{{
+            tag.tagName
+          }}</ion-select-option>
+        </ion-select>
+      </ion-item>
 
-        <ion-col size="2">
-          <ion-fab-button
-            size="small"
-            expand="block"
-            fill="clear"
-            shape="round"
-            (click)="onPresentTagModal($event)"
-          >
-            <ion-icon name="pencil"></ion-icon>
-          </ion-fab-button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+      <ion-fab-button
+        size="small"
+        expand="block"
+        fill="clear"
+        shape="round"
+        (click)="onPresentTagModal($event)"
+      >
+        <ion-icon name="pencil"></ion-icon>
+      </ion-fab-button>
+    </div>
 
     <ion-item>
       <ion-label position="floating">アウトプットメモ</ion-label>
@@ -49,8 +43,8 @@
     </ion-item>
 
     <ion-item class="ion-align-items-center" detail="false">
-      <ion-checkbox slot="start" color="primary" name="isDone" [(ngModel)]="isDone"></ion-checkbox>
-      <ion-text class="ion-padding-start">完了</ion-text>
+      <ion-checkbox slot="start" name="isDone" [(ngModel)]="isDone"></ion-checkbox>
+      <ion-text slot="end">完了</ion-text>
     </ion-item>
 
     <ion-button expand="block" (click)="onUpsertTask()"

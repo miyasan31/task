@@ -11,12 +11,7 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-segment
-    [(ngModel)]="scene"
-    (ionChange)="onSegmentChanged($event)"
-    scrollable
-    class="ion-margin-horizontal"
-  >
+  <ion-segment [(ngModel)]="scene" (ionChange)="onSegmentChanged($event)">
     <ion-segment-button value="profile" checked>
       <ion-label>プロフィール</ion-label>
     </ion-segment-button>

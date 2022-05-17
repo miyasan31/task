@@ -28,6 +28,9 @@
 .flex {
   display: flex;
 }
+.flex-1 {
+  flex: auto;
+}
 .flex-center {
   justify-content: center;
   align-items: center;
@@ -38,6 +41,9 @@
 .align-center {
   align-items: center;
 }
+.align-end {
+  align-items: flex-end;
+}
 .flex-col {
   flex-direction: column;
 }
@@ -47,6 +53,9 @@
 
 .rounded-full {
   border-radius: 9999px;
+}
+.rounded-none {
+  border-radius: 0px;
 }
 
 .text-xs {
