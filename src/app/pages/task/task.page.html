@@ -11,7 +11,13 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed" button (click)="onPresentModal(null)">
+  <ion-fab
+    vertical="bottom"
+    horizontal="end"
+    slot="fixed"
+    button
+    (click)="onPresentTaskModal(null)"
+  >
     <ion-fab-button>
       <ion-icon name="pencil"></ion-icon>
     </ion-fab-button>
@@ -22,7 +28,7 @@
     class="ion-align-items-center"
     detail="false"
     button
-    (click)="onPresentModal(task.id)"
+    (click)="onPresentTaskModal(task.id)"
   >
     <ion-checkbox
       slot="start"
