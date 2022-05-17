@@ -38,6 +38,10 @@ export class TaskPage implements OnInit {
     this.taskService.update(updatedTask);
   }
 
+  onDeleteTask(taskId: ITask['id']): void {
+    this.taskService.delete(taskId);
+  }
+
   async onPresentTaskModal(taskId?: ITask['id']): Promise<void> {
     const modal = await this.modalController.create({
       component: TaskModalComponent,

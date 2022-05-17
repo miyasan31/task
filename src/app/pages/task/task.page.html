@@ -23,19 +23,27 @@
     </ion-fab-button>
   </ion-fab>
 
-  <ion-item
-    *ngFor="let task of taskList | async"
-    class="ion-align-items-center"
-    detail="false"
-    button
-    (click)="onPresentTaskModal(task.id)"
-  >
-    <ion-checkbox
-      slot="start"
-      color="primary"
-      [(ngModel)]="task.isDone"
-      (click)="onReversingTaskCompletion($event, task)"
-    ></ion-checkbox>
-    <ion-text class="ion-padding-start">{{ task.taskName }}</ion-text>
-  </ion-item>
+  <ion-item-sliding *ngFor="let task of taskList | async">
+    <ion-item-options side="start">
+      <ion-item-option color="success" (click)="onPresentTaskModal(task.id)">編集</ion-item-option>
+    </ion-item-options>
+    <ion-item-options side="end">
+      <ion-item-option color="danger" (click)="onDeleteTask(task.id)">削除</ion-item-option>
+    </ion-item-options>
+
+    <ion-item
+      class="ion-align-items-center"
+      detail="false"
+      button
+      (click)="onPresentTaskModal(task.id)"
+    >
+      <ion-checkbox
+        slot="start"
+        color="primary"
+        [(ngModel)]="task.isDone"
+        (click)="onReversingTaskCompletion($event, task)"
+      ></ion-checkbox>
+      <ion-text class="ion-padding-start">{{ task.taskName }}</ion-text>
+    </ion-item>
+  </ion-item-sliding>
 </ion-content>
