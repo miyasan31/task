@@ -5,7 +5,7 @@
       <ion-button (click)="onModalDismiss()">閉じる</ion-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button (click)="onCreateTag()">作成</ion-button>
+      <ion-button (click)="onAddTag()">作成</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -14,8 +14,9 @@
   <ion-item *ngFor="let color of userTagList; let i = index">
     <ion-input
       type="text"
-      value="{{ color.name }}"
+      value="{{ color.tagName }}"
       (ionChange)="onChangeTagName(i, $event)"
+      (ionBlur)="onCreateTag(i)"
     ></ion-input>
     <ion-badge
       slot="end"

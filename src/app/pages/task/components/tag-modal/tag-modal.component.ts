@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { PickerController } from '@ionic/angular';
-import { colorPicker, colorPallet } from '~/constants/colorPicker';
+import { colorPicker } from '~/constants/colorPicker';
+import { ITag } from '~/interfaces/tag/ITag';
+import { AuthService } from '~/services/auth/auth.service';
+import { TagService } from '~/services/tag/tag.service';
 
-type ColorScheme = typeof colorPallet[number]['name'];
-
-type TagForm = {
-  name: string;
-  color: ColorScheme | '';
-};
+const initialTag: ITag = { id: '', tagName: '', color: '', isActive: true, userId: '' };
 
 @Component({
   selector: 'app-tag-modal',
@@ -16,30 +14,43 @@ type TagForm = {
   styleUrls: ['./tag-modal.component.scss'],
 })
 export class TagModalComponent implements OnInit {
-  userTagList: TagForm[] = [];
+  userId: string;
+  userTagList: ITag[];
 
   constructor(
+    private authService: AuthService,
+    private tagService: TagService,
     private modalController: ModalController,
     private pickerController: PickerController,
-  ) {
-    this.userTagList = [
-      { name: 'React', color: 'gray' },
-      { name: 'Svelte', color: 'tomato' },
-      { name: 'Vue', color: 'pink' },
-      { name: 'Angular', color: 'sky' },
-    ];
+  ) {}
+
+  async ngOnInit() {
+    const user = await this.authService.getAuthUser();
+    this.userId = user.uid;
+    this.userTagList = await this.tagService.getTagList(user.uid);
   }
 
-  ngOnInit() {}
-
-  onCreateTag(): void {
+  onAddTag(): void {
     if (this.userTagList.length === 10) return;
-
-    this.userTagList = [{ name: '', color: '' }, ...this.userTagList];
+    this.userTagList = [{ ...initialTag, userId: this.userId }, ...this.userTagList];
   }
 
   onChangeTagName(index: number, $event): void {
-    this.userTagList[index]['name'] = $event.detail.value;
+    this.userTagList[index].tagName = $event.detail.value;
+  }
+
+  async onCreateTag(index: number): Promise<void> {
+    const createTag = this.userTagList[index];
+
+    if (!createTag.color) return;
+    if (!createTag.tagName) return;
+
+    if (createTag.id) {
+      await this.tagService.update(createTag);
+    } else {
+      const tagId = await this.tagService.create(createTag);
+      this.userTagList[index].id = tagId;
+    }
   }
 
   async onPresentPicker(index: number, currentValue: string): Promise<void> {
@@ -52,8 +63,8 @@ export class TagModalComponent implements OnInit {
         {
           text: '確定',
           handler: (selected) => {
-            console.info(selected);
-            this.userTagList[index]['color'] = selected.colorPicker.value;
+            this.userTagList[index].color = selected.colorPicker.value;
+            this.onCreateTag(index);
           },
         },
       ],
