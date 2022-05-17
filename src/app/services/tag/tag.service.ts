@@ -11,6 +11,10 @@ import { TagRepository } from '~/repositories/tag/tag.repository';
 export class TagService implements ITagRepository {
   constructor(private tagRepository: TagRepository) {}
 
+  checkInactiveTag(userId: ITag['userId'], tagName: ITag['tagName']): Promise<ITag[]> {
+    return this.tagRepository.checkInactiveTag(userId, tagName);
+  }
+
   getTagList(userId: IUser['id']): Promise<ITag[]> {
     return this.tagRepository.getTagList(userId);
   }
@@ -19,11 +23,23 @@ export class TagService implements ITagRepository {
     return this.tagRepository.get(tagId);
   }
 
-  create(tag: ITag): Promise<ITag['id']> {
-    return this.tagRepository.create(tag);
+  async create(tag: ITag): Promise<ITag['id']> {
+    const checkTagList = await this.checkInactiveTag(tag.userId, tag.tagName);
+
+    // 非アクティブな同じタグ名のデータが存在しなければ新規作成
+    if (!checkTagList.length) {
+      return this.tagRepository.create(tag);
+    }
+
+    // 非アクティブな同じタグ名のデータが存在すればアクティブ状態に変更
+    const activedTag = {
+      ...checkTagList[0],
+      isActive: true,
+    };
+    return this.tagRepository.update(activedTag);
   }
 
-  update(tag: ITag): Promise<void> {
+  update(tag: ITag): Promise<ITag['id']> {
     return this.tagRepository.update(tag);
   }
 

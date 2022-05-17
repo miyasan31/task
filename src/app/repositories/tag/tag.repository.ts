@@ -30,6 +30,16 @@ export class TagRepository implements ITagRepository {
     this.tagColRef = collection(this.firestore, 'tags').withConverter(tagConverter);
   }
 
+  checkInactiveTag(userId: ITag['userId'], tagName: ITag['tagName']): Promise<ITag[]> {
+    const tagDoc = query(
+      this.tagColRef,
+      where('userId', '==', userId),
+      where('tagName', '==', tagName),
+      where('isActive', '==', false),
+    ).withConverter(tagConverter);
+    return collectionData<ITag>(tagDoc).pipe(first()).toPromise(Promise);
+  }
+
   // ユーザー定義のタグ情報を取得する
   getTagList(userId: IUser['id']): Promise<ITag[]> {
     const tagDoc = query(
@@ -55,9 +65,10 @@ export class TagRepository implements ITagRepository {
   }
 
   // タグ情報を更新する
-  update(tagDto: ITag): Promise<void> {
+  async update(tagDto: ITag): Promise<ITag['id']> {
     const tagDocRef = doc(this.firestore, `tags/${tagDto.id}`).withConverter(tagConverter);
-    return setDoc(tagDocRef, tagDto, { merge: true });
+    await setDoc(tagDocRef, tagDto, { merge: true });
+    return tagDto.id;
   }
 
   // タグ情報を削除する
