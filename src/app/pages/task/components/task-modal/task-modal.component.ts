@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { ITag } from '~/interfaces/tag/ITag';
 import { ITask } from '~/interfaces/task/ITask';
 import { TagModalComponent } from '~/pages/task/components/tag-modal/tag-modal.component';
 import { AuthService } from '~/services/auth/auth.service';
@@ -15,7 +16,7 @@ export class TaskModalComponent implements OnInit {
   @Input() taskId?: ITask['id'];
   @Input() isEdit: boolean;
 
-  userTagList;
+  tagList: ITag[];
 
   taskName: ITask['taskName'];
   description: ITask['description'];
@@ -31,7 +32,7 @@ export class TaskModalComponent implements OnInit {
 
   async ngOnInit() {
     const user = await this.authService.getAuthUser();
-    this.userTagList = await this.tagService.getTagList(user.uid);
+    this.tagList = await this.tagService.getTagList(user.uid);
 
     if (!this.taskId) return;
 
