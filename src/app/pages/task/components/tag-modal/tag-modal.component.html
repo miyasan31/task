@@ -11,18 +11,24 @@
 </ion-header>
 
 <ion-content>
-  <ion-item *ngFor="let color of userTagList; let i = index">
-    <ion-input
-      type="text"
-      value="{{ color.tagName }}"
-      (ionChange)="onChangeTagName(i, $event)"
-      (ionBlur)="onCreateTag(i)"
-    ></ion-input>
-    <ion-badge
-      slot="end"
-      (click)="onPresentPicker(i, color.color)"
-      style="background-color: {{ color.color || '#000' }}"
-      >{{ color.color || '未選択' | uppercase }}</ion-badge
-    >
-  </ion-item>
+  <ion-item-sliding *ngFor="let tag of tagList; let i = index">
+    <ion-item-options side="end">
+      <ion-item-option color="danger" (click)="onInactiveTag(tag)">削除</ion-item-option>
+    </ion-item-options>
+
+    <ion-item>
+      <ion-input
+        type="text"
+        value="{{ tag.tagName }}"
+        (ionChange)="onChangeTagName(i, $event)"
+        (ionBlur)="onCreateTag(i)"
+      ></ion-input>
+      <ion-badge
+        slot="end"
+        (click)="onPresentPicker(i, tag.color)"
+        style="background-color: {{ tag.color || '#000' }}"
+        >{{ tag.color || '未選択' | uppercase }}</ion-badge
+      >
+    </ion-item>
+  </ion-item-sliding>
 </ion-content>

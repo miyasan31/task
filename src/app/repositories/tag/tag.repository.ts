@@ -32,7 +32,11 @@ export class TagRepository implements ITagRepository {
 
   // ユーザー定義のタグ情報を取得する
   getTagList(userId: IUser['id']): Promise<ITag[]> {
-    const tagDoc = query(this.tagColRef, where('userId', '==', userId)).withConverter(tagConverter);
+    const tagDoc = query(
+      this.tagColRef,
+      where('userId', '==', userId),
+      where('isActive', '==', true),
+    ).withConverter(tagConverter);
     return collectionData<ITag>(tagDoc).pipe(first()).toPromise(Promise);
   }
 

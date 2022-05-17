@@ -15,7 +15,7 @@ const initialTag: ITag = { id: '', tagName: '', color: '', isActive: true, userI
 })
 export class TagModalComponent implements OnInit {
   userId: string;
-  userTagList: ITag[];
+  tagList: ITag[];
 
   constructor(
     private authService: AuthService,
@@ -27,20 +27,20 @@ export class TagModalComponent implements OnInit {
   async ngOnInit() {
     const user = await this.authService.getAuthUser();
     this.userId = user.uid;
-    this.userTagList = await this.tagService.getTagList(user.uid);
+    this.tagList = await this.tagService.getTagList(user.uid);
   }
 
   onAddTag(): void {
-    if (this.userTagList.length === 10) return;
-    this.userTagList = [{ ...initialTag, userId: this.userId }, ...this.userTagList];
+    if (this.tagList.length === 10) return;
+    this.tagList = [{ ...initialTag, userId: this.userId }, ...this.tagList];
   }
 
   onChangeTagName(index: number, $event): void {
-    this.userTagList[index].tagName = $event.detail.value;
+    this.tagList[index].tagName = $event.detail.value;
   }
 
   async onCreateTag(index: number): Promise<void> {
-    const createTag = this.userTagList[index];
+    const createTag = this.tagList[index];
 
     if (!createTag.color) return;
     if (!createTag.tagName) return;
@@ -49,8 +49,14 @@ export class TagModalComponent implements OnInit {
       await this.tagService.update(createTag);
     } else {
       const tagId = await this.tagService.create(createTag);
-      this.userTagList[index].id = tagId;
+      this.tagList[index].id = tagId;
     }
+  }
+
+  async onInactiveTag(tag: ITag): Promise<void> {
+    const updateTag = { ...tag, isActive: false };
+    await this.tagService.update(updateTag);
+    this.tagList = this.tagList.filter((tag) => tag.id !== updateTag.id);
   }
 
   async onPresentPicker(index: number, currentValue: string): Promise<void> {
@@ -63,7 +69,7 @@ export class TagModalComponent implements OnInit {
         {
           text: '確定',
           handler: (selected) => {
-            this.userTagList[index].color = selected.colorPicker.value;
+            this.tagList[index].color = selected.colorPicker.value;
             this.onCreateTag(index);
           },
         },
