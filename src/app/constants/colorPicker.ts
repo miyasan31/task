@@ -1,4 +1,5 @@
 export const colorPallet = [
+  { id: 0, name: '', color: '#000' },
   { id: 1, name: 'pink', color: '#F3C6E2' },
   { id: 2, name: 'tomato', color: '#FAC7BE' },
   { id: 3, name: 'orange', color: '#FFCCA7' },

@@ -2,7 +2,7 @@ import { Timestamp } from '@angular/fire/firestore';
 import { colorPallet } from '~/constants/colorPicker';
 import { IUser } from '~/interfaces/user/IUser';
 
-type ColorScheme = typeof colorPallet[number]['name'];
+export type ColorScheme = typeof colorPallet[number]['name'];
 
 export interface ITag {
   id: string;
