@@ -17,6 +17,8 @@ export class TagModalComponent implements OnInit {
   userId: string;
   tagList: ITag[];
 
+  createTag: ITag | null = null;
+
   constructor(
     private authService: AuthService,
     private tagService: TagService,
@@ -32,25 +34,22 @@ export class TagModalComponent implements OnInit {
 
   onAddTag(): void {
     if (this.tagList.length === 10) return;
-    this.tagList = [{ ...initialTag, userId: this.userId }, ...this.tagList];
+    this.createTag = { ...initialTag, userId: this.userId };
   }
 
-  onChangeTagName(index: number, $event): void {
-    this.tagList[index].tagName = $event.detail.value;
+  onChangeTagName($event): void {
+    this.createTag.tagName = $event.detail.value;
   }
 
-  async onCreateTag(index: number): Promise<void> {
-    const createTag = this.tagList[index];
+  async onCreateTag(): Promise<void> {
+    if (!this.createTag.color) return;
+    if (!this.createTag.tagName) return;
 
-    if (!createTag.color) return;
-    if (!createTag.tagName) return;
+    const tagId = await this.tagService.create(this.createTag);
 
-    if (createTag.id) {
-      await this.tagService.update(createTag);
-    } else {
-      const tagId = await this.tagService.create(createTag);
-      this.tagList[index].id = tagId;
-    }
+    this.tagList = [{ ...this.createTag, id: tagId }, ...this.tagList];
+    this.createTag = null;
+    return;
   }
 
   async onInactiveTag(tag: ITag): Promise<void> {
@@ -59,7 +58,13 @@ export class TagModalComponent implements OnInit {
     this.tagList = this.tagList.filter((tag) => tag.id !== updateTag.id);
   }
 
-  async onPresentPicker(index: number, currentValue: string): Promise<void> {
+  private async updateTagColor(index: number, updateTag: ITag): Promise<void> {
+    await this.tagService.update(updateTag);
+    this.tagList[index] = updateTag;
+    return;
+  }
+
+  async onPresentPicker(index?: number): Promise<void> {
     const picker = await this.pickerController.create({
       buttons: [
         {
@@ -69,8 +74,18 @@ export class TagModalComponent implements OnInit {
         {
           text: '確定',
           handler: (selected) => {
-            this.tagList[index].color = selected.colorPicker.value;
-            this.onCreateTag(index);
+            if (index === undefined) {
+              // 追加
+              this.createTag.color = selected.colorPicker.value;
+              this.onCreateTag();
+              return;
+            }
+            // 更新
+            const updateTag = {
+              ...this.tagList[index],
+              color: selected.colorPicker.value,
+            };
+            this.updateTagColor(index, updateTag);
           },
         },
       ],
@@ -78,7 +93,6 @@ export class TagModalComponent implements OnInit {
         {
           name: 'colorPicker',
           options: colorPicker,
-          prevSelected: colorPicker.findIndex((color) => color.text === currentValue),
         },
       ],
     });
