@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { Observable } from 'rxjs';
 import { ITag } from '~/interfaces/tag/ITag';
 import { ITask } from '~/interfaces/task/ITask';
 import { TagModalComponent } from '~/pages/task/components/tag-modal/tag-modal.component';
@@ -16,7 +17,7 @@ export class TaskModalComponent implements OnInit {
   @Input() taskId?: ITask['id'];
   @Input() isEdit: boolean;
 
-  tagList: ITag[];
+  tagList: Observable<ITag[]>;
 
   taskName: ITask['taskName'];
   description: ITask['description'];

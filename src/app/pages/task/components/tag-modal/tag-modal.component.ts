@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { PickerController } from '@ionic/angular';
+import { first } from 'rxjs/operators';
 import { colorPicker } from '~/constants/colorPicker';
 import { ITag } from '~/interfaces/tag/ITag';
 import { AuthService } from '~/services/auth/auth.service';
@@ -16,6 +17,7 @@ const initialTag: ITag = { id: '', tagName: '', color: '', isActive: true, userI
 export class TagModalComponent implements OnInit {
   userId: string;
   tagList: ITag[];
+  isVisible: boolean = true;
 
   createTag: ITag | null = null;
 
@@ -29,11 +31,11 @@ export class TagModalComponent implements OnInit {
   async ngOnInit() {
     const user = await this.authService.getAuthUser();
     this.userId = user.uid;
-    this.tagList = await this.tagService.getTagList(user.uid);
+    this.tagList = await this.tagService.getTagList(user.uid).pipe(first()).toPromise(Promise);
+    this.tagListLengthCheck();
   }
 
   onAddTag(): void {
-    if (this.tagList.length === 10) return;
     this.createTag = { ...initialTag, userId: this.userId };
   }
 
@@ -49,6 +51,7 @@ export class TagModalComponent implements OnInit {
 
     this.tagList = [{ ...this.createTag, id: tagId }, ...this.tagList];
     this.createTag = null;
+    this.tagListLengthCheck();
     return;
   }
 
@@ -56,6 +59,7 @@ export class TagModalComponent implements OnInit {
     const updateTag = { ...tag, isActive: false };
     await this.tagService.update(updateTag);
     this.tagList = this.tagList.filter((tag) => tag.id !== updateTag.id);
+    this.tagListLengthCheck();
   }
 
   private async updateTagColor(index: number, updateTag: ITag): Promise<void> {
@@ -99,7 +103,19 @@ export class TagModalComponent implements OnInit {
     await picker.present();
   }
 
+  private tagListLengthCheck() {
+    if (this.tagList.length === 10) {
+      this.isVisible = false;
+      return;
+    }
+    this.isVisible = true;
+  }
+
   onModalDismiss(): void {
     this.modalController.dismiss();
+  }
+
+  trackByFn(index, item): number {
+    return item.id;
   }
 }

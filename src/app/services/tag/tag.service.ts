@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 import { ITag } from '~/interfaces/tag/ITag';
 import { ITagRepository } from '~/interfaces/tag/ITagRepository';
@@ -15,7 +16,7 @@ export class TagService implements ITagRepository {
     return this.tagRepository.checkInactiveTag(userId, tagName);
   }
 
-  getTagList(userId: IUser['id']): Promise<ITag[]> {
+  getTagList(userId: IUser['id']): Observable<ITag[]> {
     return this.tagRepository.getTagList(userId);
   }
 

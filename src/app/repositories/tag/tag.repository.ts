@@ -8,10 +8,12 @@ import {
   docData,
   DocumentReference,
   Firestore,
+  orderBy,
   query,
   setDoc,
   where,
 } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 
 import { ITag } from '~/interfaces/tag/ITag';
@@ -41,13 +43,14 @@ export class TagRepository implements ITagRepository {
   }
 
   // ユーザー定義のタグ情報を取得する
-  getTagList(userId: IUser['id']): Promise<ITag[]> {
+  getTagList(userId: IUser['id']): Observable<ITag[]> {
     const tagDoc = query(
       this.tagColRef,
       where('userId', '==', userId),
       where('isActive', '==', true),
+      orderBy('createdAt', 'desc'),
     ).withConverter(tagConverter);
-    return collectionData<ITag>(tagDoc).pipe(first()).toPromise(Promise);
+    return collectionData<ITag>(tagDoc);
   }
 
   // タグ情報を取得する
