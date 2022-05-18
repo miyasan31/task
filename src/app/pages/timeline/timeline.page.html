@@ -11,7 +11,10 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-card *ngFor="let data of timelineData | async" routerLink="/timeline/{{ data.user.id }}">
+  <ion-card
+    *ngFor="let data of timelineData | async; trackBy: trackByFn"
+    routerLink="/timeline/{{ data.user.id }}"
+  >
     <app-task-card [user]="data.user" [taskList]="data.task"></app-task-card>
   </ion-card>
 </ion-content>

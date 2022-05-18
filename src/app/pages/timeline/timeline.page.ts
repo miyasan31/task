@@ -16,4 +16,8 @@ export class TimelinePage implements OnInit {
   ngOnInit() {
     this.timelineData = this.timelineService.getUserTaskList();
   }
+
+  trackByFn(index, item): number {
+    return item.id;
+  }
 }
