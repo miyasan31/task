@@ -53,4 +53,8 @@ export class TaskPage implements OnInit {
 
     return await modal.present();
   }
+
+  trackByFn(index, item): number {
+    return item.id;
+  }
 }

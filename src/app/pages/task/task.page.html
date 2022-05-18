@@ -23,7 +23,7 @@
     </ion-fab-button>
   </ion-fab>
 
-  <ion-item-sliding *ngFor="let task of taskList | async">
+  <ion-item-sliding *ngFor="let task of taskList | async; trackBy: trackByFn">
     <ion-item-options side="start">
       <ion-item-option color="success" (click)="onPresentTaskModal(task.id)">編集</ion-item-option>
     </ion-item-options>
