@@ -94,8 +94,8 @@ export class AuthService {
     this.navigatePath('/task');
   }
 
-  navigatePath(path: RedirectPath, optisons?: { isSignOut: boolean }): void {
-    if (optisons.isSignOut) {
+  navigatePath(path: RedirectPath, options?: { isSignOut: boolean }): void {
+    if (options && options.isSignOut) {
       this.navController.navigateRoot(path);
       return;
     }
