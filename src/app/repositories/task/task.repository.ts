@@ -30,16 +30,16 @@ export class TaskRepository implements ITaskRepository {
     this.taskColRef = collection(this.firestore, 'tasks').withConverter(taskConverter);
   }
 
-  getTaskList(userId: ITask['userId']): Observable<ITask[]> {
-    // TODO:当日のタスクのみ取得する
-    const taskQuery = query(this.taskColRef, where('userId', '==', userId));
-    return collectionData<ITask>(taskQuery);
-  }
-
   // タスク情報を取得する
   get(taskId: ITask['id']): Promise<ITask> {
     const taskDocRef = doc(this.firestore, `tasks/${taskId}`).withConverter(taskConverter);
     return docData<ITask>(taskDocRef).pipe(first()).toPromise(Promise);
+  }
+
+  getTaskList(userId: ITask['userId']): Observable<ITask[]> {
+    // TODO:当日のタスクのみ取得する
+    const taskQuery = query(this.taskColRef, where('userId', '==', userId));
+    return collectionData<ITask>(taskQuery);
   }
 
   // タスク情報を保存する

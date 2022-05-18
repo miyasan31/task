@@ -32,14 +32,10 @@ export class TagRepository implements ITagRepository {
     this.tagColRef = collection(this.firestore, 'tags').withConverter(tagConverter);
   }
 
-  checkInactiveTag(userId: ITag['userId'], tagName: ITag['tagName']): Promise<ITag[]> {
-    const tagDoc = query(
-      this.tagColRef,
-      where('userId', '==', userId),
-      where('tagName', '==', tagName),
-      where('isActive', '==', false),
-    ).withConverter(tagConverter);
-    return collectionData<ITag>(tagDoc).pipe(first()).toPromise(Promise);
+  // タグ情報を取得する
+  get(tagId: ITag['id']): Promise<ITag> {
+    const tagDoc = doc(this.firestore, `tags/${tagId}`).withConverter(tagConverter);
+    return docData<ITag>(tagDoc).pipe(first()).toPromise(Promise);
   }
 
   // ユーザー定義のタグ情報を取得する
@@ -51,12 +47,6 @@ export class TagRepository implements ITagRepository {
       orderBy('createdAt', 'desc'),
     ).withConverter(tagConverter);
     return collectionData<ITag>(tagDoc);
-  }
-
-  // タグ情報を取得する
-  get(tagId: ITag['id']): Promise<ITag> {
-    const tagDoc = doc(this.firestore, `tags/${tagId}`).withConverter(tagConverter);
-    return docData<ITag>(tagDoc).pipe(first()).toPromise(Promise);
   }
 
   // タグ情報を保存する
@@ -78,5 +68,15 @@ export class TagRepository implements ITagRepository {
   delete(tagId: ITag['id']): Promise<void> {
     const tagDoc = doc(this.firestore, `tags/${tagId}`).withConverter(tagConverter);
     return deleteDoc(tagDoc);
+  }
+
+  checkInactiveTag(userId: ITag['userId'], tagName: ITag['tagName']): Promise<ITag[]> {
+    const tagDoc = query(
+      this.tagColRef,
+      where('userId', '==', userId),
+      where('tagName', '==', tagName),
+      where('isActive', '==', false),
+    ).withConverter(tagConverter);
+    return collectionData<ITag>(tagDoc).pipe(first()).toPromise(Promise);
   }
 }
