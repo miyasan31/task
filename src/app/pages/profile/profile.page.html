@@ -67,18 +67,19 @@
     </div>
 
     <div *ngSwitchCase="'task'">
-      <ion-card *ngFor="let task of taskList | async; trackBy: trackByFn">
-        <app-task-detail-card [user]="user" [task]="task"></app-task-detail-card>
-      </ion-card>
+      <app-task-detail-card
+        *ngFor="let task of taskList | async; trackBy: trackByFn"
+        [user]="user"
+        [task]="task"
+      ></app-task-detail-card>
     </div>
 
     <div *ngSwitchCase="'like'">
-      <ion-card *ngFor="let like of likeList | async; trackBy: trackByFn">
-        <app-task-detail-card
-          [user]="like.user"
-          [task]="{ like: like.like, task: like.task }"
-        ></app-task-detail-card>
-      </ion-card>
+      <app-task-detail-card
+        *ngFor="let like of likeList | async; trackBy: trackByFn"
+        [user]="like.user"
+        [task]="{ like: like.like, task: like.task }"
+      ></app-task-detail-card>
     </div>
   </div>
 </ion-content>

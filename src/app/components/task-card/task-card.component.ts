@@ -10,8 +10,11 @@ import { IUser } from '~/interfaces/user/IUser';
 export class TaskCardComponent implements OnInit {
   @Input() user: IUser;
   @Input() taskList: ITask[];
+  @Input() routerLink: string;
 
-  constructor() {}
+  constructor() {
+    console.info(this.routerLink);
+  }
 
   ngOnInit() {}
 

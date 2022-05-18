@@ -9,11 +9,11 @@
 </ion-header>
 
 <ion-content>
-  <div *ngFor="let task of taskList | async; trackBy: trackByFn">
-    <ion-card>
-      <app-task-detail-card [user]="user" [task]="task"></app-task-detail-card>
-    </ion-card>
-  </div>
+  <app-task-detail-card
+    *ngFor="let task of taskList | async; trackBy: trackByFn"
+    [user]="user"
+    [task]="task"
+  ></app-task-detail-card>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button>
