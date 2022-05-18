@@ -32,7 +32,7 @@
     </ion-item-options>
 
     <ion-item
-      class="ion-align-items-center"
+      class="component-task-list"
       detail="false"
       button
       (click)="onPresentTaskModal(task.id)"
@@ -43,7 +43,7 @@
         [(ngModel)]="task.isDone"
         (click)="onReversingTaskCompletion($event, task)"
       ></ion-checkbox>
-      <ion-text class="ion-padding-start">{{ task.taskName }}</ion-text>
+      <ion-text class="task-name">{{ task.taskName }}</ion-text>
     </ion-item>
   </ion-item-sliding>
 </ion-content>
