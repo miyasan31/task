@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { IUser } from '~/interfaces/user/IUser';
 import { UserService } from '~/services/user/user.service';
 import { AuthService } from '~/services/auth/auth.service';
-import { ITaskCart } from '~/interfaces/task/ITaskCart';
+import { ITaskCard } from '~/interfaces/task/ITaskCard';
 
 @Component({
   selector: 'app-timeline-detail',
@@ -14,7 +14,7 @@ import { ITaskCart } from '~/interfaces/task/ITaskCart';
 })
 export class TimelineDetailPage implements OnInit {
   userId: string;
-  taskList: Observable<ITaskCart[]>;
+  taskList: Observable<ITaskCard[]>;
   user: IUser;
 
   constructor(
@@ -34,5 +34,9 @@ export class TimelineDetailPage implements OnInit {
 
     this.user = await this.userService.get(this.userId);
     this.taskList = this.taskService.getTaskListWithLike(this.userId, user.uid);
+  }
+
+  trackByFn(index, item): number {
+    return item.id;
   }
 }
