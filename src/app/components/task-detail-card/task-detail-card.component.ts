@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ILike } from '~/interfaces/like/ILike';
 import { ITask } from '~/interfaces/task/ITask';
-import { ITaskCart } from '~/interfaces/task/ITaskCart';
+import { ITaskCard } from '~/interfaces/task/ITaskCard';
 import { IUser } from '~/interfaces/user/IUser';
 import { AuthService } from '~/services/auth/auth.service';
 import { LikeService } from '~/services/like/like.service';
@@ -13,7 +13,7 @@ import { LikeService } from '~/services/like/like.service';
 })
 export class TaskDetailCardComponent implements OnInit {
   @Input() user: IUser;
-  @Input() task: ITaskCart;
+  @Input() task: ITaskCard;
   @Input() like: ILike;
 
   constructor(private authService: AuthService, private likeService: LikeService) {}

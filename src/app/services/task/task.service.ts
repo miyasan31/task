@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ITask } from '~/interfaces/task/ITask';
-import { ITaskCart } from '~/interfaces/task/ITaskCart';
+import { ITaskCard } from '~/interfaces/task/ITaskCard';
 import { ITaskRepository } from '~/interfaces/task/ITaskRepository';
 import { IUser } from '~/interfaces/user/IUser';
 import { TaskRepository } from '~/repositories/task/task.repository';
@@ -21,7 +21,7 @@ export class TaskService implements ITaskRepository {
   getTaskListWithLike(
     userId: ITask['userId'],
     currentUserId: IUser['id'],
-  ): Observable<ITaskCart[]> {
+  ): Observable<ITaskCard[]> {
     return this.taskRepository.getTaskListWithLike(userId, currentUserId);
   }
 
