@@ -7,9 +7,17 @@ import { ComponentsModule } from '~/components/components.module';
 
 import { ProfilePageRoutingModule } from './profile-routing.module';
 import { ProfilePage } from './profile.page';
+import { CalenderHeatmapComponentModule } from '~/pages/profile/components/calendar-heatmap.module';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, ProfilePageRoutingModule, ComponentsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    ProfilePageRoutingModule,
+    ComponentsModule,
+    CalenderHeatmapComponentModule,
+  ],
   declarations: [ProfilePage],
 })
 export class ProfilePageModule {}
