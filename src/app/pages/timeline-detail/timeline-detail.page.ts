@@ -1,11 +1,11 @@
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { TaskService } from '~/services/task/task.service';
 import { Observable } from 'rxjs';
 import { IUser } from '~/interfaces/user/IUser';
 import { UserService } from '~/services/user/user.service';
 import { AuthService } from '~/services/auth/auth.service';
-import { ITaskCard } from '~/interfaces/task/ITaskCard';
+import { ITaskCard } from '~/interfaces/timeline/ITaskCard';
+import { TimelineService } from '~/services/timeline/timeline.service';
 
 @Component({
   selector: 'app-timeline-detail',
@@ -20,8 +20,8 @@ export class TimelineDetailPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private authService: AuthService,
-    private taskService: TaskService,
     private userService: UserService,
+    private timelineService: TimelineService,
   ) {}
 
   async ngOnInit() {
@@ -33,7 +33,7 @@ export class TimelineDetailPage implements OnInit {
     const user = await this.authService.getAuthUser();
 
     this.user = await this.userService.get(this.userId);
-    this.taskList = this.taskService.getTaskListWithLike(this.userId, user.uid);
+    this.taskList = this.timelineService.getTaskListWithLike(this.userId, user.uid);
   }
 
   trackByFn(index, item): number {

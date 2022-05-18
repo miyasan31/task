@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ITask } from '~/interfaces/task/ITask';
-import { ITaskCard } from '~/interfaces/task/ITaskCard';
 import { ITaskRepository } from '~/interfaces/task/ITaskRepository';
-import { IUser } from '~/interfaces/user/IUser';
 import { TaskRepository } from '~/repositories/task/task.repository';
 import { TaskPipe } from '~/services/task/task.pipe';
 
@@ -16,13 +14,6 @@ export class TaskService implements ITaskRepository {
 
   getTaskList(userId: ITask['userId']): Observable<ITask[]> {
     return this.taskRepository.getTaskList(userId);
-  }
-
-  getTaskListWithLike(
-    userId: ITask['userId'],
-    currentUserId: IUser['id'],
-  ): Observable<ITaskCard[]> {
-    return this.taskRepository.getTaskListWithLike(userId, currentUserId);
   }
 
   get(taskId: ITask['id']): Promise<ITask> {

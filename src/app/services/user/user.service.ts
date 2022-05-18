@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { ITimeline } from '~/interfaces/user/ITimeline';
 
 import { IUser } from '~/interfaces/user/IUser';
 import { IUserRepository } from '~/interfaces/user/IUserRepository';
@@ -12,10 +10,6 @@ import { UserPipe } from '~/services/user/user.pipe';
 })
 export class UserService implements IUserRepository {
   constructor(private userRepository: UserRepository) {}
-
-  getUserTaskList(): Observable<ITimeline[]> {
-    return this.userRepository.getUserTaskList();
-  }
 
   get(userId: IUser['id']): Promise<IUser> {
     return this.userRepository.get(userId);

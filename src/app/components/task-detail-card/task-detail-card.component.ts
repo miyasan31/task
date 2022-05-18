@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ILike } from '~/interfaces/like/ILike';
 import { ITask } from '~/interfaces/task/ITask';
-import { ITaskCard } from '~/interfaces/task/ITaskCard';
+import { ITaskCard } from '~/interfaces/timeline/ITaskCard';
 import { IUser } from '~/interfaces/user/IUser';
 import { AuthService } from '~/services/auth/auth.service';
 import { LikeService } from '~/services/like/like.service';
