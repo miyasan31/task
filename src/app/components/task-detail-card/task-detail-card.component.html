@@ -1,28 +1,25 @@
-<ion-card>
-  <ion-card-header>
-    <ion-grid>
-      <ion-row class="ion-align-items-center">
-        <ion-col size="2">
-          <img class="square-12" src="{{ user.avatar }}" alt="{{ user.avatar }}のアバター" />
-        </ion-col>
-        <ion-col size="8">
-          <ion-card-title class="text-base">{{ user.userName }}</ion-card-title>
-          <ion-card-subtitle class="text-sm font-normal">
-            {{ task.task.createdAt.toDate() | date: 'yyyy/M/d HH:mm' }}</ion-card-subtitle
-          >
-        </ion-col>
-        <ion-col size="2">
-          <ion-fab-button size="small" (click)="onLikeClick($event, task.task.id, task.like)">
-            <ion-icon name="heart"></ion-icon>
-          </ion-fab-button>
-          <ion-label>{{ task.like ? '●' : '×' }}</ion-label>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+<ion-card class="component-card">
+  <ion-card-header class="card-header">
+    <img class="card-header-avatar" src="{{ user.avatar }}" alt="{{ user.avatar }}のアバター" />
+
+    <div class="card-title-box">
+      <ion-card-title class="card-header-title">{{ user.userName }}</ion-card-title>
+      <ion-card-subtitle class="card-header-subtitle">
+        {{ task.task.createdAt.toDate() | date: 'yyyy/M/d HH:mm' }}</ion-card-subtitle
+      >
+    </div>
+
+    <button
+      size="small"
+      class="card-favorite-button {{ task.like ? 'is-liked-card-favorite-button' : '' }}"
+      (click)="onLikeClick($event, task.task.id, task.like)"
+    >
+      <ion-icon name="heart"></ion-icon>
+    </button>
   </ion-card-header>
 
-  <ion-card-content>
-    <h3 class="font-bold">{{ task.task.taskName }}</h3>
-    <p>{{ task.task.description }}</p>
+  <ion-card-content class="card-content">
+    <h1 class="card-task-name">{{ task.task.taskName }}</h1>
+    <p class="card-description">{{ task.task.description }}</p>
   </ion-card-content>
 </ion-card>

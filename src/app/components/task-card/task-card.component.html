@@ -1,23 +1,18 @@
-<ion-card routerLink="{{ routerLink }}">
-  <ion-card-header>
-    <ion-grid>
-      <ion-row class="ion-align-items-center">
-        <ion-col size="3">
-          <img class="square-12" src="{{ user.avatar }}" alt="{{ user.userName }}のアバター" />
-        </ion-col>
-        <ion-col size="9">
-          <ion-card-title class="text-base">{{ user.userName }}</ion-card-title>
-          <ion-card-subtitle class="text-sm font-normal">
-            {{ taskList[0].createdAt.toDate() | date: 'yyyy/M/d HH:mm' }}</ion-card-subtitle
-          >
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+<ion-card routerLink="{{ routerLink }}" class="component-card">
+  <ion-card-header class="card-header">
+    <img class="card-header-avatar" src="{{ user.avatar }}" alt="{{ user.userName }}のアバター" />
+
+    <div class="card-title-box">
+      <ion-card-title class="card-header-title">{{ user.userName }}</ion-card-title>
+      <ion-card-subtitle class="card-header-subtitle">
+        {{ taskList[0].createdAt.toDate() | date: 'yyyy/M/d HH:mm' }}</ion-card-subtitle
+      >
+    </div>
   </ion-card-header>
 
-  <ion-card-content>
-    <ul>
-      <li *ngFor="let task of taskList">
+  <ion-card-content class="card-content">
+    <ul class="card-task-list">
+      <li class="card-task-list-item" *ngFor="let task of taskList">
         {{ task.taskName }}
       </li>
     </ul>
