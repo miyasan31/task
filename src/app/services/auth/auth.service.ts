@@ -65,7 +65,7 @@ export class AuthService {
 
   signOut(): void {
     signOut(this.auth).then(() => {
-      this.navigatePath('/signin');
+      this.navigatePath('/signin', { isSignOut: true });
     });
   }
 
@@ -94,7 +94,12 @@ export class AuthService {
     this.navigatePath('/task');
   }
 
-  navigatePath(path: RedirectPath): void {
+  navigatePath(path: RedirectPath, optisons?: { isSignOut: boolean }): void {
+    if (optisons.isSignOut) {
+      this.navController.navigateRoot(path);
+      return;
+    }
+
     this.navController.navigateForward(path).catch((error) => {
       console.log(error.message);
       this.alertError(error);
