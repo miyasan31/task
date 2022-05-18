@@ -1,13 +1,13 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>タスク{{ isEdit ? '編集' : '保存' }}</ion-title>
+    <ion-title>タスク{{ isEdit ? '編集' : '作成' }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content fullscreen class="component-task-modal">
   <form #f="ngForm">
     <ion-item>
-      <ion-label position="floating">タスク名入力</ion-label>
+      <ion-label position="stacked">タスク名</ion-label>
       <ion-input
         type="text"
         name="taskName"
@@ -16,9 +16,9 @@
       ></ion-input>
     </ion-item>
 
-    <div class="flex align-end">
+    <div class="label-form">
       <ion-item class="flex-1">
-        <ion-label position="floating">ラベル</ion-label>
+        <ion-label position="stacked">ラベル</ion-label>
         <ion-select name="tagId" [(ngModel)]="tagId">
           <ion-select-option *ngFor="let tag of tagList | async" value="{{ tag.id }}">{{
             tag.tagName
@@ -26,33 +26,42 @@
         </ion-select>
       </ion-item>
 
-      <ion-fab-button
-        size="small"
-        expand="block"
-        fill="clear"
-        shape="round"
-        (click)="onPresentTagModal($event)"
-      >
+      <ion-button expand="block" class="tag-modal-button" (click)="onPresentTagModal($event)">
         <ion-icon name="pencil"></ion-icon>
-      </ion-fab-button>
+      </ion-button>
     </div>
 
-    <ion-item>
-      <ion-label position="floating">アウトプットメモ</ion-label>
-      <ion-textarea rows="6" name="description" [(ngModel)]="description"></ion-textarea>
+    <ion-item class="description-textarea">
+      <ion-label position="stacked">アウトプットメモ</ion-label>
+      <ion-textarea
+        rows="6"
+        name="description"
+        [(ngModel)]="description"
+        placeholder="アウトプットメモを入力してください"
+      ></ion-textarea>
     </ion-item>
 
-    <ion-item class="ion-align-items-center" detail="false">
+    <ion-item class="ion-align-items-center is-done-radio" detail="false">
       <ion-checkbox slot="start" name="isDone" [(ngModel)]="isDone"></ion-checkbox>
       <ion-text slot="end">完了</ion-text>
     </ion-item>
 
-    <ion-button expand="block" (click)="onUpsertTask()"
-      >{{ isEdit ? '保存' : '作成' }}する</ion-button
-    >
-    <ion-button expand="block" (click)="onModalDismiss()"> キャンセル </ion-button>
-    <ion-button *ngIf="isEdit" color="danger" expand="block" (click)="onDeleteTask(taskId)">
-      削除する
-    </ion-button>
+    <div class="button-group">
+      <ion-button expand="block" class="button button-primary" (click)="onUpsertTask()"
+        >{{ isEdit ? '保存' : '作成' }}する</ion-button
+      >
+      <ion-button expand="block" class="button button-outline" (click)="onModalDismiss()">
+        キャンセル
+      </ion-button>
+      <ion-button
+        *ngIf="isEdit"
+        expand="block"
+        color="danger"
+        class="button button-danger"
+        (click)="onDeleteTask(taskId)"
+      >
+        削除する
+      </ion-button>
+    </div>
   </form>
 </ion-content>

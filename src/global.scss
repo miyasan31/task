@@ -27,6 +27,61 @@
 
 // Custom CSS
 
+.component-tag-modal {
+}
+
+.component-task-modal {
+  ion-item {
+    --padding-start: 0;
+    --padding-end: 0;
+    padding: 0 1rem;
+  }
+
+  .label-form {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.25rem;
+    padding: 0 1rem 0 0;
+
+    .tag-modal-button {
+      width: 3rem;
+      height: 3rem;
+      --box-shadow: none;
+      --border-radius: 3px;
+
+      ion-icon {
+        font-size: 1.5rem;
+      }
+    }
+  }
+
+  .description-textarea {
+  }
+
+  .is-done-radio {
+    --border-style: none;
+  }
+
+  .button-group {
+    padding: 1rem 0.75rem;
+
+    .button {
+      --box-shadow: none;
+      --border-radius: 3px;
+    }
+
+    .button-primary {
+    }
+
+    .button-outline {
+      --background: transparent;
+    }
+
+    .button-danger {
+    }
+  }
+}
+
 .component-task-list {
   --border-style: none;
 
@@ -42,7 +97,6 @@
   box-shadow: none;
   border-radius: 3px;
   border-bottom: 1px solid var(--ion-color-light-shade);
-  // border: 1px solid var(--ion-color-light-shade);
 
   .card-header {
     padding: 0;
