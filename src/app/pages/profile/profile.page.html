@@ -71,13 +71,12 @@
     </div>
 
     <div *ngSwitchCase="'like'">
-      <!-- <ion-card *ngFor="let data of timeline_data">
-        <app-task-card
-          [user]="data.user"
-          [createdAt]="data.createdAt"
-          [task_list]="data.task_list"
-        ></app-task-card>
-      </ion-card> -->
+      <ion-card *ngFor="let like of likeList | async; trackBy: trackByFn">
+        <app-task-detail-card
+          [user]="like.user"
+          [task]="{ like: like.like, task: like.task }"
+        ></app-task-detail-card>
+      </ion-card>
     </div>
   </div>
 </ion-content>

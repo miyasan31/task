@@ -1,11 +1,9 @@
 import { ITask } from '~/interfaces/task/ITask';
 import { ILike } from '~/interfaces/like/ILike';
+import { IUser } from '~/interfaces/user/IUser';
 
-// export interface ITaskCard extends ITask {
-//   isLiked: boolean;
-// }
-
-export interface ITaskCard {
+export interface ILikedTaskCard {
   task: ITask;
   like: ILike;
+  user: IUser;
 }

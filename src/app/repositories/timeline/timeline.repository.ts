@@ -85,7 +85,7 @@ export class TimelineRepository implements ITimelineRepository {
       }),
       map(([taskList, likeList]) => {
         return taskList.map((task) => {
-          const isLike = likeList.filter((like) => like && like.taskId === task.id);
+          const isLike = likeList.filter((like) => like && like.taskId === task.id)[0];
           return { task, like: isLike };
         });
       }),
