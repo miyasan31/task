@@ -14,7 +14,6 @@ import { LikeService } from '~/services/like/like.service';
 export class TaskDetailCardComponent implements OnInit {
   @Input() user: IUser;
   @Input() task: ITaskCard;
-  @Input() like: ILike;
 
   constructor(private authService: AuthService, private likeService: LikeService) {}
 
