@@ -90,4 +90,8 @@ export class TaskModalComponent implements OnInit {
   onModalDismiss(): void {
     this.modalController.dismiss();
   }
+
+  trackByFn(index, item): number {
+    return item.id;
+  }
 }

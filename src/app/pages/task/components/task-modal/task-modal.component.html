@@ -19,10 +19,19 @@
     <div class="label-form">
       <ion-item class="flex-1">
         <ion-label position="stacked">ラベル</ion-label>
-        <ion-select name="tagId" [(ngModel)]="tagId">
-          <ion-select-option *ngFor="let tag of tagList | async" value="{{ tag.id }}">{{
-            tag.tagName
-          }}</ion-select-option>
+        <ion-select
+          cancelText="キャンセル"
+          okText="選択"
+          title="タスクに紐付けるタグ"
+          name="tagId"
+          *ngIf="tagList && (tagList | async)?.length"
+          [(ngModel)]="tagId"
+        >
+          <ion-select-option
+            *ngFor="let tag of tagList | async; trackBy: trackByFn"
+            value="{{ tag.id }}"
+            >{{ tag.tagName }}</ion-select-option
+          >
         </ion-select>
       </ion-item>
 
