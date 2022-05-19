@@ -25,6 +25,57 @@
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
 
+.component-profile {
+  padding: 2rem 1rem;
+
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .user-avatar {
+    width: 6rem;
+    height: 6rem;
+    border-radius: 3px;
+  }
+
+  .user-status {
+    display: flex;
+    flex: 1;
+    justify-content: space-evenly;
+    align-items: center;
+
+    .user-status-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .count-text {
+        font-weight: 600;
+        font-size: 1.3rem;
+        line-height: 0rem;
+      }
+
+      .count-label {
+        font-size: 0.5rem;
+        line-height: 0rem;
+      }
+    }
+  }
+
+  .user-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1.25rem;
+  }
+
+  .profile-body {
+    font-size: 0.9rem;
+    line-height: 1.25rem;
+  }
+}
+
 .custom-form {
   padding: 1rem;
 
