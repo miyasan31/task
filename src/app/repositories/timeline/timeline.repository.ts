@@ -40,20 +40,28 @@ export class TimelineRepository implements ITimelineRepository {
 
   // ユーザーに作成したタスクを紐づけて取得
   getUserTaskList(): Observable<ITimeline[]> {
+    // TODO:当日のタスクのみ取得する
     const userQuery = query(this.userColRef);
-    return collectionData(userQuery).pipe(
-      concatMap(async (userList) => {
+    const userDocList = collectionData(userQuery);
+
+    const timelineList = userDocList.pipe(
+      mergeMap((userList) => {
         const userIdList = userList.map((user) => user.id);
         const taskQuery = query(this.taskColRef, where('userId', 'in', userIdList));
-        const taskList = await collectionData(taskQuery).pipe(first()).toPromise(Promise);
-        return userList
-          .map((user) => {
-            const task = taskList.filter((t) => t.userId === user.id);
-            return { user, task };
-          })
-          .filter((data) => data.task.length);
+
+        return combineLatest([of(userList), collectionData(taskQuery)]);
       }),
+      map(([userList, taskList]) =>
+        userList.reduce((current, prev) => {
+          const userTaskList = taskList.filter((task) => task && task.userId === prev.id);
+          return userTaskList.length > 0
+            ? [...current, { user: prev, task: userTaskList }]
+            : current;
+        }, []),
+      ),
     );
+
+    return timelineList;
   }
 
   getTaskListWithLike(
