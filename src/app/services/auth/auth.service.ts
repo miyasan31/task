@@ -51,17 +51,22 @@ export class AuthService {
     });
   }
 
-  // Email
   emailSignUp(data: { email: string; password: string }): void {
-    createUserWithEmailAndPassword(this.auth, data.email, data.password).then(async (session) => {
-      await this.signedInCheckUserInfo(session.user.uid);
-    });
+    createUserWithEmailAndPassword(this.auth, data.email, data.password)
+      .then(async (session) => {
+        await this.signedInCheckUserInfo(session.user.uid);
+      })
+      .catch(async () => {
+        await this.emailSignIn(data);
+      });
   }
 
-  emailSignIn(data: { email: string; password: string }): void {
-    signInWithEmailAndPassword(this.auth, data.email, data.password).then(async (session) => {
-      await this.signedInCheckUserInfo(session.user.uid);
-    });
+  emailSignIn(data: { email: string; password: string }): Promise<void> {
+    return signInWithEmailAndPassword(this.auth, data.email, data.password).then(
+      async (session) => {
+        await this.signedInCheckUserInfo(session.user.uid);
+      },
+    );
   }
 
   signOut(): void {
