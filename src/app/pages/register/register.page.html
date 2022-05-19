@@ -5,27 +5,25 @@
 </ion-header>
 
 <ion-content>
-  <form #f="ngForm">
-    <ion-grid>
-      <ion-row class="ion-align-items-center">
-        <ion-col size="4">
-          <img src="{{ filePreview || avatar }}" alt="{{ userName }}のユーザーアバター" />
-        </ion-col>
-        <ion-col size="8">
-          <input
-            #fileInputRef
-            type="file"
-            accept="image/*"
-            style="display: none"
-            (change)="onFileSelected($event)"
-          />
-          <ion-button (click)="fileInputRef.click()">変更する</ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+  <form #f="ngForm" class="custom-form">
+    <div class="flex align-center gap-6">
+      <img
+        class="avatar"
+        src="{{ filePreview || avatar }}"
+        alt="{{ userName }}のユーザーアバター"
+      />
+      <input
+        #fileInputRef
+        type="file"
+        accept="image/*"
+        style="display: none"
+        (change)="onFileSelected($event)"
+      />
+      <ion-button class="button button-outline" (click)="fileInputRef.click()">変更する</ion-button>
+    </div>
 
     <ion-item>
-      <ion-label>ユーザー名</ion-label>
+      <ion-label position="stacked">ユーザー名</ion-label>
       <ion-input
         type="text"
         name="userName"
@@ -34,6 +32,8 @@
       ></ion-input>
     </ion-item>
 
-    <ion-button expand="full" (click)="onUserRegister()">登録する</ion-button>
+    <ion-button expand="block" class="button button-primary" (click)="onUserRegister()"
+      >登録する</ion-button
+    >
   </form>
 </ion-content>

@@ -25,9 +25,38 @@
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
 
-// Custom CSS
+.custom-form {
+  padding: 1rem;
 
-.component-tag-modal {
+  ion-item {
+    --padding-start: 0;
+    --padding-end: 0;
+  }
+
+  .avatar {
+    width: 7.5rem;
+    height: 7.5rem;
+    border-radius: 3px;
+  }
+
+  .button-group {
+    padding: 1rem 0.75rem;
+  }
+
+  .button {
+    --box-shadow: none;
+    --border-radius: 3px;
+  }
+
+  .button-primary {
+  }
+
+  .button-outline {
+    --background: transparent;
+  }
+
+  .button-danger {
+  }
 }
 
 .component-task-modal {
@@ -64,21 +93,21 @@
 
   .button-group {
     padding: 1rem 0.75rem;
+  }
 
-    .button {
-      --box-shadow: none;
-      --border-radius: 3px;
-    }
+  .button {
+    --box-shadow: none;
+    --border-radius: 3px;
+  }
 
-    .button-primary {
-    }
+  .button-primary {
+  }
 
-    .button-outline {
-      --background: transparent;
-    }
+  .button-outline {
+    --background: transparent;
+  }
 
-    .button-danger {
-    }
+  .button-danger {
   }
 }
 
@@ -195,6 +224,25 @@
 }
 .flex-row {
   flex-direction: row;
+}
+
+.gap-1 {
+  gap: 0.25rem; /* 4px */
+}
+.gap-2 {
+  gap: 0.5rem; /* 8px */
+}
+.gap-4 {
+  gap: 1rem; /* 16px */
+}
+.gap-6 {
+  gap: 1.5rem; /* 24px */
+}
+.gap-8 {
+  gap: 2rem; /* 32px */
+}
+.gap-10 {
+  gap: 2.5rem; /* 40px */
 }
 
 .rounded-full {
