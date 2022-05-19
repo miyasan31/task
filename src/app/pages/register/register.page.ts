@@ -3,6 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '~/services/auth/auth.service';
 import { UserService } from '~/services/user/user.service';
 
+const dummyAvatar =
+  // eslint-disable-next-line max-len
+  'https://firebasestorage.googleapis.com/v0/b/task-6fa6f.appspot.com/o/dummy%2Fonepiece01_luffy2.png?alt=media&token=65baee2d-0955-490d-ada1-be36687fe21e';
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
@@ -28,9 +32,9 @@ export class RegisterPage implements OnInit {
     }
 
     this.id = userInfo.uid;
-    this.userName = userInfo.displayName;
+    this.userName = userInfo.displayName || '';
     this.email = userInfo.email;
-    this.avatar = userInfo.photoURL;
+    this.avatar = userInfo.photoURL || dummyAvatar;
   }
 
   onFileSelected(event) {
