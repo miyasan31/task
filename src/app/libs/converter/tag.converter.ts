@@ -3,6 +3,7 @@ import {
   FirestoreDataConverter,
   PartialWithFieldValue,
   QueryDocumentSnapshot,
+  serverTimestamp,
   SnapshotOptions,
 } from '@angular/fire/firestore';
 import { Timestamp } from '@angular/fire/firestore';
@@ -32,6 +33,6 @@ export const tagConverter: FirestoreDataConverter<ITag> = {
     color: tag.color,
     isActive: tag.isActive,
     userId: tag.userId,
-    createdAt: Timestamp.now(),
+    createdAt: serverTimestamp(),
   }),
 };

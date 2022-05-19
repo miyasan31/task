@@ -3,6 +3,7 @@ import {
   FirestoreDataConverter,
   PartialWithFieldValue,
   QueryDocumentSnapshot,
+  serverTimestamp,
   SnapshotOptions,
   Timestamp,
 } from '@angular/fire/firestore';
@@ -30,6 +31,6 @@ export const userConverter: FirestoreDataConverter<IUser> = {
     userName: user.userName,
     email: user.email,
     avatar: user.avatar,
-    createdAt: Timestamp.now(),
+    createdAt: serverTimestamp(),
   }),
 };

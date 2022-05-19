@@ -3,6 +3,7 @@ import {
   FirestoreDataConverter,
   PartialWithFieldValue,
   QueryDocumentSnapshot,
+  serverTimestamp,
   SnapshotOptions,
 } from '@angular/fire/firestore';
 import { Timestamp } from '@angular/fire/firestore';
@@ -28,6 +29,6 @@ export const likeConverter: FirestoreDataConverter<ILike> = {
   toFirestore: (like: PartialWithFieldValue<ILike>): DocumentData => ({
     userId: like.userId,
     taskId: like.taskId,
-    createdAt: Timestamp.now(),
+    createdAt: serverTimestamp(),
   }),
 };
