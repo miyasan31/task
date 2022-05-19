@@ -27,8 +27,8 @@ export class UserRepository implements IUserRepository {
   }
 
   // ユーザー情報を取得する
-  get(uerId: IUser['id']): Promise<IUser> {
-    const userDocRef = doc(this.firestore, `users/${uerId}`).withConverter(userConverter);
+  get(userId: IUser['id']): Promise<IUser> {
+    const userDocRef = doc(this.firestore, `users/${userId}`).withConverter(userConverter);
     return docData<IUser>(userDocRef).pipe(first()).toPromise(Promise);
   }
 
