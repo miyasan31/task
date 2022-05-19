@@ -1,5 +1,5 @@
-import { ITask } from '~/interfaces/task/ITask';
 import { ILike } from '~/interfaces/like/ILike';
+import { ITask } from '~/interfaces/task/ITask';
 import { IUser } from '~/interfaces/user/IUser';
 
 export interface ILikedTaskCard {

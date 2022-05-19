@@ -1,5 +1,5 @@
-import { ITask } from '~/interfaces/task/ITask';
 import { ILike } from '~/interfaces/like/ILike';
+import { ITask } from '~/interfaces/task/ITask';
 
 // export interface ITaskCard extends ITask {
 //   isLiked: boolean;

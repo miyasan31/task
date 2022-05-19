@@ -1,9 +1,9 @@
 import {
+  DocumentData,
   FirestoreDataConverter,
+  PartialWithFieldValue,
   QueryDocumentSnapshot,
   SnapshotOptions,
-  DocumentData,
-  PartialWithFieldValue,
   Timestamp,
 } from '@angular/fire/firestore';
 
@@ -26,12 +26,10 @@ export const userConverter: FirestoreDataConverter<IUser> = {
     };
   },
   // FireStore保存時の変換
-  toFirestore: (user: PartialWithFieldValue<IUser>): DocumentData => {
-    return {
-      userName: user.userName,
-      email: user.email,
-      avatar: user.avatar,
-      createdAt: Timestamp.now(),
-    };
-  },
+  toFirestore: (user: PartialWithFieldValue<IUser>): DocumentData => ({
+    userName: user.userName,
+    email: user.email,
+    avatar: user.avatar,
+    createdAt: Timestamp.now(),
+  }),
 };

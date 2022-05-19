@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { PickerController } from '@ionic/angular';
 import { first } from 'rxjs/operators';
+
 import { colorPicker } from '~/constants/colorPicker';
 import { ITag } from '~/interfaces/tag/ITag';
 import { AuthService } from '~/services/auth/auth.service';
@@ -17,7 +18,7 @@ const initialTag: ITag = { id: '', tagName: '', color: '', isActive: true, userI
 export class TagModalComponent implements OnInit {
   userId: string;
   tagList: ITag[];
-  isVisible: boolean = true;
+  isVisible = true;
 
   createTag: ITag | null = null;
 
@@ -44,8 +45,12 @@ export class TagModalComponent implements OnInit {
   }
 
   async onCreateTag(): Promise<void> {
-    if (!this.createTag.color) return;
-    if (!this.createTag.tagName) return;
+    if (!this.createTag.color) {
+      return;
+    }
+    if (!this.createTag.tagName) {
+      return;
+    }
 
     const tagId = await this.tagService.create(this.createTag);
 

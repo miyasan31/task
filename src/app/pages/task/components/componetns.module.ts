@@ -1,9 +1,10 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TaskModalComponent } from '~/pages/task/components/task-modal/task-modal.component';
+import { IonicModule } from '@ionic/angular';
+
 import { TagModalComponent } from '~/pages/task/components/tag-modal/tag-modal.component';
+import { TaskModalComponent } from '~/pages/task/components/task-modal/task-modal.component';
 
 @NgModule({
   declarations: [TaskModalComponent, TagModalComponent],

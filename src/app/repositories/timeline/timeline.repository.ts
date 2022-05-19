@@ -11,12 +11,12 @@ import {
 import { combineLatest, Observable, of } from 'rxjs';
 import { concatMap, first, map, mergeMap } from 'rxjs/operators';
 
-import { IUser } from '~/interfaces/user/IUser';
 import { ILike } from '~/interfaces/like/ILike';
 import { ITask } from '~/interfaces/task/ITask';
 import { ITaskCard } from '~/interfaces/timeline/ITaskCard';
 import { ITimeline } from '~/interfaces/timeline/ITimeline';
 import { ITimelineRepository } from '~/interfaces/timeline/ITimelineRepository';
+import { IUser } from '~/interfaces/user/IUser';
 import { likeConverter } from '~/libs/converter/like.converter';
 import { taskConverter } from '~/libs/converter/task.converter';
 import { userConverter } from '~/libs/converter/user.converter';
@@ -83,12 +83,12 @@ export class TimelineRepository implements ITimelineRepository {
           ),
         ]);
       }),
-      map(([taskList, likeList]) => {
-        return taskList.map((task) => {
+      map(([taskList, likeList]) =>
+        taskList.map((task) => {
           const isLike = likeList.filter((like) => like && like.taskId === task.id)[0];
           return { task, like: isLike };
-        });
-      }),
+        }),
+      ),
     );
 
     return taskCardList;

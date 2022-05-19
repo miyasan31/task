@@ -14,14 +14,14 @@ import {
 import { Observable } from 'rxjs';
 import { first, mergeMap } from 'rxjs/operators';
 
-import { IUser } from '~/interfaces/user/IUser';
 import { ILike } from '~/interfaces/like/ILike';
+import { ILikedTaskCard } from '~/interfaces/profile/ILikedTaskCard';
+import { IProfileRepository } from '~/interfaces/profile/IProfileRepository';
 import { ITask } from '~/interfaces/task/ITask';
+import { IUser } from '~/interfaces/user/IUser';
+import { IUserRepository } from '~/interfaces/user/IUserRepository';
 import { likeConverter } from '~/libs/converter/like.converter';
 import { taskConverter } from '~/libs/converter/task.converter';
-import { IProfileRepository } from '~/interfaces/profile/IProfileRepository';
-import { ILikedTaskCard } from '~/interfaces/profile/ILikedTaskCard';
-import { IUserRepository } from '~/interfaces/user/IUserRepository';
 import { userConverter } from '~/libs/converter/user.converter';
 
 @Injectable({

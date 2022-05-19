@@ -1,10 +1,11 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
-import { TimelineDetailPageRoutingModule } from './timeline-detail-routing.module';
 import { ComponentsModule } from '~/components/components.module';
+
+import { TimelineDetailPageRoutingModule } from './timeline-detail-routing.module';
 
 @NgModule({
   imports: [

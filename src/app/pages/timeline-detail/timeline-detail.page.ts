@@ -1,11 +1,12 @@
-import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs';
-import { IUser } from '~/interfaces/user/IUser';
-import { UserService } from '~/services/user/user.service';
-import { AuthService } from '~/services/auth/auth.service';
+
 import { ITaskCard } from '~/interfaces/timeline/ITaskCard';
+import { IUser } from '~/interfaces/user/IUser';
+import { AuthService } from '~/services/auth/auth.service';
 import { TimelineService } from '~/services/timeline/timeline.service';
+import { UserService } from '~/services/user/user.service';
 
 @Component({
   selector: 'app-timeline-detail',

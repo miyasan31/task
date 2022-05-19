@@ -1,9 +1,9 @@
 import {
+  DocumentData,
   FirestoreDataConverter,
+  PartialWithFieldValue,
   QueryDocumentSnapshot,
   SnapshotOptions,
-  DocumentData,
-  PartialWithFieldValue,
 } from '@angular/fire/firestore';
 import { Timestamp } from '@angular/fire/firestore';
 

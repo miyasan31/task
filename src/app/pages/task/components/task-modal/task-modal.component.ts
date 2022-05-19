@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
+
 import { ITag } from '~/interfaces/tag/ITag';
 import { ITask } from '~/interfaces/task/ITask';
 import { TagModalComponent } from '~/pages/task/components/tag-modal/tag-modal.component';
@@ -35,7 +36,9 @@ export class TaskModalComponent implements OnInit {
     const user = await this.authService.getAuthUser();
     this.tagList = await this.tagService.getTagList(user.uid);
 
-    if (!this.taskId) return;
+    if (!this.taskId) {
+      return;
+    }
 
     const task = await this.taskService.get(this.taskId);
     this.taskName = task.taskName;

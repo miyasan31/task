@@ -1,9 +1,10 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { CalendarHeatmapComponent } from '~/pages/profile/components/calendar-heatmap/calendar-heatmap.component';
+import { IonicModule } from '@ionic/angular';
 import { CalendarHeatmapModule } from 'ng-calendar-heatmap';
+
+import { CalendarHeatmapComponent } from '~/pages/profile/components/calendar-heatmap/calendar-heatmap.component';
 
 @NgModule({
   declarations: [CalendarHeatmapComponent],

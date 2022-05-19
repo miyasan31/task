@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+
 import { ITask } from '~/interfaces/task/ITask';
 import { ITaskCard } from '~/interfaces/timeline/ITaskCard';
 import { ITimeline } from '~/interfaces/timeline/ITimeline';
 import { ITimelineRepository } from '~/interfaces/timeline/ITimelineRepository';
-
 import { IUser } from '~/interfaces/user/IUser';
 import { TimelineRepository } from '~/repositories/timeline/timeline.repository';
 

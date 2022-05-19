@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+
 import { ILike } from '~/interfaces/like/ILike';
 import { ITask } from '~/interfaces/task/ITask';
 import { ITaskCard } from '~/interfaces/timeline/ITaskCard';
@@ -33,7 +34,7 @@ export class TaskDetailCardComponent implements OnInit {
     const createLike = {
       id: '',
       userId: authUser.id,
-      taskId: taskId,
+      taskId,
     };
 
     this.likeService.create(createLike);

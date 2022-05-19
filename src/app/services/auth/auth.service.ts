@@ -2,18 +2,19 @@ import { Injectable } from '@angular/core';
 import {
   Auth,
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
   GoogleAuthProvider,
+  signInWithEmailAndPassword,
   signInWithPopup,
+  signOut,
   User,
 } from '@angular/fire/auth';
-import { NavController, AlertController } from '@ionic/angular';
-
-import { firebaseError } from './firebase.error';
 import { Capacitor } from '@capacitor/core';
+import { AlertController, NavController } from '@ionic/angular';
+
 import { IUser } from '~/interfaces/user/IUser';
 import { UserService } from '~/services/user/user.service';
+
+import { firebaseError } from './firebase.error';
 
 type RedirectPath = '/signin' | '/register' | '/task';
 

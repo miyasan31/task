@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+
 import { ITimeline } from '~/interfaces/timeline/ITimeline';
 import { TimelineService } from '~/services/timeline/timeline.service';
 

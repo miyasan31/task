@@ -1,9 +1,9 @@
 import {
+  DocumentData,
   FirestoreDataConverter,
+  PartialWithFieldValue,
   QueryDocumentSnapshot,
   SnapshotOptions,
-  DocumentData,
-  PartialWithFieldValue,
 } from '@angular/fire/firestore';
 import { Timestamp } from '@angular/fire/firestore';
 
@@ -27,13 +27,11 @@ export const tagConverter: FirestoreDataConverter<ITag> = {
     };
   },
   // FireStore保存時の変換
-  toFirestore: (tag: PartialWithFieldValue<ITag>): DocumentData => {
-    return {
-      tagName: tag.tagName,
-      color: tag.color,
-      isActive: tag.isActive,
-      userId: tag.userId,
-      createdAt: Timestamp.now(),
-    };
-  },
+  toFirestore: (tag: PartialWithFieldValue<ITag>): DocumentData => ({
+    tagName: tag.tagName,
+    color: tag.color,
+    isActive: tag.isActive,
+    userId: tag.userId,
+    createdAt: Timestamp.now(),
+  }),
 };

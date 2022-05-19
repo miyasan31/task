@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
+import { AuthGuard, redirectLoggedInTo, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { AuthGuard, redirectUnauthorizedTo, redirectLoggedInTo } from '@angular/fire/auth-guard';
 
 // 認証情報がない場合はサインイン画面にリダイレクト
 const redirectUnauthorized = () => redirectUnauthorizedTo(['signin']);
