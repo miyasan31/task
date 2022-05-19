@@ -13,9 +13,7 @@ export class TaskCardComponent implements OnInit {
   @Input() taskList: ITask[];
   @Input() routerLink: string;
 
-  constructor() {
-    console.info(this.routerLink);
-  }
+  constructor() {}
 
   ngOnInit() {}
 

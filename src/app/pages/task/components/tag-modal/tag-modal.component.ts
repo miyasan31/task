@@ -60,8 +60,8 @@ export class TagModalComponent implements OnInit {
     return;
   }
 
-  async onInactiveTag(tag: ITag): Promise<void> {
-    const updateTag = { ...tag, isActive: false };
+  async onInactiveTag(currentTag: ITag): Promise<void> {
+    const updateTag = { ...currentTag, isActive: false };
     await this.tagService.update(updateTag);
     this.tagList = this.tagList.filter((tag) => tag.id !== updateTag.id);
     this.tagListLengthCheck();

@@ -62,9 +62,9 @@ export class TimelineRepository implements ITimelineRepository {
   ): Observable<ITaskCard[]> {
     // TODO:当日のタスクのみ取得する
     const taskQuery = query(this.taskColRef, where('userId', '==', userId));
-    const taskList = collectionData(taskQuery);
+    const taskDocList = collectionData(taskQuery);
 
-    const taskCardList = taskList.pipe(
+    const taskCardList = taskDocList.pipe(
       mergeMap((taskList) => {
         const taskUserIdList = taskList.map((task) => task.id);
 

@@ -47,9 +47,9 @@ export class ProfileRepository implements IProfileRepository {
       where('userId', '==', currentUserId),
       orderBy('createdAt', 'desc'),
     );
-    const likeList = collectionData(likeQuery);
+    const likeDocList = collectionData(likeQuery);
 
-    const taskCardList = likeList.pipe(
+    const taskCardList = likeDocList.pipe(
       mergeMap(async (likeList) => {
         const userLikedTaskIdList = likeList.map((like) => like.taskId);
 
