@@ -59,6 +59,24 @@
   }
 }
 
+.component-divider {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0;
+
+  .border {
+    flex: 1;
+    height: 0;
+    border-bottom: 1px solid var(--ion-color-light-shade);
+  }
+
+  .label {
+    flex-wrap: nowrap;
+    padding: 0 1rem;
+    text-align: center;
+  }
+}
+
 .component-task-modal {
   ion-item {
     --padding-start: 0;

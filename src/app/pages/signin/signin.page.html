@@ -1,17 +1,38 @@
 <ion-content>
-  <ion-grid class="flex flex-col flex-center h-screen">
-    <ion-item>
-      <ion-label>メールアドレス</ion-label>
-      <ion-input type="text" placeholder="メールアドレスを入力してください"></ion-input>
-    </ion-item>
+  <div class="flex align-center h-screen">
+    <form class="custom-form flex flex-col gap-1 w-full">
+      <ion-item>
+        <ion-label position="stacked">メールアドレス</ion-label>
+        <ion-input
+          type="email"
+          name="email"
+          [(ngModel)]="email"
+          placeholder="メールアドレスを入力してください"
+        ></ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-label>パスワード</ion-label>
-      <ion-input type="text" placeholder="パスワードを入力してください"></ion-input>
-    </ion-item>
+      <ion-item>
+        <ion-label position="stacked">パスワード</ion-label>
+        <ion-input
+          type="password"
+          name="password"
+          [(ngModel)]="password"
+          placeholder="パスワードを入力してください"
+        ></ion-input>
+      </ion-item>
 
-    <ion-button expand="full"> メールでサインイン </ion-button>
-    <ion-button expand="full" (click)="onGoogleSignIn()"> Googleでサインイン </ion-button>
-    <ion-button expand="full"> Appleでサインイン </ion-button>
-  </ion-grid>
+      <ion-button expand="block" (click)="onEmailSignIn()">メールアドレスでサインイン</ion-button>
+
+      <div class="component-divider">
+        <div class="border"></div>
+        <span class="label">または</span>
+        <div class="border"></div>
+      </div>
+
+      <ion-button expand="block" (click)="onGoogleSignIn()"
+        >Googleアカウントでサインイン</ion-button
+      >
+      <ion-button expand="block">Appleアカウントでサインイン</ion-button>
+    </form>
+  </div>
 </ion-content>
