@@ -9,14 +9,17 @@
       >
     </div>
 
-    <ion-fab-button
-      color="{{ task.like ? 'primary' : 'none' }}"
-      size="small"
-      class="card-favorite-button"
-      (click)="onLikeClick($event, task.task.id, task.like)"
-    >
-      <ion-icon name="heart" class="card-favorite-button-icon"></ion-icon>
-    </ion-fab-button>
+    <div class="card-favorite-box">
+      <ion-fab-button
+        color="{{ task.like ? 'primary' : 'none' }}"
+        size="small"
+        class="card-favorite-button"
+        (click)="onLikeClick($event, task.task.id, task.like)"
+      >
+        <ion-icon name="heart" class="card-favorite-button-icon"></ion-icon>
+      </ion-fab-button>
+      <ion-text>100</ion-text>
+    </div>
   </ion-card-header>
 
   <ion-card-content class="card-content">
