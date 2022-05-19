@@ -13,6 +13,8 @@ export class RegisterPage implements OnInit {
   userName: string;
   email: string;
   avatar: string;
+  file: File;
+  filePreview: string;
 
   constructor(private authService: AuthService, private userService: UserService) {}
 
@@ -31,6 +33,21 @@ export class RegisterPage implements OnInit {
     this.avatar = userInfo.photoURL;
   }
 
+  onFileSelected(event) {
+    const file: File = event.target.files[0];
+
+    if (!file) {
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.filePreview = reader.result as string;
+    };
+    reader.readAsDataURL(file);
+    this.file = file;
+  }
+
   async onUserRegister(): Promise<void> {
     const createUser = {
       id: this.id,
@@ -39,7 +56,7 @@ export class RegisterPage implements OnInit {
       avatar: this.avatar,
     };
 
-    await this.userService.create(createUser);
+    await this.userService.create(createUser, this.file);
 
     this.authService.navigatePath('/task');
   }

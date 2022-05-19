@@ -9,10 +9,17 @@
     <ion-grid>
       <ion-row class="ion-align-items-center">
         <ion-col size="4">
-          <img src="{{ avatar }}" alt="{{ userName }}のユーザーアバター" />
+          <img src="{{ filePreview || avatar }}" alt="{{ userName }}のユーザーアバター" />
         </ion-col>
         <ion-col size="8">
-          <ion-button>変更する</ion-button>
+          <input
+            #fileInputRef
+            type="file"
+            accept="image/*"
+            style="display: none"
+            (change)="onFileSelected($event)"
+          />
+          <ion-button (click)="fileInputRef.click()">変更する</ion-button>
         </ion-col>
       </ion-row>
     </ion-grid>
