@@ -23,7 +23,7 @@ export class RegisterPage implements OnInit {
 
     if (!userInfo) {
       this.authService.signOut();
-      this.authService.navigatePath('/signin');
+      this.authService.navigatePath('/signin', { isRoot: true });
       return;
     }
 

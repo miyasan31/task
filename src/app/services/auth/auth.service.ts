@@ -66,7 +66,7 @@ export class AuthService {
 
   signOut(): void {
     signOut(this.auth).then(() => {
-      this.navigatePath('/signin', { isSignOut: true });
+      this.navigatePath('/signin', { isRoot: true });
     });
   }
 
@@ -95,8 +95,8 @@ export class AuthService {
     this.navigatePath('/task');
   }
 
-  navigatePath(path: RedirectPath, options?: { isSignOut: boolean }): void {
-    if (options && options.isSignOut) {
+  navigatePath(path: RedirectPath, options?: { isRoot: boolean }): void {
+    if (options && options.isRoot) {
       this.navController.navigateRoot(path);
       return;
     }
