@@ -1,13 +1,6 @@
 {
   "root": true,
   "ignorePatterns": ["projects/**/*"],
-  "plugins": [],
-  "extends": [
-    "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended",
-    "prettier"
-  ],
   "overrides": [
     {
       "files": ["*.ts"],
