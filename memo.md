@@ -88,3 +88,48 @@ type IIUser = Omit<IUser, "createdAt">
 > utility 型を使うと型を追うのが大変になる
 
 **そのチームの学習度合いによって使い分けるべき**
+
+# 武にぃコードレビュー
+
+## dependencies と devDependencies
+
+- devDependencies はバンドルに影響がない
+
+## package.json
+
+- author, homepage を編集しておくと良い
+
+## pwa 対応
+
+- angular のものを使うと楽になる
+- https://angular.jp/guide/service-worker-getting-started
+
+## ディープコピーとシャローコピー
+
+https://penpen-dev.com/blog/deep-shallo-tigai/
+
+## メソッドの型情報を書く
+
+- 型定義はドキュメント情報になるのでしっかり明示的に片付けする
+
+## トークンを乗せる場合
+
+インターセクターを使うと良い
+
+- https://angular.jp/api/common/http/HttpInterceptor
+- https://qiita.com/SuyamaDaichi/items/03f88aaae592392fbb9a
+
+- 全ての http 通信をハックしているので、全ての通信ヘッダーにトークンを乗せることができる
+
+## lint を無視するなら、設定ファイルを変更する
+
+リトライする場合、ある程度時間を置くと良い
+
+## 等価演算は必ず === で行う
+
+## ngFor などで div 自体に意味がない場合 ng-container を使用する
+
+## js の配列は独自の ID を持っていて、新たに代入が行われると再レンダリングを行う
+
+- trackBy を使用すると、ID を任意のものに変更できる
+- user.id などにすると id をトラッキングしてしてくれるので、配列の差異が検知されずに再レンダリングが起きない
