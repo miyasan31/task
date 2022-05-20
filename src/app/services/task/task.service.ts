@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { ITask } from '~/interfaces/task/ITask';
+import { ITask, IUpsertTask } from '~/interfaces/task/ITask';
 import { ITaskRepository } from '~/interfaces/task/ITaskRepository';
 import { TaskRepository } from '~/repositories/task/task.repository';
 import { TaskPipe } from '~/services/task/task.pipe';
@@ -10,7 +10,7 @@ import { TaskPipe } from '~/services/task/task.pipe';
   providedIn: 'root',
 })
 export class TaskService implements ITaskRepository {
-  constructor(private taskRepository: TaskRepository) {}
+  constructor(private taskPipe: TaskPipe, private taskRepository: TaskRepository) {}
 
   get(taskId: ITask['id']): Promise<ITask> {
     return this.taskRepository.get(taskId);
@@ -20,14 +20,14 @@ export class TaskService implements ITaskRepository {
     return this.taskRepository.getTaskList(userId);
   }
 
-  create(task: ITask): Promise<void> {
-    const taskDto = new TaskPipe().create(task);
-    return this.taskRepository.create(taskDto);
+  create(task: IUpsertTask): Promise<void> {
+    const createTask = this.taskPipe.create(task);
+    return this.taskRepository.create(createTask);
   }
 
-  update(task: ITask): Promise<void> {
-    const taskDto = new TaskPipe().update(task);
-    return this.taskRepository.update(taskDto);
+  update(task: IUpsertTask): Promise<void> {
+    const updateTask = this.taskPipe.update(task);
+    return this.taskRepository.update(updateTask);
   }
 
   delete(taskId: ITask['id']): Promise<void> {

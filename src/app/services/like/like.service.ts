@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { ILike } from '~/interfaces/like/ILike';
+import { ICreateLike, ILike } from '~/interfaces/like/ILike';
 import { LikeRepository } from '~/repositories/like/like.repository';
 import { TaskRepository } from '~/repositories/task/task.repository';
 import { LikePipe } from '~/services/like/like.pipe';
@@ -9,13 +9,17 @@ import { LikePipe } from '~/services/like/like.pipe';
   providedIn: 'root',
 })
 export class LikeService {
-  constructor(private likeRepository: LikeRepository, private taskRepository: TaskRepository) {}
+  constructor(
+    private likePipe: LikePipe,
+    private likeRepository: LikeRepository,
+    private taskRepository: TaskRepository,
+  ) {}
 
-  async create(like: ILike): Promise<void> {
-    const likeDto = new LikePipe().create(like);
-    await this.likeRepository.create(likeDto);
+  async create(like: ICreateLike): Promise<void> {
+    const createLike = this.likePipe.create(like);
+    await this.likeRepository.create(createLike);
 
-    const taskData = await this.taskRepository.get(likeDto.taskId);
+    const taskData = await this.taskRepository.get(createLike.taskId);
     await this.taskRepository.likeCountUp(taskData);
     return;
   }

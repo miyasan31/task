@@ -53,20 +53,20 @@ export class TaskModalComponent implements OnInit {
     // TODO:グローバルステートから参照する
     const user = await this.authService.getAuthUser();
 
-    const task = {
+    const upsertTask = {
       id: this.taskId,
       taskName: this.taskName,
       description: this.description,
       isDone: this.isDone,
-      likeCount: this.likeCount,
+      likeCount: this.likeCount || 0,
       userId: user.uid,
       tagId: this.tagId,
     };
 
     if (this.isEdit) {
-      await this.taskService.update(task);
+      await this.taskService.update(upsertTask);
     } else {
-      await this.taskService.create(task);
+      await this.taskService.create(upsertTask);
     }
 
     this.onModalDismiss();

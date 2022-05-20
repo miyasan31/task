@@ -1,23 +1,26 @@
-import { IUser } from '~/interfaces/user/IUser';
+import { Injectable } from '@angular/core';
 
+import { ICreateUser, IUser } from '~/interfaces/user/IUser';
+
+@Injectable({
+  providedIn: 'root',
+})
 export class UserPipe implements IUser {
   id: IUser['id'];
   userName: IUser['userName'];
   email: IUser['email'];
-  profile?: IUser['profile'];
+  profile: IUser['profile'];
   avatar: IUser['avatar'];
   createdAt?: IUser['createdAt'];
   updatedAt?: IUser['updatedAt'];
 
-  constructor() {
-    this.profile = '';
-  }
+  constructor() {}
 
-  create(user: IUser): IUser {
+  create(createUser: ICreateUser): IUser {
     // TODO:バリデーション追加
     return {
-      ...user,
-      profile: this.profile,
+      ...createUser,
+      profile: '',
     };
   }
 

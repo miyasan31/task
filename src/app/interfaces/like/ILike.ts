@@ -9,3 +9,8 @@ export interface ILike {
   taskId: ITask['id'];
   createdAt?: Timestamp;
 }
+
+export interface ICreateLike {
+  userId: IUser['id'];
+  taskId: ITask['id'];
+}

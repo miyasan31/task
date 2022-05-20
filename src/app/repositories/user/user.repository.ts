@@ -34,17 +34,15 @@ export class UserRepository implements IUserRepository {
   }
 
   // ユーザー情報を保存する
-  create(userDto: IUser): Promise<void> {
-    const userDocRef = doc(this.firestore, `users/${userDto.id}`).withConverter(userConverter);
-    return setDoc(userDocRef, userDto);
+  create(user: IUser): Promise<void> {
+    const userDocRef = doc(this.firestore, `users/${user.id}`).withConverter(userConverter);
+    return setDoc(userDocRef, user);
   }
 
   // ユーザー情報を更新する
-  update(userDto: IUser): Promise<void> {
-    const userDocRef = doc(this.firestore, `users/${userDto.id}`).withConverter(
-      updateTaskConverter,
-    );
-    return setDoc(userDocRef, userDto, { merge: true });
+  update(user: IUser): Promise<void> {
+    const userDocRef = doc(this.firestore, `users/${user.id}`).withConverter(updateTaskConverter);
+    return setDoc(userDocRef, user, { merge: true });
   }
 
   // ユーザー情報を削除する

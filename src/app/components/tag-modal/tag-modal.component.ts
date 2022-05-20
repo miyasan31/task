@@ -4,11 +4,11 @@ import { PickerController } from '@ionic/angular';
 import { first } from 'rxjs/operators';
 
 import { colorPicker } from '~/constants/colorPicker';
-import { ITag } from '~/interfaces/tag/ITag';
+import { ICreateTag, ITag } from '~/interfaces/tag/ITag';
 import { AuthService } from '~/services/auth/auth.service';
 import { TagService } from '~/services/tag/tag.service';
 
-const initialTag: ITag = { id: '', tagName: '', color: '', isActive: true, userId: '' };
+const initialTag: ICreateTag = { tagName: '', color: '', userId: '' };
 
 @Component({
   selector: 'app-tag-modal',
@@ -20,7 +20,7 @@ export class TagModalComponent implements OnInit {
   tagList: ITag[];
   isVisible = true;
 
-  createTag: ITag | null = null;
+  createTag: ICreateTag | null = null;
 
   constructor(
     private authService: AuthService,
@@ -54,7 +54,7 @@ export class TagModalComponent implements OnInit {
 
     const tagId = await this.tagService.create(this.createTag);
 
-    this.tagList = [{ ...this.createTag, id: tagId }, ...this.tagList];
+    this.tagList = [{ ...this.createTag, id: tagId, isActive: true }, ...this.tagList];
     this.createTag = null;
     this.tagListLengthCheck();
     return;

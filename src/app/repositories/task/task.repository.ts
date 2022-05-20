@@ -54,16 +54,16 @@ export class TaskRepository implements ITaskRepository {
   }
 
   // タスク情報を保存する
-  create(taskDto: ITask): Promise<void> {
+  create(task: ITask): Promise<void> {
     const taskId = doc(this.taskColRef).id;
     const taskDocRef = doc(this.firestore, `tasks/${taskId}`).withConverter(taskConverter);
-    return setDoc(taskDocRef, { ...taskDto, id: taskId });
+    return setDoc(taskDocRef, { ...task, id: taskId });
   }
 
   // タスク情報を更新する
-  update(taskDto: ITask): Promise<void> {
-    const taskDocRef = doc(this.firestore, `tasks/${taskDto.id}`).withConverter(taskConverter);
-    return setDoc(taskDocRef, taskDto, { merge: true });
+  update(task: ITask): Promise<void> {
+    const taskDocRef = doc(this.firestore, `tasks/${task.id}`).withConverter(taskConverter);
+    return setDoc(taskDocRef, task, { merge: true });
   }
 
   // タスク情報を削除する
@@ -73,18 +73,14 @@ export class TaskRepository implements ITaskRepository {
   }
 
   // いいね数をカウントアップする
-  likeCountUp(taskDto: ITask): Promise<void> {
-    const taskDocRef = doc(this.firestore, `tasks/${taskDto.id}`).withConverter(
-      updateTaskConverter,
-    );
-    return setDoc(taskDocRef, { ...taskDto, likeCount: taskDto.likeCount + 1 }, { merge: true });
+  likeCountUp(task: ITask): Promise<void> {
+    const taskDocRef = doc(this.firestore, `tasks/${task.id}`).withConverter(updateTaskConverter);
+    return setDoc(taskDocRef, { ...task, likeCount: task.likeCount + 1 }, { merge: true });
   }
 
   // いいね数をカウントダウンする
-  likeCountDown(taskDto: ITask): Promise<void> {
-    const taskDocRef = doc(this.firestore, `tasks/${taskDto.id}`).withConverter(
-      updateTaskConverter,
-    );
-    return setDoc(taskDocRef, { ...taskDto, likeCount: taskDto.likeCount - 1 }, { merge: true });
+  likeCountDown(task: ITask): Promise<void> {
+    const taskDocRef = doc(this.firestore, `tasks/${task.id}`).withConverter(updateTaskConverter);
+    return setDoc(taskDocRef, { ...task, likeCount: task.likeCount - 1 }, { merge: true });
   }
 }

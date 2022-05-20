@@ -32,7 +32,6 @@ export class TaskDetailCardComponent implements OnInit {
     const authUser = await this.authService.getAuthUserInfo();
 
     const createLike = {
-      id: '',
       userId: authUser.id,
       taskId,
     };

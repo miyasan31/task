@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 
-import { IUser } from '~/interfaces/user/IUser';
+import { ICreateUser, IUser } from '~/interfaces/user/IUser';
 import { IUserRepository } from '~/interfaces/user/IUserRepository';
 import { UserRepository } from '~/repositories/user/user.repository';
 import { StorageService } from '~/services/storage/storage.service';
+import { UserPipe } from '~/services/user/user.pipe';
 import { checkExtension } from '~/utils/checkExtension';
 
 @Injectable({
@@ -12,13 +13,17 @@ import { checkExtension } from '~/utils/checkExtension';
 export class UserService implements IUserRepository {
   avatarUrl = '';
 
-  constructor(private userRepository: UserRepository, private storageService: StorageService) {}
+  constructor(
+    private userPipe: UserPipe,
+    private userRepository: UserRepository,
+    private storageService: StorageService,
+  ) {}
 
   get(userId: IUser['id']): Promise<IUser> {
     return this.userRepository.get(userId);
   }
 
-  async create(user: IUser, avatarFile?: File): Promise<void> {
+  async create(user: ICreateUser, avatarFile?: File): Promise<void> {
     if (avatarFile) {
       const fileExtension = checkExtension(avatarFile.name);
       this.avatarUrl = await this.storageService.avatarUpload(
@@ -27,8 +32,11 @@ export class UserService implements IUserRepository {
       );
     }
 
-    const userDto = { ...user, profile: '', avatar: this.avatarUrl || user.avatar };
-    return this.userRepository.create(userDto);
+    const createUser = this.userPipe.create({
+      ...user,
+      avatar: this.avatarUrl || user.avatar,
+    });
+    return this.userRepository.create(createUser);
   }
 
   update(user: IUser): Promise<void> {

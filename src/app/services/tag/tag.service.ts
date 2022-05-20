@@ -1,27 +1,29 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { ITag } from '~/interfaces/tag/ITag';
+import { ICreateTag, ITag } from '~/interfaces/tag/ITag';
 import { ITagRepository } from '~/interfaces/tag/ITagRepository';
 import { IUser } from '~/interfaces/user/IUser';
 import { TagRepository } from '~/repositories/tag/tag.repository';
+import { TagPipe } from '~/services/tag/tag.pipe';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TagService implements ITagRepository {
-  constructor(private tagRepository: TagRepository) {}
+  constructor(private tagPipe: TagPipe, private tagRepository: TagRepository) {}
 
   get(tagId: ITag['id']): Promise<ITag> {
     return this.tagRepository.get(tagId);
   }
 
-  async create(tag: ITag): Promise<ITag['id']> {
+  async create(tag: ICreateTag): Promise<ITag['id']> {
     const checkTagList = await this.checkInactiveTag(tag.userId, tag.tagName);
 
     // 非アクティブな同じタグ名のデータが存在しなければ新規作成
     if (!checkTagList.length) {
-      return this.tagRepository.create(tag);
+      const createTag = this.tagPipe.create(tag);
+      return this.tagRepository.create(createTag);
     }
 
     // 非アクティブな同じタグ名のデータが存在すればアクティブ状態に変更

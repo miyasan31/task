@@ -8,9 +8,19 @@ export interface ITask {
   taskName: string;
   description: string;
   isDone: boolean;
-  likeCount?: number;
+  likeCount: number;
   userId: IUser['id'];
   tagId: ITag['id'];
   createdAt?: Timestamp;
   updatedAt?: Timestamp;
+}
+
+export interface IUpsertTask {
+  id: string;
+  taskName: string;
+  description: string;
+  isDone: boolean;
+  likeCount: number;
+  userId: IUser['id'];
+  tagId: ITag['id'];
 }

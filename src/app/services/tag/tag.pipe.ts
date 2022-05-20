@@ -1,5 +1,10 @@
-import { ITag } from '~/interfaces/tag/ITag';
+import { Injectable } from '@angular/core';
 
+import { ICreateTag, ITag } from '~/interfaces/tag/ITag';
+
+@Injectable({
+  providedIn: 'root',
+})
 export class TagPipe implements ITag {
   id: ITag['id'];
   tagName: ITag['tagName'];
@@ -10,8 +15,12 @@ export class TagPipe implements ITag {
 
   constructor() {}
 
-  create(tag: ITag): ITag {
+  create(tag: ICreateTag): ITag {
     // TODO:バリデーション追加
-    return tag;
+    return {
+      ...tag,
+      id: '',
+      isActive: true,
+    };
   }
 }

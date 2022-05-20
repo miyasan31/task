@@ -11,7 +11,7 @@ import {
 } from '@angular/fire/firestore';
 import { first } from 'rxjs/operators';
 
-import { ILike } from '~/interfaces/like/ILike';
+import { ICreateLike, ILike } from '~/interfaces/like/ILike';
 import { ILikeRepository } from '~/interfaces/like/ILikeRepository';
 import { likeConverter } from '~/libs/converter/like.converter';
 
@@ -32,10 +32,10 @@ export class LikeRepository implements ILikeRepository {
   }
 
   // いいね情報を保存する
-  create(likeDto: ILike): Promise<void> {
+  create(like: ICreateLike): Promise<void> {
     const likeId = doc(this.likeColRef).id;
     const likeDocRef = doc(this.firestore, `likes/${likeId}`).withConverter(likeConverter);
-    return setDoc(likeDocRef, { ...likeDto, id: likeId });
+    return setDoc(likeDocRef, { ...like, id: likeId });
   }
 
   // いいね情報を削除する

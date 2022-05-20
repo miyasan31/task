@@ -13,3 +13,9 @@ export interface ITag {
   userId: IUser['id'];
   createdAt?: Timestamp;
 }
+
+export interface ICreateTag {
+  tagName: string;
+  color: ColorScheme;
+  userId: IUser['id'];
+}

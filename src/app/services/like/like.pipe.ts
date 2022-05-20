@@ -1,5 +1,10 @@
-import { ILike } from '~/interfaces/like/ILike';
+import { Injectable } from '@angular/core';
 
+import { ICreateLike, ILike } from '~/interfaces/like/ILike';
+
+@Injectable({
+  providedIn: 'root',
+})
 export class LikePipe implements ILike {
   id: ILike['id'];
   userId: ILike['userId'];
@@ -8,7 +13,7 @@ export class LikePipe implements ILike {
 
   constructor() {}
 
-  create(like: ILike): ILike {
+  create(like: ICreateLike): ICreateLike {
     // TODO:バリデーション追加
     return like;
   }

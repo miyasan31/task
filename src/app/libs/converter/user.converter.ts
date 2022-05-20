@@ -5,7 +5,6 @@ import {
   QueryDocumentSnapshot,
   serverTimestamp,
   SnapshotOptions,
-  Timestamp,
 } from '@angular/fire/firestore';
 
 import type { IUser } from '~/interfaces/user/IUser';
@@ -21,6 +20,7 @@ export const userConverter: FirestoreDataConverter<IUser> = {
     return {
       id: snapshot.id,
       userName: data.userName,
+      profile: data.profile,
       email: data.email,
       avatar: data.avatar,
       createdAt: data.createdAt,
@@ -31,6 +31,7 @@ export const userConverter: FirestoreDataConverter<IUser> = {
   toFirestore: (user: PartialWithFieldValue<IUser>): DocumentData => ({
     userName: user.userName,
     email: user.email,
+    profile: user.profile,
     avatar: user.avatar,
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
@@ -49,6 +50,7 @@ export const updateUserConverter: FirestoreDataConverter<IUser> = {
       id: snapshot.id,
       userName: data.userName,
       email: data.email,
+      profile: data.profile,
       avatar: data.avatar,
       createdAt: data.createdAt,
       updatedAt: data.updatedAt,
@@ -58,6 +60,7 @@ export const updateUserConverter: FirestoreDataConverter<IUser> = {
   toFirestore: (user: PartialWithFieldValue<IUser>): DocumentData => ({
     userName: user.userName,
     email: user.email,
+    profile: user.profile,
     avatar: user.avatar,
     createdAt: user.createdAt,
     updatedAt: serverTimestamp(),
