@@ -23,6 +23,7 @@ export class TaskModalComponent implements OnInit {
   taskName: ITask['taskName'];
   description: ITask['description'];
   isDone: ITask['isDone'];
+  likeCount: ITask['likeCount'];
   tagId: ITask['tagId'];
 
   constructor(
@@ -45,6 +46,7 @@ export class TaskModalComponent implements OnInit {
     this.description = task.description;
     this.isDone = task.isDone;
     this.tagId = task.tagId;
+    this.likeCount = task.likeCount;
   }
 
   async onUpsertTask(): Promise<void> {
@@ -56,6 +58,7 @@ export class TaskModalComponent implements OnInit {
       taskName: this.taskName,
       description: this.description,
       isDone: this.isDone,
+      likeCount: this.likeCount,
       userId: user.uid,
       tagId: this.tagId,
     };
