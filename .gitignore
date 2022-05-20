@@ -33,3 +33,5 @@ npm-debug.log*
 
 /ios
 
+/functions/node_modules
+
