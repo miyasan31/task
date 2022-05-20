@@ -15,8 +15,8 @@ import {
   where,
 } from '@angular/fire/firestore';
 import { orderBy } from '@firebase/firestore';
-import { Observable } from 'rxjs';
-import { first } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { first, map } from 'rxjs/operators';
 
 import { ITask } from '~/interfaces/task/ITask';
 import { ITaskRepository } from '~/interfaces/task/ITaskRepository';
@@ -41,16 +41,36 @@ export class TaskRepository implements ITaskRepository {
   }
 
   getTaskList(userId: ITask['userId']): Observable<ITask[]> {
-    const date = limitedTime(0, 3);
+    const today = limitedTime(0, 0);
+    const previousDay = limitedTime(1, 7);
 
-    const taskQuery = query(
+    // 当日の全てのタスクを取得する
+    const todayTaskQuery = query(
       this.taskColRef,
       where('userId', '==', userId),
       orderBy('createdAt', 'desc'),
-      startAt(date.startTimestamp),
-      endAt(date.endTimestamp),
+      startAt(today.startTimestamp),
+      endAt(today.endTimestamp),
     );
-    return collectionData<ITask>(taskQuery);
+
+    // 当日以前（１週間分）の未完了のタスクを取得する
+    const isNotDonePreviousDayTaskQuery = query(
+      this.taskColRef,
+      where('userId', '==', userId),
+      where('isDone', '==', false),
+      orderBy('createdAt', 'desc'),
+      startAt(previousDay.startTimestamp),
+      endAt(previousDay.endTimestamp),
+    );
+    return combineLatest([
+      collectionData(todayTaskQuery),
+      collectionData(isNotDonePreviousDayTaskQuery),
+    ]).pipe(
+      map(([todayTaskList, isNotDonePreviousDayTaskList]) => [
+        ...todayTaskList,
+        ...isNotDonePreviousDayTaskList,
+      ]),
+    );
   }
 
   // タスク情報を保存する
