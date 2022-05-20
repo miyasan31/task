@@ -7,7 +7,7 @@ import { AuthService } from '~/services/auth/auth.service';
   templateUrl: './signin.page.html',
   styleUrls: ['./signin.page.scss'],
 })
-export class SigninPage implements OnInit {
+export class SignInPage implements OnInit {
   email = '';
   password = '';
 

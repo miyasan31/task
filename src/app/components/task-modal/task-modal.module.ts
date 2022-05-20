@@ -4,7 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { TagModalComponentModule } from '~/components/tag-modal/tag-modal.module';
-import { TaskModalComponent } from '~/components/task-modal/task-modal.component';
+
+import { TaskModalComponent } from './task-modal.component';
 
 @NgModule({
   declarations: [TaskModalComponent],

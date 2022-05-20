@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { CalendarHeatmapModule } from 'ng-calendar-heatmap';
 
-import { CalendarHeatmapComponent } from '~/components/calendar-heatmap/calendar-heatmap.component';
+import { CalendarHeatmapComponent } from './calendar-heatmap.component';
 
 @NgModule({
   declarations: [CalendarHeatmapComponent],

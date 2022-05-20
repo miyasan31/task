@@ -1,4 +1,4 @@
-import type { ILike } from './ILike';
+import { ILike } from '~/interfaces/like/ILike';
 
 export interface ILikeRepository {
   create(like: ILike): Promise<void>;

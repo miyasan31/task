@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
-import { TagModalComponent } from '~/components/tag-modal/tag-modal.component';
+import { TagModalComponent } from './tag-modal.component';
 
 @NgModule({
   declarations: [TagModalComponent],

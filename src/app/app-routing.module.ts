@@ -16,7 +16,7 @@ const routes: Routes = [
   },
   {
     path: 'signin',
-    loadChildren: () => import('~/pages/signin/signin.module').then((m) => m.SigninPageModule),
+    loadChildren: () => import('~/pages/sign-in/sign-in.module').then((m) => m.SignInPageModule),
     canActivate: [AuthGuard],
     data: { authGuardPipe: redirectLoggedIn },
   },
