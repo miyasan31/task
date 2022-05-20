@@ -41,8 +41,8 @@ export class ProfileRepository implements IProfileRepository {
     this.likeColRef = collection(this.firestore, 'likes').withConverter(likeConverter);
   }
 
-  getMyTaskListWithLike(
-    profileUserId: ITask['userId'],
+  getUserTaskListWithLike(
+    profileUserId: IUser['id'],
     currentUserId: IUser['id'],
   ): Observable<ITaskCard[]> {
     const taskQuery = query(
@@ -55,7 +55,6 @@ export class ProfileRepository implements IProfileRepository {
 
     const taskCardList = taskDocList.pipe(
       mergeMap((taskList) => {
-        console.log(taskList);
         const taskUserIdList = taskList.map((task) => task.id);
 
         return combineLatest([
@@ -84,10 +83,13 @@ export class ProfileRepository implements IProfileRepository {
     return taskCardList;
   }
 
-  getMyLikedTaskList(currentUserId: IUser['id']): Observable<ILikedTaskCard[]> {
+  getUserLikedTaskList(
+    profileUserId: IUser['id'],
+    currentUserId: IUser['id'],
+  ): Observable<ILikedTaskCard[]> {
     const likeQuery = query(
       this.likeColRef,
-      where('userId', '==', currentUserId),
+      where('userId', '==', profileUserId),
       orderBy('createdAt', 'desc'),
     );
     const likeDocList = collectionData(likeQuery);
@@ -99,11 +101,17 @@ export class ProfileRepository implements IProfileRepository {
         const promise = userLikedTaskIdList.map(async (taskId, index) => {
           const taskDocRef = doc(this.firestore, `tasks/${taskId}`).withConverter(taskConverter);
           const task = await docData(taskDocRef).pipe(first()).toPromise(Promise);
+          const isLikeQuery = query(
+            this.likeColRef,
+            where('userId', '==', currentUserId),
+            where('taskId', '==', task.id),
+          );
+          const isLikeDocList = await collectionData(isLikeQuery).pipe(first()).toPromise(Promise);
           const userDocRef = doc(this.firestore, `users/${task.userId}`).withConverter(
             userConverter,
           );
           const user = await docData(userDocRef).pipe(first()).toPromise(Promise);
-          return { user, task, like: likeList[index] };
+          return { user, task, like: isLikeDocList[0] };
         });
 
         return await Promise.all(promise);

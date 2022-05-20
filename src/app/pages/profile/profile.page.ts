@@ -32,11 +32,11 @@ export class ProfilePage implements OnInit {
   }
 
   private fetchTaskList(): void {
-    this.taskList = this.profileService.getMyTaskListWithLike(this.user.id, this.user.id);
+    this.taskList = this.profileService.getUserTaskListWithLike(this.user.id, this.user.id);
   }
 
   private fetchLikeList(): void {
-    this.likeList = this.profileService.getMyLikedTaskList(this.user.id);
+    this.likeList = this.profileService.getUserLikedTaskList(this.user.id, this.user.id);
   }
 
   onSegmentChanged(scene: Scene): void {

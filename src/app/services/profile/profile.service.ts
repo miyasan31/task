@@ -13,14 +13,17 @@ import { ProfileRepository } from '~/repositories/profile/profile.repository';
 export class ProfileService implements IProfileRepository {
   constructor(private profileRepository: ProfileRepository) {}
 
-  getMyTaskListWithLike(
+  getUserTaskListWithLike(
     profileUserId: IUser['id'],
     currentUserId: IUser['id'],
   ): Observable<ITaskCard[]> {
-    return this.profileRepository.getMyTaskListWithLike(profileUserId, currentUserId);
+    return this.profileRepository.getUserTaskListWithLike(profileUserId, currentUserId);
   }
 
-  getMyLikedTaskList(currentUserId: IUser['id']): Observable<ILikedTaskCard[]> {
-    return this.profileRepository.getMyLikedTaskList(currentUserId);
+  getUserLikedTaskList(
+    profileUserId: IUser['id'],
+    currentUserId: IUser['id'],
+  ): Observable<ILikedTaskCard[]> {
+    return this.profileRepository.getUserLikedTaskList(profileUserId, currentUserId);
   }
 }
