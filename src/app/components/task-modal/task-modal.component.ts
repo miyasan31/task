@@ -2,9 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 
+import { TagModalComponent } from '~/components/tag-modal/tag-modal.component';
 import { ITag } from '~/interfaces/tag/ITag';
 import { ITask } from '~/interfaces/task/ITask';
-import { TagModalComponent } from '~/pages/task/components/tag-modal/tag-modal.component';
 import { AuthService } from '~/services/auth/auth.service';
 import { TagService } from '~/services/tag/tag.service';
 import { TaskService } from '~/services/task/task.service';

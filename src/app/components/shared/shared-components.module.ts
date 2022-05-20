@@ -12,4 +12,4 @@ import { TaskDetailCardComponent } from './task-detail-card/task-detail-card.com
   exports: [TaskCardComponent, TaskDetailCardComponent],
   imports: [IonicModule, CommonModule, FormsModule, RouterModule],
 })
-export class ComponentsModule {}
+export class SharedComponentsModule {}

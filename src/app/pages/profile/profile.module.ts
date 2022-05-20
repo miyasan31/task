@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
-import { ComponentsModule } from '~/components/components.module';
-import { CalenderHeatmapComponentModule } from '~/pages/profile/components/calendar-heatmap.module';
+import { CalenderHeatmapComponentModule } from '~/components/calendar-heatmap/calendar-heatmap.module';
+import { SharedComponentsModule } from '~/components/shared/shared-components.module';
 
 import { ProfilePage } from './profile.page';
 import { ProfilePageRoutingModule } from './profile-routing.module';
@@ -14,8 +14,8 @@ import { ProfilePageRoutingModule } from './profile-routing.module';
     CommonModule,
     FormsModule,
     IonicModule,
+    SharedComponentsModule,
     ProfilePageRoutingModule,
-    ComponentsModule,
     CalenderHeatmapComponentModule,
   ],
   declarations: [ProfilePage],
