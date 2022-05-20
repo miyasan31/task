@@ -12,7 +12,13 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "fmt": "prettier --parser typescript --write \"./src/**/*.ts\" &&  prettier --parser angular --write \"./src/**/*.html\""
+    "fmt": "prettier --parser typescript --write \"./src/**/*.ts\" &&  prettier --parser angular --write \"./src/**/*.html\"",
+    "emulators": "firebase emulators:start --non-interactive --only functions,firestore,storage",
+    "emulator:auth": "firebase emulators:start --only auth",
+    "emulator:functions": "firebase emulators:start --only functions",
+    "emulator:firestore": "firebase emulators:start --only firestore",
+    "emulator:storage": "firebase emulators:start --only storage",
+    "emulator:hosting": "firebase emulators:start --only hosting"
   },
   "lint-staged": {
     "*.ts": [
@@ -93,5 +99,8 @@
     "typescript": "~4.4.4",
     "webpack-bundle-analyzer": "^4.5.0"
   },
-  "description": "An Ionic project"
+  "description": "An Ionic project",
+  "volta": {
+    "node": "16.15.0"
+  }
 }
