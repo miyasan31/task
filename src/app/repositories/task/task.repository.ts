@@ -7,17 +7,21 @@ import {
   doc,
   docData,
   DocumentReference,
+  endAt,
   Firestore,
   query,
   setDoc,
+  startAt,
   where,
 } from '@angular/fire/firestore';
+import { orderBy } from '@firebase/firestore';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 
 import { ITask } from '~/interfaces/task/ITask';
 import { ITaskRepository } from '~/interfaces/task/ITaskRepository';
 import { taskConverter, updateTaskConverter } from '~/libs/converter/task.converter';
+import { todayRange } from '~/utils/todayRange';
 
 @Injectable({
   providedIn: 'root',
@@ -37,8 +41,15 @@ export class TaskRepository implements ITaskRepository {
   }
 
   getTaskList(userId: ITask['userId']): Observable<ITask[]> {
-    // TODO:当日のタスクのみ取得する
-    const taskQuery = query(this.taskColRef, where('userId', '==', userId));
+    const date = todayRange();
+
+    const taskQuery = query(
+      this.taskColRef,
+      where('userId', '==', userId),
+      orderBy('createdAt', 'desc'),
+      startAt(date.endTimestamp),
+      endAt(date.startTimestamp),
+    );
     return collectionData<ITask>(taskQuery);
   }
 

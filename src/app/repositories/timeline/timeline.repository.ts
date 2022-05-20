@@ -4,10 +4,14 @@ import {
   collectionData,
   CollectionReference,
   DocumentReference,
+  endAt,
   Firestore,
+  orderBy,
   query,
+  Timestamp,
   where,
 } from '@angular/fire/firestore';
+import { startAt } from '@firebase/firestore';
 import { combineLatest, Observable, of } from 'rxjs';
 import { concatMap, first, map, mergeMap } from 'rxjs/operators';
 
@@ -20,6 +24,7 @@ import { IUser } from '~/interfaces/user/IUser';
 import { likeConverter } from '~/libs/converter/like.converter';
 import { taskConverter } from '~/libs/converter/task.converter';
 import { userConverter } from '~/libs/converter/user.converter';
+import { todayRange } from '~/utils/todayRange';
 
 @Injectable({
   providedIn: 'root',
@@ -40,14 +45,24 @@ export class TimelineRepository implements ITimelineRepository {
 
   // ユーザーに作成したタスクを紐づけて取得
   getUserTaskList(): Observable<ITimeline[]> {
-    // TODO:当日のタスクのみ取得する
+    const date = todayRange();
+
     const userQuery = query(this.userColRef);
+
     const userDocList = collectionData(userQuery);
 
     const timelineList = userDocList.pipe(
       mergeMap((userList) => {
         const userIdList = userList.map((user) => user.id);
-        const taskQuery = query(this.taskColRef, where('userId', 'in', userIdList));
+
+        const taskQuery = query(
+          this.taskColRef,
+          where('userId', 'in', userIdList),
+          where('isDone', '==', true),
+          orderBy('createdAt', 'desc'),
+          startAt(date.endTimestamp),
+          endAt(date.startTimestamp),
+        );
 
         return combineLatest([of(userList), collectionData(taskQuery)]);
       }),
@@ -68,8 +83,16 @@ export class TimelineRepository implements ITimelineRepository {
     userId: ITask['userId'],
     currentUserId: IUser['id'],
   ): Observable<ITaskCard[]> {
-    // TODO:当日のタスクのみ取得する
-    const taskQuery = query(this.taskColRef, where('userId', '==', userId));
+    const date = todayRange();
+
+    const taskQuery = query(
+      this.taskColRef,
+      where('userId', '==', userId),
+      where('isDone', '==', true),
+      orderBy('createdAt', 'desc'),
+      startAt(date.endTimestamp),
+      endAt(date.startTimestamp),
+    );
     const taskDocList = collectionData(taskQuery);
 
     const taskCardList = taskDocList.pipe(
