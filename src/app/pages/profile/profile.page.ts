@@ -17,6 +17,7 @@ type Scene = 'profile' | 'task' | 'like';
 export class ProfilePage implements OnInit {
   taskList: Observable<ITaskCard[]>;
   likeList: Observable<ILikedTaskCard[]>;
+  likeCount: number;
   scene: Scene;
   user: IUser;
 
@@ -29,6 +30,7 @@ export class ProfilePage implements OnInit {
 
   private async fetchProfile(): Promise<void> {
     this.user = await this.authService.getAuthUserInfo();
+    this.likeCount = await this.profileService.getUserLikeCount(this.user.id);
   }
 
   private fetchTaskList(): void {

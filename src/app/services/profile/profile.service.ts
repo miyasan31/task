@@ -26,4 +26,8 @@ export class ProfileService implements IProfileRepository {
   ): Observable<ILikedTaskCard[]> {
     return this.profileRepository.getUserLikedTaskList(profileUserId, currentUserId);
   }
+
+  getUserLikeCount(profileUserId: IUser['id']): Promise<number> {
+    return this.profileRepository.getUserLikeCount(profileUserId);
+  }
 }
