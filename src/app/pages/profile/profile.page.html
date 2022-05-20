@@ -5,17 +5,19 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-segment [(ngModel)]="scene">
-    <ion-segment-button value="profile">
-      <ion-label>プロフィール</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="task">
-      <ion-label>タスク</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="like">
-      <ion-label>いいね</ion-label>
-    </ion-segment-button>
-  </ion-segment>
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="scene">
+      <ion-segment-button value="profile">
+        <ion-label style="padding: 0 1rem">プロフィール</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="task">
+        <ion-label style="padding: 0 1rem"> タスク </ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="like">
+        <ion-label style="padding: 0 1rem"> いいね </ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
 
   <div [ngSwitch]="scene">
     <div *ngSwitchCase="'profile'" class="component-profile">
