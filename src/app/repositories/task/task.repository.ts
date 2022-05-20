@@ -21,7 +21,7 @@ import { first } from 'rxjs/operators';
 import { ITask } from '~/interfaces/task/ITask';
 import { ITaskRepository } from '~/interfaces/task/ITaskRepository';
 import { taskConverter, updateTaskConverter } from '~/libs/converter/task.converter';
-import { todayRange } from '~/utils/todayRange';
+import { limitedTime } from '~/utils/limitedTime';
 
 @Injectable({
   providedIn: 'root',
@@ -41,14 +41,14 @@ export class TaskRepository implements ITaskRepository {
   }
 
   getTaskList(userId: ITask['userId']): Observable<ITask[]> {
-    const date = todayRange();
+    const date = limitedTime(0, 3);
 
     const taskQuery = query(
       this.taskColRef,
       where('userId', '==', userId),
       orderBy('createdAt', 'desc'),
-      startAt(date.endTimestamp),
-      endAt(date.startTimestamp),
+      startAt(date.startTimestamp),
+      endAt(date.endTimestamp),
     );
     return collectionData<ITask>(taskQuery);
   }
