@@ -4,10 +4,12 @@ import {
   CollectionReference,
   deleteDoc,
   doc,
+  docData,
   DocumentReference,
   Firestore,
   setDoc,
 } from '@angular/fire/firestore';
+import { first } from 'rxjs/operators';
 
 import { ILike } from '~/interfaces/like/ILike';
 import { ILikeRepository } from '~/interfaces/like/ILikeRepository';
@@ -22,6 +24,11 @@ export class LikeRepository implements ILikeRepository {
 
   constructor(private firestore: Firestore) {
     this.likeColRef = collection(this.firestore, 'likes').withConverter(likeConverter);
+  }
+
+  get(likeId: ILike['id']): Promise<ILike> {
+    const likeDocRef = doc(this.firestore, `likes/${likeId}`).withConverter(likeConverter);
+    return docData<ILike>(likeDocRef).pipe(first()).toPromise(Promise);
   }
 
   // いいね情報を保存する

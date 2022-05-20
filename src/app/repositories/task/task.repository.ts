@@ -17,7 +17,7 @@ import { first } from 'rxjs/operators';
 
 import { ITask } from '~/interfaces/task/ITask';
 import { ITaskRepository } from '~/interfaces/task/ITaskRepository';
-import { taskConverter } from '~/libs/converter/task.converter';
+import { taskConverter, updateTaskConverter } from '~/libs/converter/task.converter';
 
 @Injectable({
   providedIn: 'root',
@@ -59,5 +59,21 @@ export class TaskRepository implements ITaskRepository {
   delete(taskId: ITask['id']): Promise<void> {
     const taskDocRef = doc(this.firestore, `tasks/${taskId}`).withConverter(taskConverter);
     return deleteDoc(taskDocRef);
+  }
+
+  // いいね数をカウントアップする
+  likeCountUp(taskDto: ITask): Promise<void> {
+    const taskDocRef = doc(this.firestore, `tasks/${taskDto.id}`).withConverter(
+      updateTaskConverter,
+    );
+    return setDoc(taskDocRef, { ...taskDto, likeCount: taskDto.likeCount + 1 }, { merge: true });
+  }
+
+  // いいね数をカウントダウンする
+  likeCountDown(taskDto: ITask): Promise<void> {
+    const taskDocRef = doc(this.firestore, `tasks/${taskDto.id}`).withConverter(
+      updateTaskConverter,
+    );
+    return setDoc(taskDocRef, { ...taskDto, likeCount: taskDto.likeCount - 1 }, { merge: true });
   }
 }

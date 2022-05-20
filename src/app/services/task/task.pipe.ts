@@ -5,12 +5,14 @@ export class TaskPipe implements ITask {
   taskName: ITask['taskName'];
   description: ITask['description'];
   isDone: ITask['isDone'];
+  likeCount: ITask['likeCount'];
   userId: ITask['userId'];
   tagId: ITask['tagId'];
   createdAt?: ITask['createdAt'];
 
   constructor() {
     this.isDone = false;
+    this.likeCount = 0;
   }
 
   create(task: ITask): ITask {
@@ -18,6 +20,7 @@ export class TaskPipe implements ITask {
     return {
       ...task,
       isDone: !!task.isDone,
+      likeCount: this.likeCount,
     };
   }
 

@@ -8,6 +8,7 @@ export interface ITask {
   taskName: string;
   description: string;
   isDone: boolean;
+  likeCount?: number;
   userId: IUser['id'];
   tagId: ITag['id'];
   createdAt?: Timestamp;

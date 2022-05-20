@@ -6,7 +6,6 @@ import {
   serverTimestamp,
   SnapshotOptions,
 } from '@angular/fire/firestore';
-import { Timestamp } from '@angular/fire/firestore';
 
 import type { ITask } from '~/interfaces/task/ITask';
 
@@ -23,6 +22,7 @@ export const taskConverter: FirestoreDataConverter<ITask> = {
       taskName: data.taskName,
       description: data.description,
       isDone: data.isDone,
+      likeCount: data.likeCount,
       tagId: data.tagId,
       userId: data.userId,
       createdAt: data.createdAt,
@@ -34,9 +34,42 @@ export const taskConverter: FirestoreDataConverter<ITask> = {
       taskName: task.taskName,
       description: task.description,
       isDone: task.isDone,
+      likeCount: task.likeCount,
       tagId: task.tagId,
       userId: task.userId,
       createdAt: serverTimestamp(),
+    };
+
+    return data;
+  },
+};
+
+export const updateTaskConverter: FirestoreDataConverter<ITask> = {
+  // FireStore取得時の変換
+  fromFirestore: (snapshot: QueryDocumentSnapshot, options: SnapshotOptions): ITask => {
+    const data = snapshot.data(options);
+
+    return {
+      id: snapshot.id,
+      taskName: data.taskName,
+      description: data.description,
+      isDone: data.isDone,
+      likeCount: data.likeCount,
+      tagId: data.tagId,
+      userId: data.userId,
+      createdAt: data.createdAt,
+    };
+  },
+  // FireStore保存時の変換
+  toFirestore: (task: PartialWithFieldValue<ITask>): DocumentData => {
+    const data = {
+      taskName: task.taskName,
+      description: task.description,
+      isDone: task.isDone,
+      likeCount: task.likeCount,
+      tagId: task.tagId,
+      userId: task.userId,
+      createdAt: task.createdAt,
     };
 
     return data;
