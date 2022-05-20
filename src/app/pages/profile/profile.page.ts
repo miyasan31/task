@@ -6,7 +6,6 @@ import { ITaskCard } from '~/interfaces/timeline/ITaskCard';
 import { IUser } from '~/interfaces/user/IUser';
 import { AuthService } from '~/services/auth/auth.service';
 import { ProfileService } from '~/services/profile/profile.service';
-import { TimelineService } from '~/services/timeline/timeline.service';
 
 type Scene = 'profile' | 'task' | 'like';
 
@@ -21,11 +20,7 @@ export class ProfilePage implements OnInit {
   scene: Scene;
   user: IUser;
 
-  constructor(
-    private authService: AuthService,
-    private timelineService: TimelineService,
-    private profileService: ProfileService,
-  ) {}
+  constructor(private authService: AuthService, private profileService: ProfileService) {}
 
   async ngOnInit() {
     await this.fetchProfile();
@@ -37,7 +32,7 @@ export class ProfilePage implements OnInit {
   }
 
   private fetchTaskList(): void {
-    this.taskList = this.timelineService.getTaskListWithLike(this.user.id, this.user.id);
+    this.taskList = this.profileService.getMyTaskListWithLike(this.user.id, this.user.id);
   }
 
   private fetchLikeList(): void {

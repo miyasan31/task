@@ -11,13 +11,14 @@ import {
   query,
   where,
 } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
-import { first, mergeMap } from 'rxjs/operators';
+import { combineLatest, Observable, of } from 'rxjs';
+import { first, map, mergeMap } from 'rxjs/operators';
 
 import { ILike } from '~/interfaces/like/ILike';
 import { ILikedTaskCard } from '~/interfaces/profile/ILikedTaskCard';
 import { IProfileRepository } from '~/interfaces/profile/IProfileRepository';
 import { ITask } from '~/interfaces/task/ITask';
+import { ITaskCard } from '~/interfaces/timeline/ITaskCard';
 import { IUser } from '~/interfaces/user/IUser';
 import { IUserRepository } from '~/interfaces/user/IUserRepository';
 import { likeConverter } from '~/libs/converter/like.converter';
@@ -40,8 +41,50 @@ export class ProfileRepository implements IProfileRepository {
     this.likeColRef = collection(this.firestore, 'likes').withConverter(likeConverter);
   }
 
+  getMyTaskListWithLike(
+    profileUserId: ITask['userId'],
+    currentUserId: IUser['id'],
+  ): Observable<ITaskCard[]> {
+    const taskQuery = query(
+      this.taskColRef,
+      where('userId', '==', profileUserId),
+      where('isDone', '==', true),
+      orderBy('createdAt', 'desc'),
+    );
+    const taskDocList = collectionData(taskQuery);
+
+    const taskCardList = taskDocList.pipe(
+      mergeMap((taskList) => {
+        console.log(taskList);
+        const taskUserIdList = taskList.map((task) => task.id);
+
+        return combineLatest([
+          of(taskList),
+          combineLatest(
+            taskUserIdList.map((taskId) => {
+              const likeQuery = query(
+                this.likeColRef,
+                where('userId', '==', currentUserId),
+                where('taskId', '==', taskId),
+              );
+
+              return collectionData(likeQuery).pipe(map((like) => like[0]));
+            }),
+          ),
+        ]);
+      }),
+      map(([taskList, likeList]) =>
+        taskList.map((task) => {
+          const isLike = likeList.filter((like) => like && like.taskId === task.id)[0];
+          return { task, like: isLike };
+        }),
+      ),
+    );
+
+    return taskCardList;
+  }
+
   getMyLikedTaskList(currentUserId: IUser['id']): Observable<ILikedTaskCard[]> {
-    // TODO:当日のタスクのみ取得する
     const likeQuery = query(
       this.likeColRef,
       where('userId', '==', currentUserId),
@@ -70,27 +113,3 @@ export class ProfileRepository implements IProfileRepository {
     return taskCardList;
   }
 }
-
-// getTaskListWithLike(
-//   userId: ITask['userId'],
-//   currentUserId: IUser['id'],
-// ): Observable<ITaskCard[]> {
-//   // TODO:当日のタスクのみ取得する
-//   const taskQuery = query(this.taskColRef, where('userId', '==', userId));
-//   return collectionData(taskQuery).pipe(
-//     concatMap(async (taskList) => {
-//       const taskUserIdList = taskList.map((task) => task.id);
-//       const likeQuery = query(
-//         this.likeColRef,
-//         where('userId', '==', currentUserId),
-//         where('taskId', 'in', taskUserIdList),
-//       );
-//       const isLikeList = await collectionData(likeQuery).pipe(first()).toPromise(Promise);
-
-//       return taskList.map((task) => {
-//         const like = isLikeList.filter((l) => l.taskId === task.id);
-//         return { task, like };
-//       });
-//     }),
-//   );
-// }
