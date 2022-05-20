@@ -7,6 +7,7 @@ export class UserPipe implements IUser {
   profile?: IUser['profile'];
   avatar: IUser['avatar'];
   createdAt?: IUser['createdAt'];
+  updatedAt?: IUser['updatedAt'];
 
   constructor() {
     this.profile = '';

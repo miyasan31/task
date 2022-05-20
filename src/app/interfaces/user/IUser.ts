@@ -7,4 +7,5 @@ export interface IUser {
   profile?: string;
   avatar: string;
   createdAt?: Timestamp;
+  updatedAt?: Timestamp;
 }

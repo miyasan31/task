@@ -12,4 +12,5 @@ export interface ITask {
   userId: IUser['id'];
   tagId: ITag['id'];
   createdAt?: Timestamp;
+  updatedAt?: Timestamp;
 }

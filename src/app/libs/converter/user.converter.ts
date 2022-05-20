@@ -24,6 +24,7 @@ export const userConverter: FirestoreDataConverter<IUser> = {
       email: data.email,
       avatar: data.avatar,
       createdAt: data.createdAt,
+      updatedAt: data.updatedAt,
     };
   },
   // FireStore保存時の変換
@@ -32,5 +33,33 @@ export const userConverter: FirestoreDataConverter<IUser> = {
     email: user.email,
     avatar: user.avatar,
     createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
+  }),
+};
+
+/**
+ * FirestoreのドキュメントとUserオブジェクトの型変換
+ */
+export const updateUserConverter: FirestoreDataConverter<IUser> = {
+  // FireStore取得時の変換
+  fromFirestore: (snapshot: QueryDocumentSnapshot, options: SnapshotOptions): IUser => {
+    const data = snapshot.data(options);
+
+    return {
+      id: snapshot.id,
+      userName: data.userName,
+      email: data.email,
+      avatar: data.avatar,
+      createdAt: data.createdAt,
+      updatedAt: data.updatedAt,
+    };
+  },
+  // FireStore保存時の変換
+  toFirestore: (user: PartialWithFieldValue<IUser>): DocumentData => ({
+    userName: user.userName,
+    email: user.email,
+    avatar: user.avatar,
+    createdAt: user.createdAt,
+    updatedAt: serverTimestamp(),
   }),
 };

@@ -26,6 +26,7 @@ export const taskConverter: FirestoreDataConverter<ITask> = {
       tagId: data.tagId,
       userId: data.userId,
       createdAt: data.createdAt,
+      updatedAt: data.updatedAt,
     };
   },
   // FireStore保存時の変換
@@ -38,6 +39,7 @@ export const taskConverter: FirestoreDataConverter<ITask> = {
       tagId: task.tagId,
       userId: task.userId,
       createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
     };
 
     return data;
@@ -58,6 +60,7 @@ export const updateTaskConverter: FirestoreDataConverter<ITask> = {
       tagId: data.tagId,
       userId: data.userId,
       createdAt: data.createdAt,
+      updatedAt: data.updatedAt,
     };
   },
   // FireStore保存時の変換
@@ -70,6 +73,7 @@ export const updateTaskConverter: FirestoreDataConverter<ITask> = {
       tagId: task.tagId,
       userId: task.userId,
       createdAt: task.createdAt,
+      updatedAt: serverTimestamp(),
     };
 
     return data;

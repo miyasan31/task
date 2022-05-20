@@ -13,6 +13,7 @@ import { first } from 'rxjs/operators';
 
 import { IUser } from '~/interfaces/user/IUser';
 import { IUserRepository } from '~/interfaces/user/IUserRepository';
+import { updateTaskConverter } from '~/libs/converter/task.converter';
 import { userConverter } from '~/libs/converter/user.converter';
 
 @Injectable({
@@ -40,7 +41,9 @@ export class UserRepository implements IUserRepository {
 
   // ユーザー情報を更新する
   update(userDto: IUser): Promise<void> {
-    const userDocRef = doc(this.firestore, `users/${userDto.id}`).withConverter(userConverter);
+    const userDocRef = doc(this.firestore, `users/${userDto.id}`).withConverter(
+      updateTaskConverter,
+    );
     return setDoc(userDocRef, userDto, { merge: true });
   }
 
