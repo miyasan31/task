@@ -43,7 +43,8 @@ export class ProfilePage implements OnInit {
     this.likeList = this.profileService.getUserLikedTaskList(this.user.id, this.user.id);
   }
 
-  onSegmentChanged(scene: Scene): void {
+  onSegmentChanged($event: any): void {
+    const scene = $event.detail.value;
     switch (scene) {
       case 'profile':
         if (this.user) {

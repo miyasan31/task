@@ -6,7 +6,7 @@
 
 <ion-content [fullscreen]="true">
   <ion-toolbar>
-    <ion-segment [(ngModel)]="scene" (ionChange)="onSegmentChanged($event.detail.value)">
+    <ion-segment [(ngModel)]="scene" (ionChange)="onSegmentChanged($event)">
       <ion-segment-button value="profile">
         <ion-label style="padding: 0 1rem">プロフィール</ion-label>
       </ion-segment-button>
