@@ -17,8 +17,8 @@ type Scene = 'profile' | 'task' | 'like';
 export class ProfilePage implements OnInit {
   taskList: Observable<ITaskCard[]>;
   likeList: Observable<ILikedTaskCard[]>;
-  isDoneTaskCount: number;
-  likeCount: number;
+  isDoneTaskCount = 0;
+  likeCount = 0;
   scene: Scene;
   user: IUser;
 
