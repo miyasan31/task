@@ -34,7 +34,7 @@ export class TimelineDetailPage implements OnInit {
     const user = await this.authService.getAuthUser();
 
     this.user = await this.userService.get(this.userId);
-    this.taskList = this.timelineService.getTaskListWithLike(this.userId, user.uid);
+    this.taskList = this.timelineService.getTimelineDetailTaskListWithLike(this.userId, user.uid);
   }
 
   trackByFn(index, item): number {

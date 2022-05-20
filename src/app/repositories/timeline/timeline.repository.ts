@@ -43,7 +43,7 @@ export class TimelineRepository implements ITimelineRepository {
   }
 
   // ユーザーに作成したタスクを紐づけて取得
-  getUserTaskList(): Observable<ITimeline[]> {
+  getTimelineUserTaskList(): Observable<ITimeline[]> {
     const date = limitedTime();
 
     const userQuery = query(this.userColRef);
@@ -78,7 +78,7 @@ export class TimelineRepository implements ITimelineRepository {
     return timelineList;
   }
 
-  getTaskListWithLike(
+  getTimelineDetailTaskListWithLike(
     userId: ITask['userId'],
     currentUserId: IUser['id'],
   ): Observable<ITaskCard[]> {

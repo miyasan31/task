@@ -14,14 +14,14 @@ import { TimelineRepository } from '~/repositories/timeline/timeline.repository'
 export class TimelineService implements ITimelineRepository {
   constructor(private timelineRepository: TimelineRepository) {}
 
-  getUserTaskList(): Observable<ITimeline[]> {
-    return this.timelineRepository.getUserTaskList();
+  getTimelineUserTaskList(): Observable<ITimeline[]> {
+    return this.timelineRepository.getTimelineUserTaskList();
   }
 
-  getTaskListWithLike(
+  getTimelineDetailTaskListWithLike(
     userId: ITask['userId'],
     currentUserId: IUser['id'],
   ): Observable<ITaskCard[]> {
-    return this.timelineRepository.getTaskListWithLike(userId, currentUserId);
+    return this.timelineRepository.getTimelineDetailTaskListWithLike(userId, currentUserId);
   }
 }

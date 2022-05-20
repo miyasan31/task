@@ -15,7 +15,7 @@ export class TimelinePage implements OnInit {
   constructor(private timelineService: TimelineService) {}
 
   ngOnInit() {
-    this.timelineData = this.timelineService.getUserTaskList();
+    this.timelineData = this.timelineService.getTimelineUserTaskList();
   }
 
   trackByFn(index, item): number {
