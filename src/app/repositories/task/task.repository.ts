@@ -62,7 +62,7 @@ export class TaskRepository implements ITaskRepository {
 
   // タスク情報を更新する
   update(task: ITask): Promise<void> {
-    const taskDocRef = doc(this.firestore, `tasks/${task.id}`).withConverter(taskConverter);
+    const taskDocRef = doc(this.firestore, `tasks/${task.id}`).withConverter(updateTaskConverter);
     return setDoc(taskDocRef, task, { merge: true });
   }
 
