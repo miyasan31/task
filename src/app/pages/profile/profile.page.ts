@@ -8,6 +8,8 @@ import { AuthService } from '~/services/auth/auth.service';
 import { ProfileService } from '~/services/profile/profile.service';
 import { TimelineService } from '~/services/timeline/timeline.service';
 
+type Scene = 'profile' | 'task' | 'like';
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
@@ -16,7 +18,7 @@ import { TimelineService } from '~/services/timeline/timeline.service';
 export class ProfilePage implements OnInit {
   taskList: Observable<ITaskCard[]>;
   likeList: Observable<ILikedTaskCard[]>;
-  scene: string;
+  scene: Scene;
   user: IUser;
 
   constructor(
@@ -26,14 +28,45 @@ export class ProfilePage implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.user = await this.authService.getAuthUserInfo();
+    await this.fetchProfile();
     this.scene = 'profile';
-    this.taskList = await this.timelineService.getTaskListWithLike(this.user.id, this.user.id);
-    this.likeList = await this.profileService.getMyLikedTaskList(this.user.id);
   }
 
-  onSegmentChanged(ev: any): void {
-    console.log(ev);
+  private async fetchProfile(): Promise<void> {
+    this.user = await this.authService.getAuthUserInfo();
+  }
+
+  private fetchTaskList(): void {
+    this.taskList = this.timelineService.getTaskListWithLike(this.user.id, this.user.id);
+  }
+
+  private fetchLikeList(): void {
+    this.likeList = this.profileService.getMyLikedTaskList(this.user.id);
+  }
+
+  onSegmentChanged(scene: Scene): void {
+    switch (scene) {
+      case 'profile':
+        if (this.user) {
+          break;
+        }
+        this.fetchProfile();
+        break;
+      case 'task':
+        if (this.taskList) {
+          break;
+        }
+        this.fetchTaskList();
+        break;
+      case 'like':
+        if (this.likeList) {
+          break;
+        }
+        this.fetchLikeList();
+        break;
+      default:
+        break;
+    }
   }
 
   onSignOut(): void {

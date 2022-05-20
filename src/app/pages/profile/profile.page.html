@@ -6,7 +6,7 @@
 
 <ion-content [fullscreen]="true">
   <ion-toolbar>
-    <ion-segment [(ngModel)]="scene">
+    <ion-segment [(ngModel)]="scene" (ionChange)="onSegmentChanged($event.detail.value)">
       <ion-segment-button value="profile">
         <ion-label style="padding: 0 1rem">プロフィール</ion-label>
       </ion-segment-button>
@@ -46,7 +46,7 @@
 
       <p class="user-name">{{ user.userName }}</p>
 
-      <p class="profile-body">{{ user.profile || 'プロフィール文がありません。' }}</p>
+      <p class="profile-body">{{ user.profile || 'プロフィール文が未入力です。' }}</p>
 
       <app-calendar-heatmap></app-calendar-heatmap>
 
