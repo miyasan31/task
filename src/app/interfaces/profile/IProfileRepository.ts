@@ -13,5 +13,6 @@ export interface IProfileRepository {
     profileUserId: IUser['id'],
     currentUserId: IUser['id'],
   ): Observable<ILikedTaskCard[]>;
+  getUserIsDoneTaskCount(profileUserId: IUser['id']): Promise<number>;
   getUserLikeCount(profileUserId: IUser['id']): Promise<number>;
 }

@@ -121,11 +121,22 @@ export class ProfileRepository implements IProfileRepository {
     return taskCardList;
   }
 
+  async getUserIsDoneTaskCount(profileUserId: IUser['id']): Promise<number> {
+    const taskQuery = query(
+      this.taskColRef,
+      where('userId', '==', profileUserId),
+      where('isDone', '==', true),
+    );
+    const taskList = await collectionData(taskQuery).pipe(first()).toPromise(Promise);
+    return taskList.length;
+  }
+
   async getUserLikeCount(profileUserId: IUser['id']): Promise<number> {
     const taskQuery = query(this.taskColRef, where('userId', '==', profileUserId));
     const taskDocList = await collectionData(taskQuery).pipe(first()).toPromise(Promise);
 
     const taskIdList = taskDocList.map((task) => task.id);
+
     const likeQuery = query(this.likeColRef, where('taskId', 'in', taskIdList));
     const likeDocList = await collectionData(likeQuery).pipe(first()).toPromise(Promise);
     return likeDocList.length;

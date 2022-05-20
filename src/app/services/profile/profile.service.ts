@@ -27,6 +27,10 @@ export class ProfileService implements IProfileRepository {
     return this.profileRepository.getUserLikedTaskList(profileUserId, currentUserId);
   }
 
+  getUserIsDoneTaskCount(profileUserId: IUser['id']): Promise<number> {
+    return this.profileRepository.getUserIsDoneTaskCount(profileUserId);
+  }
+
   getUserLikeCount(profileUserId: IUser['id']): Promise<number> {
     return this.profileRepository.getUserLikeCount(profileUserId);
   }
