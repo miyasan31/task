@@ -1,22 +1,22 @@
 export const firebaseError = {
   'auth/invalid-email': {
-    code: 'メールアドレスの間違い',
+    code: 'invalid-email',
     message: 'メールアドレスのフォーマットが間違っています。',
   },
   'auth/wrong-password': {
-    code: 'パスワードの間違い',
+    code: 'wrong-password',
     message: '入力いただいたパスワードが間違っています',
   },
   'auth/weak-password': {
-    code: '脆弱性があります',
+    code: 'weak-password',
     message: 'パスワードは最低でも６文字以上のものをご利用ください',
   },
   'auth/user-not-found': {
-    code: 'ユーザーが見つかりません',
+    code: 'user-not-found',
     message: '入力いただいたユーザーは存在しません',
   },
   'auth/email-already-in-use': {
-    code: 'ユーザーが存在します',
+    code: 'email-already-in-use',
     message: 'このメールアドレスを利用したユーザーが既に存在します',
   },
 };

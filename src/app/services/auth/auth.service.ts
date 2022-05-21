@@ -32,50 +32,66 @@ export class AuthService {
   ) {}
 
   // Google
-  googleSignIn(): void {
+  async googleSignIn(): Promise<void> {
     if (Capacitor.isNativePlatform()) {
-      this.nativeGoogleSignIn();
+      await this.nativeGoogleSignIn();
       return;
     }
-    this.webGoogleSignIn();
+
+    await this.webGoogleSignIn();
   }
 
-  private nativeGoogleSignIn(): void {
-    // TODO:capacitorを使ってGoogleサインインを実装
-    signInWithPopup(this.auth, new GoogleAuthProvider()).then(async (session) => {
+  private async nativeGoogleSignIn(): Promise<void> {
+    try {
+      // TODO:capacitorを使ってGoogleサインインを実装
+      const session = await signInWithPopup(this.auth, new GoogleAuthProvider());
       await this.signedInCheckUserInfo(session.user.uid);
-    });
+    } catch (error) {
+      console.error(error.message);
+      throw new Error('サインインに失敗しました');
+    }
   }
 
-  private webGoogleSignIn(): void {
-    signInWithPopup(this.auth, new GoogleAuthProvider()).then(async (session) => {
+  private async webGoogleSignIn(): Promise<void> {
+    try {
+      const session = await signInWithPopup(this.auth, new GoogleAuthProvider());
       await this.signedInCheckUserInfo(session.user.uid);
-    });
+    } catch (error) {
+      console.error(error.message);
+      throw new Error('サインインに失敗しました');
+    }
   }
 
-  emailSignUp(data: { email: string; password: string }): void {
-    createUserWithEmailAndPassword(this.auth, data.email, data.password)
-      .then(async (session) => {
-        await this.signedInCheckUserInfo(session.user.uid);
-      })
-      .catch(async () => {
-        await this.emailSignIn(data);
-      });
+  async emailSignUp(data: { email: string; password: string }): Promise<void> {
+    if (!data.email) {
+      throw new Error('メールアドレスを入力してください');
+    }
+
+    if (!data.password) {
+      throw new Error('パスワードを入力してください');
+    }
+
+    try {
+      const session = await createUserWithEmailAndPassword(this.auth, data.email, data.password);
+      await this.signedInCheckUserInfo(session.user.uid);
+    } catch (error) {
+      await this.emailSignIn(data);
+    }
   }
 
-  emailSignIn(data: { email: string; password: string }): Promise<void> {
-    return signInWithEmailAndPassword(this.auth, data.email, data.password).then(
-      async (session) => {
-        await this.signedInCheckUserInfo(session.user.uid);
-      },
-    );
+  async emailSignIn(data: { email: string; password: string }): Promise<void> {
+    try {
+      const session = await signInWithEmailAndPassword(this.auth, data.email, data.password);
+      await this.signedInCheckUserInfo(session.user.uid);
+    } catch (error) {
+      const errorMessage = this.alertError(error);
+      throw new Error(errorMessage);
+    }
   }
 
-  signOut(): void {
-    signOut(this.auth).then(() => {
-      this.navigatePath('/signin', { isRoot: true });
-      this.toastService.presentToast('サインアウトしました', 'success');
-    });
+  async signOut(): Promise<void> {
+    await signOut(this.auth);
+    this.navigatePath('/signin', { isRoot: true });
   }
 
   // 認証済のユーザーIDを取得する
@@ -96,13 +112,11 @@ export class AuthService {
     // 存在しなかったらユーザー登録画面に遷移
     if (!userResult) {
       this.navigatePath('/register');
-      this.toastService.presentToast('サインアップしました', 'success');
       return;
     }
 
     // 存在したらメイン画面に遷移
     this.navigatePath('/task');
-    this.toastService.presentToast('サインインしました', 'success');
   }
 
   navigatePath(path: RedirectPath, options?: { isRoot: boolean }): void {
@@ -110,24 +124,16 @@ export class AuthService {
       this.navController.navigateRoot(path);
       return;
     }
-
-    this.navController.navigateForward(path).catch((error) => {
-      console.error(error.message);
-      this.alertError(error);
-      throw error;
-    });
+    this.navController.navigateForward(path);
   }
 
-  private async alertError(e): Promise<void> {
+  private alertError(e): string {
     if (firebaseError.hasOwnProperty(e.code)) {
       e = firebaseError[e.code];
+    } else {
+      e.message = 'サインインに失敗しました';
     }
 
-    const alert = await this.alertController.create({
-      header: e.code,
-      message: e.message,
-      buttons: ['閉じる'],
-    });
-    await alert.present();
+    return e.message;
   }
 }

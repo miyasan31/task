@@ -32,8 +32,6 @@ export class RegisterPage implements OnInit {
 
     if (!userInfo) {
       this.authService.signOut();
-      this.authService.navigatePath('/signin', { isRoot: true });
-      return;
     }
 
     this.id = userInfo.uid;

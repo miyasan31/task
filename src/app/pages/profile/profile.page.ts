@@ -6,6 +6,7 @@ import { ITaskCard } from '~/interfaces/timeline/ITaskCard';
 import { IUser } from '~/interfaces/user/IUser';
 import { AuthService } from '~/services/auth/auth.service';
 import { ProfileService } from '~/services/profile/profile.service';
+import { ToastService } from '~/services/toast/toast.service';
 
 type Scene = 'profile' | 'task' | 'like';
 
@@ -22,7 +23,11 @@ export class ProfilePage implements OnInit {
   scene: Scene;
   user: IUser;
 
-  constructor(private authService: AuthService, private profileService: ProfileService) {}
+  constructor(
+    private authService: AuthService,
+    private profileService: ProfileService,
+    private toastService: ToastService,
+  ) {}
 
   async ngOnInit() {
     await this.fetchProfile();
@@ -69,8 +74,9 @@ export class ProfilePage implements OnInit {
     }
   }
 
-  onSignOut(): void {
-    this.authService.signOut();
+  async onSignOut(): Promise<void> {
+    await this.authService.signOut();
+    await this.toastService.presentToast('サインアウトしました', 'success');
   }
 
   trackByFn(index, item): number {
