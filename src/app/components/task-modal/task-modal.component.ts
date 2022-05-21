@@ -69,8 +69,8 @@ export class TaskModalComponent implements OnInit {
 
     const upsertTask = {
       id: this.taskId,
-      taskName: this.taskName,
-      description: this.description,
+      taskName: this.taskName.trim(),
+      description: this.description.trim(),
       isDone: !!this.isDone,
       likeCount: this.likeCount,
       userId: user.uid,

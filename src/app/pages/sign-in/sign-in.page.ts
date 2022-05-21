@@ -18,8 +18,8 @@ export class SignInPage implements OnInit {
 
   async onEmailSignIn(): Promise<void> {
     const emailSignIn = {
-      email: this.email,
-      password: this.password,
+      email: this.email.trim(),
+      password: this.password.trim(),
     };
 
     try {

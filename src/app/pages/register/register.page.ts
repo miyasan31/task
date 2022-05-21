@@ -58,7 +58,7 @@ export class RegisterPage implements OnInit {
   async onUserRegister(): Promise<void> {
     const createUser = {
       id: this.id,
-      userName: this.userName,
+      userName: this.userName.trim(),
       email: this.email,
       avatar: this.avatar,
     };

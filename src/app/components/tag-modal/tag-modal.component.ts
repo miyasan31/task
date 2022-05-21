@@ -43,14 +43,14 @@ export class TagModalComponent implements OnInit {
   }
 
   onChangeTagName($event): void {
-    this.createTag.tagName = $event.detail.value;
+    this.createTag.tagName = $event.detail.value.trim();
   }
 
   async onCreateTag(): Promise<void> {
     if (!this.createTag.color) {
       return;
     }
-    if (!this.createTag.tagName) {
+    if (!this.createTag.tagName.trim()) {
       return;
     }
 
