@@ -6,6 +6,7 @@ import { TaskModalComponent } from '~/components/task-modal/task-modal.component
 import { ITask } from '~/interfaces/task/ITask';
 import { AuthService } from '~/services/auth/auth.service';
 import { TaskService } from '~/services/task/task.service';
+import { ToastService } from '~/services/toast/toast.service';
 
 @Component({
   selector: 'app-task',
@@ -18,6 +19,7 @@ export class TaskPage implements OnInit {
   constructor(
     private authService: AuthService,
     private taskService: TaskService,
+    private toastService: ToastService,
     private modalController: ModalController,
   ) {}
 
@@ -28,27 +30,39 @@ export class TaskPage implements OnInit {
   }
 
   async onReversingTaskCompletion($event, task: ITask): Promise<void> {
-    $event.stopPropagation();
     $event.preventDefault();
+    $event.stopPropagation();
 
     const updatedTask = {
       ...task,
       isDone: !task.isDone,
     };
 
-    this.taskService.update(updatedTask);
+    try {
+      await this.taskService.update(updatedTask);
+      this.toastService.presentToast(`タスクを${task.isDone ? '完了' : '未完了'}にしました`);
+    } catch (error) {
+      console.error(error.message);
+      this.toastService.presentToast(error.message);
+    }
   }
 
   onDeleteTask(taskId: ITask['id']): void {
-    this.taskService.delete(taskId);
+    try {
+      this.taskService.delete(taskId);
+      this.toastService.presentToast('タスクを削除しました');
+    } catch (error) {
+      console.error(error.message);
+      this.toastService.presentToast(error.message);
+    }
   }
 
-  async onPresentTaskModal(taskId?: ITask['id']): Promise<void> {
+  async onPresentTaskModal(task?: ITask): Promise<void> {
     const modal = await this.modalController.create({
       component: TaskModalComponent,
       componentProps: {
-        taskId,
-        isEdit: !!taskId,
+        taskId: task?.id,
+        isEdit: !!task,
       },
     });
 

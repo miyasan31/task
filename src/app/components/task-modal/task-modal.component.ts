@@ -8,6 +8,7 @@ import { ITask } from '~/interfaces/task/ITask';
 import { AuthService } from '~/services/auth/auth.service';
 import { TagService } from '~/services/tag/tag.service';
 import { TaskService } from '~/services/task/task.service';
+import { ToastService } from '~/services/toast/toast.service';
 
 @Component({
   selector: 'app-task-modal',
@@ -20,17 +21,18 @@ export class TaskModalComponent implements OnInit {
 
   tagList: Observable<ITag[]>;
 
-  taskName: ITask['taskName'];
-  description: ITask['description'];
-  isDone: ITask['isDone'];
-  likeCount: ITask['likeCount'];
-  tagId: ITask['tagId'];
+  taskName: ITask['taskName'] = '';
+  description: ITask['description'] = '';
+  isDone: ITask['isDone'] = false;
+  likeCount: ITask['likeCount'] = 0;
+  tagId: ITask['tagId'] = '';
   createdAt: ITask['createdAt'];
 
   constructor(
     private authService: AuthService,
     private taskService: TaskService,
     private tagService: TagService,
+    private toastService: ToastService,
     private modalController: ModalController,
   ) {}
 
@@ -59,25 +61,37 @@ export class TaskModalComponent implements OnInit {
       id: this.taskId,
       taskName: this.taskName,
       description: this.description,
-      isDone: this.isDone,
-      likeCount: this.likeCount || 0,
+      isDone: !!this.isDone,
+      likeCount: this.likeCount,
       userId: user.uid,
       tagId: this.tagId,
       createdAt: this.createdAt,
     };
 
-    if (this.isEdit) {
-      await this.taskService.update(upsertTask);
-    } else {
-      await this.taskService.create(upsertTask);
-    }
+    try {
+      if (this.isEdit) {
+        await this.taskService.update(upsertTask);
+      } else {
+        await this.taskService.create(upsertTask);
+      }
 
-    this.onModalDismiss();
+      this.onModalDismiss();
+      this.toastService.presentToast(`タスクを${this.isEdit ? '更新' : '作成'}しました`);
+    } catch (error) {
+      console.error(error.message);
+      this.toastService.presentToast(error.message);
+    }
   }
 
   async onDeleteTask(taskId: ITask['id']): Promise<void> {
-    await this.taskService.delete(taskId);
-    this.onModalDismiss();
+    try {
+      await this.taskService.delete(taskId);
+      this.toastService.presentToast('タスクを削除しました');
+      this.onModalDismiss();
+    } catch (error) {
+      console.error(error.message);
+      this.toastService.presentToast(error.message);
+    }
   }
 
   async onPresentTagModal($event): Promise<void> {

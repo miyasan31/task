@@ -18,15 +18,35 @@ export class TaskPipe implements ITask {
 
   constructor() {}
 
-  create(createTask: IUpsertTask): ITask {
-    // TODO:バリデーション追加
-    return {
-      ...createTask,
-      likeCount: 0,
-    };
+  create(createTask: IUpsertTask): ITask | Error {
+    if (!createTask.taskName) {
+      return new Error('タスク名を入力してください');
+    }
+
+    if (!createTask.tagId) {
+      return new Error('タグを選択してください');
+    }
+
+    if (createTask.isDone && !createTask.description) {
+      return new Error('完了時にはアウトプットメモが必要です');
+    }
+
+    return createTask;
   }
 
-  update(updateTask: IUpsertTask): ITask {
+  update(updateTask: IUpsertTask): ITask | Error {
+    if (!updateTask.taskName) {
+      return new Error('タスク名を入力してください');
+    }
+
+    if (!updateTask.tagId) {
+      return new Error('タグを選択してください');
+    }
+
+    if (updateTask.isDone && !updateTask.description) {
+      return new Error('完了時にはアウトプットメモが必要です');
+    }
+
     return updateTask;
   }
 }

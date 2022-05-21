@@ -19,22 +19,18 @@
 
   <ion-item-sliding *ngFor="let task of taskList | async; trackBy: trackByFn">
     <ion-item-options side="start">
-      <ion-item-option color="success" (click)="onPresentTaskModal(task.id)">編集</ion-item-option>
+      <ion-item-option color="success" (click)="onPresentTaskModal(task)">編集</ion-item-option>
     </ion-item-options>
     <ion-item-options side="end">
       <ion-item-option color="danger" (click)="onDeleteTask(task.id)">削除</ion-item-option>
     </ion-item-options>
 
-    <ion-item
-      class="component-task-list"
-      detail="false"
-      button
-      (click)="onPresentTaskModal(task.id)"
-    >
+    <ion-item class="component-task-list" detail="false" button (click)="onPresentTaskModal(task)">
       <ion-checkbox
         slot="start"
         color="primary"
-        [(ngModel)]="task.isDone"
+        checked="{{ task.isDone }}"
+        disabled="{{ !task.isDone && !task.description }}"
         (click)="onReversingTaskCompletion($event, task)"
       ></ion-checkbox>
       <ion-text class="task-name">{{ task.taskName }}</ion-text>

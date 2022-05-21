@@ -75,21 +75,36 @@ export class TaskRepository implements ITaskRepository {
 
   // タスク情報を保存する
   create(task: ITask): Promise<void> {
-    const taskId = doc(this.taskColRef).id;
-    const taskDocRef = doc(this.firestore, `tasks/${taskId}`).withConverter(taskConverter);
-    return setDoc(taskDocRef, { ...task, id: taskId });
+    try {
+      const taskId = doc(this.taskColRef).id;
+      const taskDocRef = doc(this.firestore, `tasks/${taskId}`).withConverter(taskConverter);
+      return setDoc(taskDocRef, { ...task, id: taskId });
+    } catch (error) {
+      console.error(error.message);
+      return Promise.reject(new Error('サーバーエラーが発生しました'));
+    }
   }
 
   // タスク情報を更新する
   update(task: ITask): Promise<void> {
-    const taskDocRef = doc(this.firestore, `tasks/${task.id}`).withConverter(updateTaskConverter);
-    return setDoc(taskDocRef, task, { merge: true });
+    try {
+      const taskDocRef = doc(this.firestore, `tasks/${task.id}`).withConverter(updateTaskConverter);
+      return setDoc(taskDocRef, task, { merge: true });
+    } catch (error) {
+      console.error(error.message);
+      return Promise.reject(new Error('サーバーエラーが発生しました'));
+    }
   }
 
   // タスク情報を削除する
   delete(taskId: ITask['id']): Promise<void> {
-    const taskDocRef = doc(this.firestore, `tasks/${taskId}`).withConverter(taskConverter);
-    return deleteDoc(taskDocRef);
+    try {
+      const taskDocRef = doc(this.firestore, `tasks/${taskId}`).withConverter(taskConverter);
+      return deleteDoc(taskDocRef);
+    } catch (error) {
+      console.error(error.message);
+      return Promise.reject(new Error('サーバーエラーが発生しました'));
+    }
   }
 
   // いいね数をカウントアップする

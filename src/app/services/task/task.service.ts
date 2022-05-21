@@ -5,6 +5,7 @@ import { ITask, IUpsertTask } from '~/interfaces/task/ITask';
 import { ITaskRepository } from '~/interfaces/task/ITaskRepository';
 import { TaskRepository } from '~/repositories/task/task.repository';
 import { TaskPipe } from '~/services/task/task.pipe';
+import { isError } from '~/utils/isError';
 
 @Injectable({
   providedIn: 'root',
@@ -22,11 +23,18 @@ export class TaskService implements ITaskRepository {
 
   create(task: IUpsertTask): Promise<void> {
     const createTask = this.taskPipe.create(task);
+    if (isError(createTask)) {
+      throw new Error(createTask.message);
+    }
     return this.taskRepository.create(createTask);
   }
 
   update(task: IUpsertTask): Promise<void> {
     const updateTask = this.taskPipe.update(task);
+    if (isError(updateTask)) {
+      throw new Error(updateTask.message);
+    }
+    console.log('updateTask', updateTask);
     return this.taskRepository.update(updateTask);
   }
 
