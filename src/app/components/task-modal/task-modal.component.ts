@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
+import { first } from 'rxjs/operators';
 
 import { TagModalComponent } from '~/components/tag-modal/tag-modal.component';
 import { ITag } from '~/interfaces/tag/ITag';
@@ -39,6 +40,15 @@ export class TaskModalComponent implements OnInit {
   async ngOnInit() {
     const user = await this.authService.getAuthUser();
     this.tagList = await this.tagService.getTagList(user.uid);
+
+    const tagListCheck = await this.tagList
+      .pipe(first())
+      .toPromise(Promise)
+      .then((tagList) => tagList);
+
+    if (tagListCheck.length === 0) {
+      this.toastService.presentToast('タグが登録されていません');
+    }
 
     if (!this.taskId) {
       return;
