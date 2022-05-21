@@ -43,7 +43,7 @@
     <ion-item class="description-textarea">
       <ion-label position="stacked">アウトプットメモ</ion-label>
       <ion-textarea
-        rows="6"
+        rows="{{ isEdit ? 14 : 10 }}"
         name="description"
         [(ngModel)]="description"
         placeholder="アウトプットメモを入力してください"
