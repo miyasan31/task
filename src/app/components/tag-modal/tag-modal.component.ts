@@ -7,6 +7,7 @@ import { colorPicker } from '~/constants/colorPicker';
 import { ICreateTag, ITag } from '~/interfaces/tag/ITag';
 import { AuthService } from '~/services/auth/auth.service';
 import { TagService } from '~/services/tag/tag.service';
+import { ToastService } from '~/services/toast/toast.service';
 
 const initialTag: ICreateTag = { tagName: '', color: '', userId: '' };
 
@@ -25,6 +26,7 @@ export class TagModalComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private tagService: TagService,
+    private toastService: ToastService,
     private modalController: ModalController,
     private pickerController: PickerController,
   ) {}
@@ -52,34 +54,51 @@ export class TagModalComponent implements OnInit {
       return;
     }
 
-    const tagId = await this.tagService.create(this.createTag);
-
-    this.tagList = [{ ...this.createTag, id: tagId, isActive: true }, ...this.tagList];
-    this.createTag = null;
-    this.tagListLengthCheck();
-    return;
+    try {
+      const tagId = await this.tagService.create(this.createTag);
+      this.toastService.presentToast('タグを作成しました');
+      this.tagList = [{ ...this.createTag, id: tagId, isActive: true }, ...this.tagList];
+      this.createTag = null;
+      this.tagListLengthCheck();
+      return;
+    } catch (error) {
+      console.error(error.message);
+      this.toastService.presentToast(error.message);
+    }
   }
 
   async onInactiveTag(currentTag: ITag): Promise<void> {
-    const updateTag = { ...currentTag, isActive: false };
-    await this.tagService.update(updateTag);
-    this.tagList = this.tagList.filter((tag) => tag.id !== updateTag.id);
-    this.tagListLengthCheck();
+    const updateTag = {
+      ...currentTag,
+      isActive: false,
+    };
+
+    try {
+      await this.tagService.update(updateTag);
+      this.toastService.presentToast('タグを削除しました');
+      this.tagList = this.tagList.filter((tag) => tag.id !== updateTag.id);
+      this.tagListLengthCheck();
+    } catch (error) {
+      console.error(error.message);
+      this.toastService.presentToast(error.message);
+    }
   }
 
   private async updateTagColor(index: number, updateTag: ITag): Promise<void> {
-    await this.tagService.update(updateTag);
-    this.tagList[index] = updateTag;
-    return;
+    try {
+      await this.tagService.update(updateTag);
+      this.toastService.presentToast('タグの色を変更しました');
+      this.tagList[index] = updateTag;
+    } catch (error) {
+      console.error(error.message);
+      this.toastService.presentToast(error.message);
+    }
   }
 
   async onPresentPicker(index?: number): Promise<void> {
     const picker = await this.pickerController.create({
       buttons: [
-        {
-          text: 'キャンセル',
-          role: 'cancel',
-        },
+        { text: 'キャンセル', role: 'cancel' },
         {
           text: '確定',
           handler: (selected) => {
@@ -98,13 +117,9 @@ export class TagModalComponent implements OnInit {
           },
         },
       ],
-      columns: [
-        {
-          name: 'colorPicker',
-          options: colorPicker,
-        },
-      ],
+      columns: [{ name: 'colorPicker', options: colorPicker }],
     });
+
     await picker.present();
   }
 

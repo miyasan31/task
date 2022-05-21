@@ -15,12 +15,16 @@ export class TagPipe implements ITag {
 
   constructor() {}
 
-  create(tag: ICreateTag): ITag {
+  create(tag: ICreateTag): ITag | Error {
     // TODO:バリデーション追加
     return {
       ...tag,
       id: '',
       isActive: true,
     };
+  }
+
+  update(tag: ITag): ITag | Error {
+    return tag;
   }
 }

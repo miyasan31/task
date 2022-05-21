@@ -6,6 +6,7 @@ import { ITagRepository } from '~/interfaces/tag/ITagRepository';
 import { IUser } from '~/interfaces/user/IUser';
 import { TagRepository } from '~/repositories/tag/tag.repository';
 import { TagPipe } from '~/services/tag/tag.pipe';
+import { isError } from '~/utils/isError';
 
 @Injectable({
   providedIn: 'root',
@@ -23,15 +24,20 @@ export class TagService implements ITagRepository {
     // 非アクティブな同じタグ名のデータが存在しなければ新規作成
     if (!checkTagList.length) {
       const createTag = this.tagPipe.create(tag);
+      if (isError(createTag)) {
+        throw new Error(createTag.message);
+      }
       return this.tagRepository.create(createTag);
     }
 
     // 非アクティブな同じタグ名のデータが存在すればアクティブ状態に変更
     const activedTag = {
       ...checkTagList[0],
+      color: tag.color,
       isActive: true,
     };
-    return this.tagRepository.update(activedTag);
+
+    return this.update(activedTag);
   }
 
   getTagList(userId: IUser['id']): Observable<ITag[]> {
@@ -39,7 +45,11 @@ export class TagService implements ITagRepository {
   }
 
   update(tag: ITag): Promise<ITag['id']> {
-    return this.tagRepository.update(tag);
+    const updateTag = this.tagPipe.update(tag);
+    if (isError(updateTag)) {
+      throw new Error(updateTag.message);
+    }
+    return this.tagRepository.update(updateTag);
   }
 
   delete(tagId: ITag['id']): Promise<void> {
