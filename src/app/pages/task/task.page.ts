@@ -40,20 +40,23 @@ export class TaskPage implements OnInit {
 
     try {
       await this.taskService.update(updatedTask);
-      this.toastService.presentToast(`タスクを${task.isDone ? '完了' : '未完了'}にしました`);
+      this.toastService.presentToast(
+        `タスクを${task.isDone ? '完了' : '未完了'}にしました`,
+        'success',
+      );
     } catch (error) {
       console.error(error.message);
-      this.toastService.presentToast(error.message);
+      this.toastService.presentToast(error.message, 'error');
     }
   }
 
   onDeleteTask(taskId: ITask['id']): void {
     try {
       this.taskService.delete(taskId);
-      this.toastService.presentToast('タスクを削除しました');
+      this.toastService.presentToast('タスクを削除しました', 'success');
     } catch (error) {
       console.error(error.message);
-      this.toastService.presentToast(error.message);
+      this.toastService.presentToast(error.message, 'error');
     }
   }
 

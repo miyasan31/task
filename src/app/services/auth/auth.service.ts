@@ -12,6 +12,7 @@ import { Capacitor } from '@capacitor/core';
 import { AlertController, NavController } from '@ionic/angular';
 
 import { IUser } from '~/interfaces/user/IUser';
+import { ToastService } from '~/services/toast/toast.service';
 import { UserService } from '~/services/user/user.service';
 
 import { firebaseError } from './firebase.error';
@@ -24,6 +25,7 @@ type RedirectPath = '/signin' | '/register' | '/task';
 export class AuthService {
   constructor(
     private auth: Auth,
+    private toastService: ToastService,
     private userService: UserService,
     private navController: NavController,
     private alertController: AlertController,
@@ -72,6 +74,7 @@ export class AuthService {
   signOut(): void {
     signOut(this.auth).then(() => {
       this.navigatePath('/signin', { isRoot: true });
+      this.toastService.presentToast('サインアウトしました', 'success');
     });
   }
 
@@ -93,11 +96,13 @@ export class AuthService {
     // 存在しなかったらユーザー登録画面に遷移
     if (!userResult) {
       this.navigatePath('/register');
+      this.toastService.presentToast('サインアップしました', 'success');
       return;
     }
 
     // 存在したらメイン画面に遷移
     this.navigatePath('/task');
+    this.toastService.presentToast('サインインしました', 'success');
   }
 
   navigatePath(path: RedirectPath, options?: { isRoot: boolean }): void {

@@ -56,14 +56,14 @@ export class TagModalComponent implements OnInit {
 
     try {
       const tagId = await this.tagService.create(this.createTag);
-      this.toastService.presentToast('タグを作成しました');
+      this.toastService.presentToast('タグを作成しました', 'success');
       this.tagList = [{ ...this.createTag, id: tagId, isActive: true }, ...this.tagList];
       this.createTag = null;
       this.tagListLengthCheck();
       return;
     } catch (error) {
       console.error(error.message);
-      this.toastService.presentToast(error.message);
+      this.toastService.presentToast(error.message, 'error');
     }
   }
 
@@ -75,23 +75,23 @@ export class TagModalComponent implements OnInit {
 
     try {
       await this.tagService.update(updateTag);
-      this.toastService.presentToast('タグを削除しました');
+      this.toastService.presentToast('タグを削除しました', 'success');
       this.tagList = this.tagList.filter((tag) => tag.id !== updateTag.id);
       this.tagListLengthCheck();
     } catch (error) {
       console.error(error.message);
-      this.toastService.presentToast(error.message);
+      this.toastService.presentToast(error.message, 'error');
     }
   }
 
   private async updateTagColor(index: number, updateTag: ITag): Promise<void> {
     try {
       await this.tagService.update(updateTag);
-      this.toastService.presentToast('タグの色を変更しました');
+      this.toastService.presentToast('タグの色を変更しました', 'success');
       this.tagList[index] = updateTag;
     } catch (error) {
       console.error(error.message);
-      this.toastService.presentToast(error.message);
+      this.toastService.presentToast(error.message, 'error');
     }
   }
 

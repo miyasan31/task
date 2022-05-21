@@ -47,7 +47,7 @@ export class TaskModalComponent implements OnInit {
       .then((tagList) => tagList);
 
     if (tagListCheck.length === 0) {
-      this.toastService.presentToast('タグが登録されていません');
+      this.toastService.presentToast('タグが登録されていません', 'warning');
     }
 
     if (!this.taskId) {
@@ -86,21 +86,21 @@ export class TaskModalComponent implements OnInit {
       }
 
       this.onModalDismiss();
-      this.toastService.presentToast(`タスクを${this.isEdit ? '更新' : '作成'}しました`);
+      this.toastService.presentToast(`タスクを${this.isEdit ? '更新' : '作成'}しました`, 'success');
     } catch (error) {
       console.error(error.message);
-      this.toastService.presentToast(error.message);
+      this.toastService.presentToast(error.message, 'error');
     }
   }
 
   async onDeleteTask(taskId: ITask['id']): Promise<void> {
     try {
       await this.taskService.delete(taskId);
-      this.toastService.presentToast('タスクを削除しました');
+      this.toastService.presentToast('タスクを削除しました', 'success');
       this.onModalDismiss();
     } catch (error) {
       console.error(error.message);
-      this.toastService.presentToast(error.message);
+      this.toastService.presentToast(error.message, 'error');
     }
   }
 

@@ -67,11 +67,11 @@ export class RegisterPage implements OnInit {
 
     try {
       await this.userService.create(createUser, this.file);
-      this.toastService.presentToast('ユーザー登録が完了しました');
+      this.toastService.presentToast('ユーザー登録が完了しました', 'success');
       this.authService.navigatePath('/task');
     } catch (error) {
       console.error(error.message);
-      this.toastService.presentToast(error.message);
+      this.toastService.presentToast(error.message, 'error');
     }
   }
 }
