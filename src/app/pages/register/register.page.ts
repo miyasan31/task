@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from '~/services/auth/auth.service';
+import { ToastService } from '~/services/toast/toast.service';
 import { UserService } from '~/services/user/user.service';
 
 const dummyAvatar =
@@ -20,7 +21,11 @@ export class RegisterPage implements OnInit {
   file: File;
   filePreview: string;
 
-  constructor(private authService: AuthService, private userService: UserService) {}
+  constructor(
+    private authService: AuthService,
+    private userService: UserService,
+    private toastService: ToastService,
+  ) {}
 
   async ngOnInit() {
     const userInfo = await this.authService.getAuthUser();
@@ -60,8 +65,13 @@ export class RegisterPage implements OnInit {
       avatar: this.avatar,
     };
 
-    await this.userService.create(createUser, this.file);
-
-    this.authService.navigatePath('/task');
+    try {
+      await this.userService.create(createUser, this.file);
+      this.toastService.presentToast('ユーザー登録が完了しました');
+      this.authService.navigatePath('/task');
+    } catch (error) {
+      console.error(error.message);
+      this.toastService.presentToast(error.message);
+    }
   }
 }

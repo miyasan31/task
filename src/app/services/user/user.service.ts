@@ -6,6 +6,7 @@ import { UserRepository } from '~/repositories/user/user.repository';
 import { StorageService } from '~/services/storage/storage.service';
 import { UserPipe } from '~/services/user/user.pipe';
 import { checkExtension } from '~/utils/checkExtension';
+import { isError } from '~/utils/isError';
 
 @Injectable({
   providedIn: 'root',
@@ -25,25 +26,33 @@ export class UserService implements IUserRepository {
 
   async create(user: ICreateUser, avatarFile?: File): Promise<void> {
     if (avatarFile) {
-      const fileExtension = checkExtension(avatarFile.name);
-      this.avatarUrl = await this.storageService.avatarUpload(
-        avatarFile,
-        `${user.id}.${fileExtension}`,
-      );
+      this.avatarUrl = await this.avatarUpload(avatarFile, user.id);
     }
 
     const createUser = this.userPipe.create({
       ...user,
       avatar: this.avatarUrl || user.avatar,
     });
+    if (isError(createUser)) {
+      throw new Error(createUser.message);
+    }
     return this.userRepository.create(createUser);
   }
 
   update(user: IUser): Promise<void> {
+    const updateUser = this.userPipe.update(user);
+    if (isError(updateUser)) {
+      throw new Error(updateUser.message);
+    }
     return this.userRepository.update(user);
   }
 
   delete(userId: IUser['id']): Promise<void> {
     return this.userRepository.delete(userId);
+  }
+
+  avatarUpload(avatarFile: File, userId: IUser['id']): Promise<string> {
+    const fileExtension = checkExtension(avatarFile.name);
+    return this.storageService.avatarUpload(avatarFile, `${userId}.${fileExtension}`);
   }
 }

@@ -16,15 +16,34 @@ export class UserPipe implements IUser {
 
   constructor() {}
 
-  create(createUser: ICreateUser): IUser {
-    // TODO:バリデーション追加
+  create(createUser: ICreateUser): IUser | Error {
+    if (!createUser.userName) {
+      return new Error('ユーザー名を入力してください');
+    }
+
+    if (!createUser.avatar) {
+      return new Error('アバターを選択してください');
+    }
+
     return {
       ...createUser,
       profile: '',
     };
   }
 
-  update(user: IUser): IUser {
-    return user;
+  update(updateUser: IUser): IUser | Error {
+    if (!updateUser.userName) {
+      return new Error('ユーザー名を入力してください');
+    }
+
+    if (!updateUser.profile) {
+      return new Error('プロフィールを入力してください');
+    }
+
+    if (!updateUser.avatar) {
+      return new Error('アバターを選択してください');
+    }
+
+    return updateUser;
   }
 }
