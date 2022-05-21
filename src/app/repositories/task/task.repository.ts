@@ -81,7 +81,7 @@ export class TaskRepository implements ITaskRepository {
       return setDoc(taskDocRef, { ...task, id: taskId });
     } catch (error) {
       console.error(error.message);
-      return Promise.reject(new Error('サーバーエラーが発生しました'));
+      throw new Error('サーバーエラーが発生しました');
     }
   }
 
@@ -92,7 +92,7 @@ export class TaskRepository implements ITaskRepository {
       return setDoc(taskDocRef, task, { merge: true });
     } catch (error) {
       console.error(error.message);
-      return Promise.reject(new Error('サーバーエラーが発生しました'));
+      throw new Error('サーバーエラーが発生しました');
     }
   }
 
@@ -103,7 +103,7 @@ export class TaskRepository implements ITaskRepository {
       return deleteDoc(taskDocRef);
     } catch (error) {
       console.error(error.message);
-      return Promise.reject(new Error('サーバーエラーが発生しました'));
+      throw new Error('サーバーエラーが発生しました');
     }
   }
 

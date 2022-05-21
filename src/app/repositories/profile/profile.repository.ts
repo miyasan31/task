@@ -45,103 +45,125 @@ export class ProfileRepository implements IProfileRepository {
     profileUserId: IUser['id'],
     currentUserId: IUser['id'],
   ): Observable<ITaskCard[]> {
-    const taskQuery = query(
-      this.taskColRef,
-      where('userId', '==', profileUserId),
-      where('isDone', '==', true),
-      orderBy('createdAt', 'desc'),
-    );
-    const taskDocList = collectionData(taskQuery);
+    try {
+      const taskQuery = query(
+        this.taskColRef,
+        where('userId', '==', profileUserId),
+        where('isDone', '==', true),
+        orderBy('createdAt', 'desc'),
+      );
+      const taskDocList = collectionData(taskQuery);
 
-    const taskCardList = taskDocList.pipe(
-      mergeMap((taskList) => {
-        const taskUserIdList = taskList.map((task) => task.id);
+      const taskCardList = taskDocList.pipe(
+        mergeMap((taskList) => {
+          const taskUserIdList = taskList.map((task) => task.id);
 
-        return combineLatest([
-          of(taskList),
-          combineLatest(
-            taskUserIdList.map((taskId) => {
-              const likeQuery = query(
-                this.likeColRef,
-                where('userId', '==', currentUserId),
-                where('taskId', '==', taskId),
-              );
+          return combineLatest([
+            of(taskList),
+            combineLatest(
+              taskUserIdList.map((taskId) => {
+                const likeQuery = query(
+                  this.likeColRef,
+                  where('userId', '==', currentUserId),
+                  where('taskId', '==', taskId),
+                );
 
-              return collectionData(likeQuery).pipe(map((like) => like[0]));
-            }),
-          ),
-        ]);
-      }),
-      map(([taskList, likeList]) =>
-        taskList.map((task) => {
-          const isLike = likeList.filter((like) => like && like.taskId === task.id)[0];
-          return { task, like: isLike };
+                return collectionData(likeQuery).pipe(map((like) => like[0]));
+              }),
+            ),
+          ]);
         }),
-      ),
-    );
+        map(([taskList, likeList]) =>
+          taskList.map((task) => {
+            const isLike = likeList.filter((like) => like && like.taskId === task.id)[0];
+            return { task, like: isLike };
+          }),
+        ),
+      );
 
-    return taskCardList;
+      return taskCardList;
+    } catch (error) {
+      console.error(error.message);
+      throw new Error('サーバーエラーが発生しました');
+    }
   }
 
   getUserLikedTaskList(
     profileUserId: IUser['id'],
     currentUserId: IUser['id'],
   ): Observable<ILikedTaskCard[]> {
-    const likeQuery = query(
-      this.likeColRef,
-      where('userId', '==', profileUserId),
-      orderBy('createdAt', 'desc'),
-    );
-    const likeDocList = collectionData(likeQuery);
+    try {
+      const likeQuery = query(
+        this.likeColRef,
+        where('userId', '==', profileUserId),
+        orderBy('createdAt', 'desc'),
+      );
+      const likeDocList = collectionData(likeQuery);
 
-    const taskCardList = likeDocList.pipe(
-      mergeMap(async (likeList) => {
-        const userLikedTaskIdList = likeList.map((like) => like.taskId);
+      const taskCardList = likeDocList.pipe(
+        mergeMap(async (likeList) => {
+          const userLikedTaskIdList = likeList.map((like) => like.taskId);
 
-        const promise = userLikedTaskIdList.map(async (taskId, index) => {
-          const taskDocRef = doc(this.firestore, `tasks/${taskId}`).withConverter(taskConverter);
-          const task = await docData(taskDocRef).pipe(first()).toPromise(Promise);
-          const isLikeQuery = query(
-            this.likeColRef,
-            where('userId', '==', currentUserId),
-            where('taskId', '==', task.id),
-          );
-          const isLikeDocList = await collectionData(isLikeQuery).pipe(first()).toPromise(Promise);
-          const userDocRef = doc(this.firestore, `users/${task.userId}`).withConverter(
-            userConverter,
-          );
-          const user = await docData(userDocRef).pipe(first()).toPromise(Promise);
-          return { user, task, like: isLikeDocList[0] };
-        });
+          const promise = userLikedTaskIdList.map(async (taskId, index) => {
+            const taskDocRef = doc(this.firestore, `tasks/${taskId}`).withConverter(taskConverter);
+            const task = await docData(taskDocRef).pipe(first()).toPromise(Promise);
+            const isLikeQuery = query(
+              this.likeColRef,
+              where('userId', '==', currentUserId),
+              where('taskId', '==', task.id),
+            );
+            const isLikeDocList = await collectionData(isLikeQuery)
+              .pipe(first())
+              .toPromise(Promise);
+            const userDocRef = doc(this.firestore, `users/${task.userId}`).withConverter(
+              userConverter,
+            );
+            const user = await docData(userDocRef).pipe(first()).toPromise(Promise);
+            return { user, task, like: isLikeDocList[0] };
+          });
 
-        return await Promise.all(promise);
-      }),
-    );
+          return await Promise.all(promise);
+        }),
+      );
 
-    return taskCardList;
+      return taskCardList;
+    } catch (error) {
+      console.error(error.message);
+      throw new Error('サーバーエラーが発生しました');
+    }
   }
 
   async getUserIsDoneTaskCount(profileUserId: IUser['id']): Promise<number> {
-    const taskQuery = query(
-      this.taskColRef,
-      where('userId', '==', profileUserId),
-      where('isDone', '==', true),
-    );
-    const taskList = await collectionData(taskQuery).pipe(first()).toPromise(Promise);
-    return taskList.length;
+    try {
+      const taskQuery = query(
+        this.taskColRef,
+        where('userId', '==', profileUserId),
+        where('isDone', '==', true),
+      );
+      const taskList = await collectionData(taskQuery).pipe(first()).toPromise(Promise);
+      return taskList.length;
+    } catch (error) {
+      console.error(error.message);
+      throw new Error('サーバーエラーが発生しました');
+    }
   }
 
   async getUserLikeCount(profileUserId: IUser['id']): Promise<number> {
-    const taskQuery = query(this.taskColRef, where('userId', '==', profileUserId));
-    const taskDocList = await collectionData(taskQuery).pipe(first()).toPromise(Promise);
+    try {
+      const taskQuery = query(this.taskColRef, where('userId', '==', profileUserId));
+      const taskDocList = await collectionData(taskQuery).pipe(first()).toPromise(Promise);
 
-    if (taskDocList.length === 0) {
-      return 0;
+      if (taskDocList.length === 0) {
+        return 0;
+      }
+      const taskIdList = taskDocList.map((task) => task.id);
+
+      const likeQuery = query(this.likeColRef, where('taskId', 'in', taskIdList));
+      const likeDocList = await collectionData(likeQuery).pipe(first()).toPromise(Promise);
+      return likeDocList.length;
+    } catch (error) {
+      console.error(error.message);
+      throw new Error('サーバーエラーが発生しました');
     }
-    const taskIdList = taskDocList.map((task) => task.id);
-
-    const likeQuery = query(this.likeColRef, where('taskId', 'in', taskIdList));
-    const likeDocList = await collectionData(likeQuery).pipe(first()).toPromise(Promise);
-    return likeDocList.length;
   }
 }

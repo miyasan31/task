@@ -34,49 +34,79 @@ export class TagRepository implements ITagRepository {
 
   // タグ情報を取得する
   get(tagId: ITag['id']): Promise<ITag> {
-    const tagDoc = doc(this.firestore, `tags/${tagId}`).withConverter(tagConverter);
-    return docData<ITag>(tagDoc).pipe(first()).toPromise(Promise);
+    try {
+      const tagDoc = doc(this.firestore, `tags/${tagId}`).withConverter(tagConverter);
+      return docData<ITag>(tagDoc).pipe(first()).toPromise(Promise);
+    } catch (error) {
+      console.error(error.message);
+      throw new Error('サーバーエラーが発生しました');
+    }
   }
 
   // ユーザー定義のタグ情報を取得する
   getTagList(userId: IUser['id']): Observable<ITag[]> {
-    const tagDoc = query(
-      this.tagColRef,
-      where('userId', '==', userId),
-      where('isActive', '==', true),
-      orderBy('createdAt', 'desc'),
-    ).withConverter(tagConverter);
-    return collectionData<ITag>(tagDoc);
+    try {
+      const tagDoc = query(
+        this.tagColRef,
+        where('userId', '==', userId),
+        where('isActive', '==', true),
+        orderBy('createdAt', 'desc'),
+      ).withConverter(tagConverter);
+      return collectionData<ITag>(tagDoc);
+    } catch (error) {
+      console.error(error.message);
+      throw new Error('サーバーエラーが発生しました');
+    }
   }
 
   // タグ情報を保存する
   async create(tagDto: ITag): Promise<ITag['id']> {
-    const tagId = doc(this.tagColRef).id;
-    const tagDocRef = doc(this.firestore, `tags/${tagId}`).withConverter(tagConverter);
-    await setDoc(tagDocRef, { ...tagDto, id: tagId });
-    return tagId;
+    try {
+      const tagId = doc(this.tagColRef).id;
+      const tagDocRef = doc(this.firestore, `tags/${tagId}`).withConverter(tagConverter);
+      await setDoc(tagDocRef, { ...tagDto, id: tagId });
+      return tagId;
+    } catch (error) {
+      console.error(error.message);
+      throw new Error('サーバーエラーが発生しました');
+    }
   }
 
   // タグ情報を更新する
   async update(tagDto: ITag): Promise<ITag['id']> {
-    const tagDocRef = doc(this.firestore, `tags/${tagDto.id}`).withConverter(tagConverter);
-    await setDoc(tagDocRef, tagDto, { merge: true });
-    return tagDto.id;
+    try {
+      const tagDocRef = doc(this.firestore, `tags/${tagDto.id}`).withConverter(tagConverter);
+      await setDoc(tagDocRef, tagDto, { merge: true });
+      return tagDto.id;
+    } catch (error) {
+      console.error(error.message);
+      throw new Error('サーバーエラーが発生しました');
+    }
   }
 
   // タグ情報を削除する
   delete(tagId: ITag['id']): Promise<void> {
-    const tagDoc = doc(this.firestore, `tags/${tagId}`).withConverter(tagConverter);
-    return deleteDoc(tagDoc);
+    try {
+      const tagDoc = doc(this.firestore, `tags/${tagId}`).withConverter(tagConverter);
+      return deleteDoc(tagDoc);
+    } catch (error) {
+      console.error(error.message);
+      throw new Error('サーバーエラーが発生しました');
+    }
   }
 
   checkInactiveTag(userId: ITag['userId'], tagName: ITag['tagName']): Promise<ITag[]> {
-    const tagDoc = query(
-      this.tagColRef,
-      where('userId', '==', userId),
-      where('tagName', '==', tagName),
-      where('isActive', '==', false),
-    ).withConverter(tagConverter);
-    return collectionData<ITag>(tagDoc).pipe(first()).toPromise(Promise);
+    try {
+      const tagDoc = query(
+        this.tagColRef,
+        where('userId', '==', userId),
+        where('tagName', '==', tagName),
+        where('isActive', '==', false),
+      ).withConverter(tagConverter);
+      return collectionData<ITag>(tagDoc).pipe(first()).toPromise(Promise);
+    } catch (error) {
+      console.error(error.message);
+      throw new Error('サーバーエラーが発生しました');
+    }
   }
 }

@@ -27,20 +27,35 @@ export class LikeRepository implements ILikeRepository {
   }
 
   get(likeId: ILike['id']): Promise<ILike> {
-    const likeDocRef = doc(this.firestore, `likes/${likeId}`).withConverter(likeConverter);
-    return docData<ILike>(likeDocRef).pipe(first()).toPromise(Promise);
+    try {
+      const likeDocRef = doc(this.firestore, `likes/${likeId}`).withConverter(likeConverter);
+      return docData<ILike>(likeDocRef).pipe(first()).toPromise(Promise);
+    } catch (error) {
+      console.error(error.message);
+      throw new Error('サーバーエラーが発生しました');
+    }
   }
 
   // いいね情報を保存する
   create(like: ICreateLike): Promise<void> {
-    const likeId = doc(this.likeColRef).id;
-    const likeDocRef = doc(this.firestore, `likes/${likeId}`).withConverter(likeConverter);
-    return setDoc(likeDocRef, { ...like, id: likeId });
+    try {
+      const likeId = doc(this.likeColRef).id;
+      const likeDocRef = doc(this.firestore, `likes/${likeId}`).withConverter(likeConverter);
+      return setDoc(likeDocRef, { ...like, id: likeId });
+    } catch (error) {
+      console.error(error.message);
+      throw new Error('サーバーエラーが発生しました');
+    }
   }
 
   // いいね情報を削除する
   delete(likeId: ILike['id']): Promise<void> {
-    const likeDoc = doc(this.firestore, `likes/${likeId}`).withConverter(likeConverter);
-    return deleteDoc(likeDoc);
+    try {
+      const likeDoc = doc(this.firestore, `likes/${likeId}`).withConverter(likeConverter);
+      return deleteDoc(likeDoc);
+    } catch (error) {
+      console.error(error.message);
+      throw new Error('サーバーエラーが発生しました');
+    }
   }
 }

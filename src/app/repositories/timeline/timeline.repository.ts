@@ -44,83 +44,93 @@ export class TimelineRepository implements ITimelineRepository {
 
   // ユーザーに作成したタスクを紐づけて取得
   getTimelineUserTaskList(): Observable<ITimeline[]> {
-    const date = limitedTime();
+    try {
+      const date = limitedTime();
 
-    const userQuery = query(this.userColRef);
+      const userQuery = query(this.userColRef);
 
-    const userDocList = collectionData(userQuery);
+      const userDocList = collectionData(userQuery);
 
-    const timelineList = userDocList.pipe(
-      mergeMap((userList) => {
-        const userIdList = userList.map((user) => user.id);
+      const timelineList = userDocList.pipe(
+        mergeMap((userList) => {
+          const userIdList = userList.map((user) => user.id);
 
-        const taskQuery = query(
-          this.taskColRef,
-          where('userId', 'in', userIdList),
-          where('isDone', '==', true),
-          orderBy('createdAt', 'desc'),
-          startAt(date.startTimestamp),
-          endAt(date.endTimestamp),
-        );
+          const taskQuery = query(
+            this.taskColRef,
+            where('userId', 'in', userIdList),
+            where('isDone', '==', true),
+            orderBy('createdAt', 'desc'),
+            startAt(date.startTimestamp),
+            endAt(date.endTimestamp),
+          );
 
-        return combineLatest([of(userList), collectionData(taskQuery)]);
-      }),
-      map(([userList, taskList]) =>
-        userList.reduce((current, prev) => {
-          const userTaskList = taskList.filter((task) => task && task.userId === prev.id);
-          return userTaskList.length > 0
-            ? [...current, { user: prev, task: userTaskList }]
-            : current;
-        }, []),
-      ),
-    );
+          return combineLatest([of(userList), collectionData(taskQuery)]);
+        }),
+        map(([userList, taskList]) =>
+          userList.reduce((current, prev) => {
+            const userTaskList = taskList.filter((task) => task && task.userId === prev.id);
+            return userTaskList.length > 0
+              ? [...current, { user: prev, task: userTaskList }]
+              : current;
+          }, []),
+        ),
+      );
 
-    return timelineList;
+      return timelineList;
+    } catch (error) {
+      console.error(error.message);
+      throw new Error('サーバーエラーが発生しました');
+    }
   }
 
   getTimelineDetailTaskListWithLike(
     taskUserId: ITask['userId'],
     currentUserId: IUser['id'],
   ): Observable<ITaskCard[]> {
-    const date = limitedTime();
+    try {
+      const date = limitedTime();
 
-    const taskQuery = query(
-      this.taskColRef,
-      where('userId', '==', taskUserId),
-      where('isDone', '==', true),
-      orderBy('createdAt', 'desc'),
-      startAt(date.startTimestamp),
-      endAt(date.endTimestamp),
-    );
-    const taskDocList = collectionData(taskQuery);
+      const taskQuery = query(
+        this.taskColRef,
+        where('userId', '==', taskUserId),
+        where('isDone', '==', true),
+        orderBy('createdAt', 'desc'),
+        startAt(date.startTimestamp),
+        endAt(date.endTimestamp),
+      );
+      const taskDocList = collectionData(taskQuery);
 
-    const taskCardList = taskDocList.pipe(
-      mergeMap((taskList) => {
-        const taskUserIdList = taskList.map((task) => task.id);
+      const taskCardList = taskDocList.pipe(
+        mergeMap((taskList) => {
+          const taskUserIdList = taskList.map((task) => task.id);
 
-        return combineLatest([
-          of(taskList),
-          combineLatest(
-            taskUserIdList.map((taskId) => {
-              const likeQuery = query(
-                this.likeColRef,
-                where('userId', '==', currentUserId),
-                where('taskId', '==', taskId),
-              );
+          return combineLatest([
+            of(taskList),
+            combineLatest(
+              taskUserIdList.map((taskId) => {
+                const likeQuery = query(
+                  this.likeColRef,
+                  where('userId', '==', currentUserId),
+                  where('taskId', '==', taskId),
+                );
 
-              return collectionData(likeQuery).pipe(map((like) => like[0]));
-            }),
-          ),
-        ]);
-      }),
-      map(([taskList, likeList]) =>
-        taskList.map((task) => {
-          const isLike = likeList.filter((like) => like && like.taskId === task.id)[0];
-          return { task, like: isLike };
+                return collectionData(likeQuery).pipe(map((like) => like[0]));
+              }),
+            ),
+          ]);
         }),
-      ),
-    );
+        map(([taskList, likeList]) =>
+          taskList.map((task) => {
+            const isLike = likeList.filter((like) => like && like.taskId === task.id)[0];
+            return { task, like: isLike };
+          }),
+        ),
+      );
 
-    return taskCardList;
+      return taskCardList;
+    } catch (error) {
+      console.error(error.message);
+      throw new Error('サーバーエラーが発生しました');
+    }
   }
 }

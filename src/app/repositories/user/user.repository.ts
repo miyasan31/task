@@ -29,25 +29,45 @@ export class UserRepository implements IUserRepository {
 
   // ユーザー情報を取得する
   get(userId: IUser['id']): Promise<IUser> {
-    const userDocRef = doc(this.firestore, `users/${userId}`).withConverter(userConverter);
-    return docData<IUser>(userDocRef).pipe(first()).toPromise(Promise);
+    try {
+      const userDocRef = doc(this.firestore, `users/${userId}`).withConverter(userConverter);
+      return docData<IUser>(userDocRef).pipe(first()).toPromise(Promise);
+    } catch (error) {
+      console.error(error.message);
+      throw new Error('サーバーエラーが発生しました');
+    }
   }
 
   // ユーザー情報を保存する
   create(user: IUser): Promise<void> {
-    const userDocRef = doc(this.firestore, `users/${user.id}`).withConverter(userConverter);
-    return setDoc(userDocRef, user);
+    try {
+      const userDocRef = doc(this.firestore, `users/${user.id}`).withConverter(userConverter);
+      return setDoc(userDocRef, user);
+    } catch (error) {
+      console.error(error.message);
+      throw new Error('サーバーエラーが発生しました');
+    }
   }
 
   // ユーザー情報を更新する
   update(user: IUser): Promise<void> {
-    const userDocRef = doc(this.firestore, `users/${user.id}`).withConverter(updateTaskConverter);
-    return setDoc(userDocRef, user, { merge: true });
+    try {
+      const userDocRef = doc(this.firestore, `users/${user.id}`).withConverter(updateTaskConverter);
+      return setDoc(userDocRef, user, { merge: true });
+    } catch (error) {
+      console.error(error.message);
+      throw new Error('サーバーエラーが発生しました');
+    }
   }
 
   // ユーザー情報を削除する
   delete(userId: IUser['id']): Promise<void> {
-    const userDocRef = doc(this.firestore, `users/${userId}`).withConverter(userConverter);
-    return deleteDoc(userDocRef);
+    try {
+      const userDocRef = doc(this.firestore, `users/${userId}`).withConverter(userConverter);
+      return deleteDoc(userDocRef);
+    } catch (error) {
+      console.error(error.message);
+      throw new Error('サーバーエラーが発生しました');
+    }
   }
 }
