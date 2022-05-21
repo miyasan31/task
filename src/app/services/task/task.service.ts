@@ -34,7 +34,6 @@ export class TaskService implements ITaskRepository {
     if (isError(updateTask)) {
       throw new Error(updateTask.message);
     }
-    console.log('updateTask', updateTask);
     return this.taskRepository.update(updateTask);
   }
 

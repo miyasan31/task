@@ -107,7 +107,7 @@ export class AuthService {
     }
 
     this.navController.navigateForward(path).catch((error) => {
-      console.log(error.message);
+      console.error(error.message);
       this.alertError(error);
       throw error;
     });
