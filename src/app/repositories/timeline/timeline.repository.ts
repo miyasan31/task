@@ -47,6 +47,7 @@ export class TimelineRepository implements ITimelineRepository {
     try {
       const date = limitedTime();
 
+      // TODO:昨日アクティブだったユーザーを取得する
       const userQuery = query(this.userColRef);
 
       const userDocList = collectionData(userQuery);
