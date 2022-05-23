@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { TaskModalComponentModule } from '~/components/task-modal/task-modal.module';
+import { TaskSkeletonComponentComponentModule } from '~/components/task-skeleton/task-skeleton.module';
 
 import { TaskPage } from './task.page';
 import { TaskPageRoutingModule } from './task-routing.module';
@@ -15,6 +16,7 @@ import { TaskPageRoutingModule } from './task-routing.module';
     IonicModule,
     TaskPageRoutingModule,
     TaskModalComponentModule,
+    TaskSkeletonComponentComponentModule,
   ],
   declarations: [TaskPage],
 })

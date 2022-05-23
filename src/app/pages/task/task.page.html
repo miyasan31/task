@@ -17,27 +17,40 @@
     </ion-fab-button>
   </ion-fab>
 
-  <ion-item-sliding *ngFor="let task of taskList | async; trackBy: trackByFn">
-    <ion-item-options side="start">
-      <ion-item-option color="success" (click)="onPresentTaskModal(task)">編集</ion-item-option>
-    </ion-item-options>
-    <ion-item-options side="end">
-      <ion-item-option color="danger" (click)="onDeleteTask(task.id)">削除</ion-item-option>
-    </ion-item-options>
+  <ng-template #loading>
+    <app-task-skeleton *ngFor="let item of skeleton"></app-task-skeleton>
+  </ng-template>
 
-    <ion-item class="component-task-list" detail="false" button (click)="onPresentTaskModal(task)">
-      <ion-checkbox
-        slot="start"
-        color="primary"
-        checked="{{ task.isDone }}"
-        disabled="{{ !task.isDone && !task.description }}"
-        (click)="onReversingTaskCompletion($event, task)"
-      ></ion-checkbox>
-      <ion-text class="task-name">{{ task.taskName }}</ion-text>
-    </ion-item>
-  </ion-item-sliding>
+  <ng-container *ngIf="taskList | async; else loading">
+    <ng-container *ngFor="let task of taskList | async; trackBy: trackByFn">
+      <ion-item-sliding>
+        <ion-item-options side="start">
+          <ion-item-option color="success" (click)="onPresentTaskModal(task)">編集</ion-item-option>
+        </ion-item-options>
+        <ion-item-options side="end">
+          <ion-item-option color="danger" (click)="onDeleteTask(task.id)">削除</ion-item-option>
+        </ion-item-options>
 
-  <div *ngIf="!(taskList | async)?.length">
+        <ion-item
+          class="component-task-list"
+          detail="false"
+          button
+          (click)="onPresentTaskModal(task)"
+        >
+          <ion-checkbox
+            slot="start"
+            color="primary"
+            checked="{{ task.isDone }}"
+            disabled="{{ !task.isDone && !task.description }}"
+            (click)="onReversingTaskCompletion($event, task)"
+          ></ion-checkbox>
+          <ion-text class="task-name">{{ task.taskName }}</ion-text>
+        </ion-item>
+      </ion-item-sliding>
+
+      <!-- <div *ngIf="!(taskList | async)?.length">
     <p class="empty-message">タスクが登録されていません</p>
-  </div>
+  </div> -->
+    </ng-container>
+  </ng-container>
 </ion-content>
