@@ -9,9 +9,4 @@ export class TaskCardSkeletonComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
-
-  onClickEvent($event): void {
-    $event.stopPropagation();
-    $event.preventDefault();
-  }
 }
