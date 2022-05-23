@@ -25,6 +25,39 @@
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
 
+.picker-opts {
+  .picker-opt:nth-child(1) {
+    color: #e93d82 !important;
+  }
+  .picker-opt:nth-child(2) {
+    color: #e54d2e !important;
+  }
+  .picker-opt:nth-child(3) {
+    color: #f76808 !important;
+  }
+  .picker-opt:nth-child(4) {
+    color: #ffb224 !important;
+  }
+  .picker-opt:nth-child(5) {
+    color: #30a46c !important;
+  }
+  .picker-opt:nth-child(6) {
+    color: #70e1c8 !important;
+  }
+  .picker-opt:nth-child(7) {
+    color: #68ddfd !important;
+  }
+  .picker-opt:nth-child(8) {
+    color: #0091ff !important;
+  }
+  .picker-opt:nth-child(9) {
+    color: #6e56cf !important;
+  }
+  .picker-opt:nth-child(10) {
+    color: #889096 !important;
+  }
+}
+
 .md .tabs-bottom {
   transform: translateY(-56px) !important;
 }

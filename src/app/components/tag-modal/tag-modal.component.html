@@ -20,7 +20,7 @@
         (ionBlur)="onCreateTag()"
       ></ion-input>
       <ion-badge slot="end" (click)="onPresentPicker()">{{
-        createTag.color || '未選択' | uppercase
+        createTag.color || '未選択'
       }}</ion-badge>
     </ion-item>
   </div>
@@ -38,7 +38,7 @@
           style="color: #ffffff; font-weight: 600"
           slot="end"
           (click)="onPresentPicker(i)"
-          >{{ tag.color || '未選択' | uppercase }}</ion-badge
+          >{{ tag.color }}</ion-badge
         >
       </ion-item>
     </ion-item-sliding>
