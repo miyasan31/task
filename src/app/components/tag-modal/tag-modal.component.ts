@@ -3,8 +3,8 @@ import { ModalController } from '@ionic/angular';
 import { PickerController } from '@ionic/angular';
 import { first } from 'rxjs/operators';
 
-import { colorPicker } from '~/constants/colorPicker';
-import { ICreateTag, ITag } from '~/interfaces/tag/ITag';
+import { colorPallet, colorPicker } from '~/constants/colorPicker';
+import { ColorScheme, ICreateTag, ITag } from '~/interfaces/tag/ITag';
 import { AuthService } from '~/services/auth/auth.service';
 import { TagService } from '~/services/tag/tag.service';
 import { ToastService } from '~/services/toast/toast.service';
@@ -129,6 +129,10 @@ export class TagModalComponent implements OnInit {
       return;
     }
     this.isVisible = true;
+  }
+
+  searchTagColor(color: ColorScheme): string {
+    return colorPallet.find((pallet) => pallet.name === color).color;
   }
 
   onModalDismiss(): void {
