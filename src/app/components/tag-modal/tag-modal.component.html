@@ -33,9 +33,13 @@
 
       <ion-item>
         <ion-text slot="start">{{ tag.tagName }}</ion-text>
-        <ion-badge slot="end" (click)="onPresentPicker(i)">{{
-          tag.color || '未選択' | uppercase
-        }}</ion-badge>
+        <ion-badge
+          [style.background-color]="searchTagColor(tag.color)"
+          style="color: #ffffff; font-weight: 600"
+          slot="end"
+          (click)="onPresentPicker(i)"
+          >{{ tag.color || '未選択' | uppercase }}</ion-badge
+        >
       </ion-item>
     </ion-item-sliding>
   </div>
