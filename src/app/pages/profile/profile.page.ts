@@ -20,7 +20,7 @@ export class ProfilePage implements OnInit {
   likeList: Observable<ILikedTaskCard[]>;
   isDoneTaskCount = 0;
   likeCount = 0;
-  scene: Scene;
+  scene: Scene = 'profile';
   user: IUser;
 
   constructor(
@@ -31,7 +31,6 @@ export class ProfilePage implements OnInit {
 
   async ngOnInit() {
     await this.fetchProfile();
-    this.scene = 'profile';
   }
 
   private async fetchProfile(): Promise<void> {
