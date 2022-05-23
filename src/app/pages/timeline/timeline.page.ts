@@ -14,7 +14,7 @@ export class TimelinePage implements OnInit {
 
   constructor(private timelineService: TimelineService) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.timelineData = this.timelineService.getTimelineUserTaskList();
   }
 
