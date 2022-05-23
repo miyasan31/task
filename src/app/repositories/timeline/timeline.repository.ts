@@ -12,7 +12,7 @@ import {
 } from '@angular/fire/firestore';
 import { startAt } from '@firebase/firestore';
 import { combineLatest, Observable, of } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { map, mergeMap, take } from 'rxjs/operators';
 
 import { ILike } from '~/interfaces/like/ILike';
 import { ITask } from '~/interfaces/task/ITask';
@@ -43,39 +43,30 @@ export class TimelineRepository implements ITimelineRepository {
   }
 
   // ユーザーに作成したタスクを紐づけて取得
-  getTimelineUserTaskList(): Observable<ITimeline[]> {
+  async getTimelineUserTaskList(startDate: number, endDate: number): Promise<ITimeline[]> {
     try {
-      const date = limitedTime();
+      const date = limitedTime(startDate, endDate);
 
       // TODO:昨日アクティブだったユーザーを取得する
       const userQuery = query(this.userColRef);
+      const userList = await collectionData(userQuery).pipe(take(1)).toPromise(Promise);
 
-      const userDocList = collectionData(userQuery);
+      const timelineUserIdList = userList.map((user) => user.id);
 
-      const timelineList = userDocList.pipe(
-        mergeMap((userList) => {
-          const userIdList = userList.map((user) => user.id);
-
-          const taskQuery = query(
-            this.taskColRef,
-            where('userId', 'in', userIdList),
-            where('isDone', '==', true),
-            orderBy('createdAt', 'desc'),
-            startAt(date.startTimestamp),
-            endAt(date.endTimestamp),
-          );
-
-          return combineLatest([of(userList), collectionData(taskQuery)]);
-        }),
-        map(([userList, taskList]) =>
-          userList.reduce((current, prev) => {
-            const userTaskList = taskList.filter((task) => task && task.userId === prev.id);
-            return userTaskList.length > 0
-              ? [...current, { user: prev, task: userTaskList }]
-              : current;
-          }, []),
-        ),
+      const taskQuery = query(
+        this.taskColRef,
+        where('userId', 'in', timelineUserIdList),
+        where('isDone', '==', true),
+        orderBy('createdAt', 'desc'),
+        startAt(date.startTimestamp),
+        endAt(date.endTimestamp),
       );
+      const taskList = await collectionData(taskQuery).pipe(take(1)).toPromise(Promise);
+
+      const timelineList = userList.reduce((current, prev) => {
+        const userTaskList = taskList.filter((task) => task && task.userId === prev.id);
+        return userTaskList.length > 0 ? [...current, { user: prev, task: userTaskList }] : current;
+      }, []);
 
       return timelineList;
     } catch (error) {
@@ -83,6 +74,48 @@ export class TimelineRepository implements ITimelineRepository {
       throw new Error('サーバーエラーが発生しました');
     }
   }
+
+  // --- MEMO:Observable用 ---
+  // getTimelineUserTaskList(agoDate: number): Observable<ITimeline[]> {
+  //   try {
+  //     const date = limitedTime(agoDate);
+
+  //     // TODO:昨日アクティブだったユーザーを取得する
+  //     const userQuery = query(this.userColRef);
+
+  //     const userDocList = collectionData(userQuery);
+
+  //     const timelineList = userDocList.pipe(
+  //       mergeMap((userList) => {
+  //         const userIdList = userList.map((user) => user.id);
+
+  //         const taskQuery = query(
+  //           this.taskColRef,
+  //           where('userId', 'in', userIdList),
+  //           where('isDone', '==', true),
+  //           orderBy('createdAt', 'desc'),
+  //           startAt(date.startTimestamp),
+  //           endAt(date.endTimestamp),
+  //         );
+
+  //         return combineLatest([of(userList), collectionData(taskQuery)]);
+  //       }),
+  //       map(([userList, taskList]) =>
+  //         userList.reduce((current, prev) => {
+  //           const userTaskList = taskList.filter((task) => task && task.userId === prev.id);
+  //           return userTaskList.length > 0
+  //             ? [...current, { user: prev, task: userTaskList }]
+  //             : current;
+  //         }, []),
+  //       ),
+  //     );
+
+  //     return timelineList;
+  //   } catch (error) {
+  //     console.error(error.message);
+  //     throw new Error('サーバーエラーが発生しました');
+  //   }
+  // }
 
   getTimelineDetailTaskListWithLike(
     taskUserId: ITask['userId'],

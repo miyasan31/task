@@ -14,9 +14,13 @@ import { TimelineRepository } from '~/repositories/timeline/timeline.repository'
 export class TimelineService implements ITimelineRepository {
   constructor(private timelineRepository: TimelineRepository) {}
 
-  getTimelineUserTaskList(): Observable<ITimeline[]> {
-    return this.timelineRepository.getTimelineUserTaskList();
+  getTimelineUserTaskList(startDate: number, endDate: number): Promise<ITimeline[]> {
+    return this.timelineRepository.getTimelineUserTaskList(startDate, endDate);
   }
+  // --- MEMO:Observable用 ---
+  // getTimelineUserTaskList(agoDate: number): Observable<ITimeline[]> {
+  //   return this.timelineRepository.getTimelineUserTaskList(agoDate);
+  // }
 
   getTimelineDetailTaskListWithLike(
     taskUserId: ITask['userId'],

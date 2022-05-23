@@ -4,14 +4,35 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ng-template #loading>
+<ion-content [fullscreen]="true" class="timeline-page">
+  <ng-container *ngIf="!timelineData">
+    <!-- TODO:コンポーネント化するかもしれない（？） -->
+    <ion-skeleton-text animated="true" class="timeline-section-header-skeleton"></ion-skeleton-text>
     <app-task-card-skeleton></app-task-card-skeleton>
     <app-task-card-skeleton></app-task-card-skeleton>
     <app-task-card-skeleton></app-task-card-skeleton>
-  </ng-template>
+  </ng-container>
 
-  <ng-container *ngIf="timelineData | async; else loading">
+  <ng-container *ngIf="timelineData">
+    <ng-container *ngFor="let t of timelineData; trackBy: trackByFn">
+      <h1 class="timeline-section-header">{{ t.sectionLabel | date: 'yyyy年M月d日' }}</h1>
+
+      <ng-container *ngFor="let tl of t.data; trackBy: trackByFn">
+        <app-task-card
+          [user]="tl.user"
+          [taskList]="tl.task"
+          routerLink="{{ tl.user.id }}"
+        ></app-task-card>
+      </ng-container>
+
+      <ng-container *ngIf="!t.data.length">
+        <p class="empty-message">アクティブユーザーがいませんでした</p>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+
+  <!-- MEMO:Observable用 -->
+  <!-- <ng-container *ngIf="timelineData | async; else loading">
     <ng-container *ngFor="let data of timelineData | async; trackBy: trackByFn">
       <app-task-card
         [user]="data.user"
@@ -19,9 +40,16 @@
         routerLink="/timeline/{{ data.user.id }}"
       ></app-task-card>
     </ng-container>
+    <ng-container *ngIf="!(timelineData | async)?.length">
+          <p class="empty-message">昨日のアクティブユーザーはいませんでした</p>
+      </ng-container>
+  </ng-container> -->
 
-    <!-- <ng-container *ngIf="!(timelineData | async)?.length">
-      <p class="empty-message">昨日のアクティブユーザーはいませんでした</p>
-    </ng-container> -->
-  </ng-container>
+  <ion-infinite-scroll threshold="50px" (ionInfinite)="onLoadData($event)">
+    <ion-infinite-scroll-content
+      loading-spinner="bubbles"
+      loading-text="タイムライン情報を取得中..."
+    >
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
