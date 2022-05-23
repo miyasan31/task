@@ -27,7 +27,10 @@ export class TaskPage implements OnInit {
   async ngOnInit() {
     // TODO:グローバルステートからuidを参照する
     const uid = await (await this.authService.getAuthUser()).uid;
-    this.taskList = this.taskService.getTaskList(uid);
+
+    setTimeout(() => {
+      this.taskList = this.taskService.getTaskList(uid);
+    }, 300);
   }
 
   async onReversingTaskCompletion($event, task: ITask): Promise<void> {

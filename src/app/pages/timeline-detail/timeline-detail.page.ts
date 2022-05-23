@@ -32,9 +32,11 @@ export class TimelineDetailPage implements OnInit {
     subscribe.unsubscribe();
 
     const user = await this.authService.getAuthUser();
-
     this.user = await this.userService.get(this.userId);
-    this.taskList = this.timelineService.getTimelineDetailTaskListWithLike(this.userId, user.uid);
+
+    setTimeout(() => {
+      this.taskList = this.timelineService.getTimelineDetailTaskListWithLike(this.userId, user.uid);
+    }, 500);
   }
 
   trackByFn(index, item): number {

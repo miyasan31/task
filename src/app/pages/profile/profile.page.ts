@@ -40,11 +40,15 @@ export class ProfilePage implements OnInit {
   }
 
   private fetchTaskList(): void {
-    this.taskList = this.profileService.getUserTaskListWithLike(this.user.id, this.user.id);
+    setTimeout(() => {
+      this.taskList = this.profileService.getUserTaskListWithLike(this.user.id, this.user.id);
+    }, 300);
   }
 
   private fetchLikeList(): void {
-    this.likeList = this.profileService.getUserLikedTaskList(this.user.id, this.user.id);
+    setTimeout(() => {
+      this.likeList = this.profileService.getUserLikedTaskList(this.user.id, this.user.id);
+    }, 300);
   }
 
   onSegmentChanged($event: any): void {
