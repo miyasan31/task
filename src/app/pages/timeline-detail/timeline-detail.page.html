@@ -8,10 +8,18 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <app-task-detail-card
-    *ngFor="let task of taskList | async; trackBy: trackByFn"
-    [user]="user"
-    [task]="task"
-  ></app-task-detail-card>
+<ion-content [fullscreen]="true">
+  <ng-template #loading>
+    <app-task-detail-card-skeleton></app-task-detail-card-skeleton>
+    <app-task-detail-card-skeleton></app-task-detail-card-skeleton>
+    <app-task-detail-card-skeleton></app-task-detail-card-skeleton>
+  </ng-template>
+
+  <ng-container *ngIf="taskList | async; else loading">
+    <app-task-detail-card
+      *ngFor="let task of taskList | async; trackBy: trackByFn"
+      [user]="user"
+      [task]="task"
+    ></app-task-detail-card>
+  </ng-container>
 </ion-content>
