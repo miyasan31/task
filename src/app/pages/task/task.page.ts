@@ -41,7 +41,7 @@ export class TaskPage implements OnInit {
     try {
       await this.taskService.update(updatedTask);
       this.toastService.presentToast(
-        `タスクを${task.isDone ? '完了' : '未完了'}にしました`,
+        `タスクを${!task.isDone ? '完了' : '未完了'}にしました`,
         'success',
       );
     } catch (error) {
