@@ -264,6 +264,7 @@
     }
 
     .card-title-box {
+      flex: 1;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
@@ -275,9 +276,19 @@
       font-weight: 700;
     }
 
+    .card-header-title-skeleton {
+      width: 50%;
+      height: 0.9rem;
+    }
+
     .card-header-subtitle {
       font-size: 0.75rem;
       font-weight: 400;
+    }
+
+    .card-header-subtitle-skeleton {
+      width: 30%;
+      height: 0.75rem;
     }
 
     .card-favorite-box {
@@ -320,6 +331,12 @@
         font-size: 1rem;
         line-height: 1.75rem;
       }
+    }
+
+    .card-task-list-item-skeleton {
+      height: 1rem;
+      width: 70%;
+      margin-left: 1.2rem;
     }
 
     .card-task-name {
