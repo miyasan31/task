@@ -19,9 +19,12 @@
         (ionChange)="onChangeTagName($event)"
         (ionBlur)="onCreateTag()"
       ></ion-input>
-      <ion-badge slot="end" (click)="onPresentPicker()">{{
-        createTag.color || '未選択'
-      }}</ion-badge>
+      <ion-badge
+        slot="end"
+        [style.background-color]="searchTagColor(createTag.color)"
+        (click)="onPresentPicker()"
+        >{{ createTag.color || '未選択' }}</ion-badge
+      >
     </ion-item>
   </div>
 
@@ -42,5 +45,9 @@
         >
       </ion-item>
     </ion-item-sliding>
+  </div>
+
+  <div *ngIf="!tagList?.length">
+    <p class="empty-message">タグが登録されていません</p>
   </div>
 </ion-content>

@@ -11,7 +11,7 @@
         <ion-label style="padding: 0 1rem">プロフィール</ion-label>
       </ion-segment-button>
       <ion-segment-button value="task">
-        <ion-label style="padding: 0 1rem"> タスク </ion-label>
+        <ion-label style="padding: 0 1rem"> 完了タスク </ion-label>
       </ion-segment-button>
       <ion-segment-button value="like">
         <ion-label style="padding: 0 1rem"> いいね </ion-label>
@@ -59,6 +59,10 @@
         [user]="user"
         [task]="task"
       ></app-task-detail-card>
+
+      <div *ngIf="!(taskList | async)?.length">
+        <p class="empty-message">完了タスクがまだありません</p>
+      </div>
     </div>
 
     <div *ngSwitchCase="'like'">
@@ -67,6 +71,10 @@
         [user]="like.user"
         [task]="{ like: like.like, task: like.task }"
       ></app-task-detail-card>
+
+      <div *ngIf="!(likeList | async)?.length">
+        <p class="empty-message">いいねがまだありません</p>
+      </div>
     </div>
   </div>
 </ion-content>

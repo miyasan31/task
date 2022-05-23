@@ -36,4 +36,8 @@
       <ion-text class="task-name">{{ task.taskName }}</ion-text>
     </ion-item>
   </ion-item-sliding>
+
+  <div *ngIf="!(taskList | async)?.length">
+    <p class="empty-message">タスクが登録されていません</p>
+  </div>
 </ion-content>

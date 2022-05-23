@@ -11,4 +11,8 @@
     [taskList]="data.task"
     routerLink="/timeline/{{ data.user.id }}"
   ></app-task-card>
+
+  <div *ngIf="!(timelineData | async)?.length">
+    <p class="empty-message">昨日のアクティブユーザーはいませんでした</p>
+  </div>
 </ion-content>

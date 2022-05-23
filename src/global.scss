@@ -25,6 +25,12 @@
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
 
+.empty-message {
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-align: center;
+}
+
 .picker-opts {
   .picker-opt:nth-child(1) {
     color: #e93d82 !important;
