@@ -7,10 +7,21 @@ import { IonicModule } from '@ionic/angular';
 import { TaskCardComponent } from '~/components/shared/task-card/task-card.component';
 import { TaskCardSkeletonComponent } from '~/components/shared/task-card-skeleton/task-card-skeleton.component';
 import { TaskDetailCardComponent } from '~/components/shared/task-detail-card/task-detail-card.component';
+import { TaskDetailCardSkeletonComponent } from '~/components/shared/task-detail-card-skeleton/task-detail-card-skeleton.component';
 
 @NgModule({
-  declarations: [TaskCardComponent, TaskDetailCardComponent, TaskCardSkeletonComponent],
-  exports: [TaskCardComponent, TaskDetailCardComponent, TaskCardSkeletonComponent],
+  declarations: [
+    TaskCardComponent,
+    TaskDetailCardComponent,
+    TaskCardSkeletonComponent,
+    TaskDetailCardSkeletonComponent,
+  ],
+  exports: [
+    TaskCardComponent,
+    TaskDetailCardComponent,
+    TaskCardSkeletonComponent,
+    TaskDetailCardSkeletonComponent,
+  ],
   imports: [IonicModule, CommonModule, FormsModule, RouterModule],
 })
 export class SharedComponentsModule {}

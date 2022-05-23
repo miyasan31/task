@@ -354,8 +354,16 @@
 
     .card-task-list-item-skeleton {
       height: 1rem;
-      width: 70%;
       margin-left: 1.2rem;
+    }
+    .card-task-list-item-skeleton:nth-child(1) {
+      width: 80%;
+    }
+    .card-task-list-item-skeleton:nth-child(2) {
+      width: 70%;
+    }
+    .card-task-list-item-skeleton:nth-child(3) {
+      width: 40%;
     }
 
     .card-task-name {
