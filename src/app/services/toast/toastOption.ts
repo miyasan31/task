@@ -13,21 +13,21 @@ export const toastOption: ToastOption = {
   default: {
     color: 'medium',
     position: 'bottom',
-    duration: 2000,
+    duration: 1000,
   },
   success: {
     color: 'success',
     position: 'bottom',
-    duration: 2000,
+    duration: 1000,
   },
   error: {
     color: 'danger',
     position: 'bottom',
-    duration: 2000,
+    duration: 1000,
   },
   warning: {
     color: 'warning',
     position: 'bottom',
-    duration: 2000,
+    duration: 1000,
   },
 };

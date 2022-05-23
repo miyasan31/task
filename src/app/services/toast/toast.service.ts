@@ -13,6 +13,7 @@ export class ToastService {
     const toast = await this.toastController.create({
       message,
       ...toastOption[status],
+      cssClass: 'tabs-bottom',
     });
 
     toast.present();

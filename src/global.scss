@@ -25,6 +25,13 @@
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
 
+.md .tabs-bottom {
+  transform: translateY(-56px) !important;
+}
+.ios .tabs-bottom {
+  transform: translateY(-50px) !important;
+}
+
 .component-profile {
   padding: 2rem 1rem;
 
