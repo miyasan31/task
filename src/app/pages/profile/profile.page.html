@@ -30,7 +30,6 @@
         src="{{ user?.avatar }}"
         alt="{{ user?.userName }}のユーザーアバター"
       />
-
       <div class="user-status">
         <div class="user-status-item">
           <p class="count-text">20</p>
@@ -46,37 +45,49 @@
         </div>
       </div>
     </div>
-
     <p class="user-name">{{ user?.userName }}</p>
-
     <p class="profile-body">{{ user?.profile || 'プロフィール文が未入力です。' }}</p>
-
     <app-calendar-heatmap></app-calendar-heatmap>
-
     <ion-button (click)="onSignOut()">サインアウト</ion-button>
   </div>
 
   <div [hidden]="scene !== 'task'">
-    <app-task-detail-card
-      *ngFor="let task of taskList | async; trackBy: trackByFn"
-      [user]="user"
-      [task]="task"
-    ></app-task-detail-card>
+    <ng-template #loading>
+      <app-task-card-skeleton></app-task-card-skeleton>
+      <app-task-card-skeleton></app-task-card-skeleton>
+      <app-task-card-skeleton></app-task-card-skeleton>
+    </ng-template>
 
-    <div *ngIf="!(taskList | async)?.length">
+    <ng-container *ngIf="taskList | async; else loading">
+      <app-task-detail-card
+        *ngFor="let task of taskList | async; trackBy: trackByFn"
+        [user]="user"
+        [task]="task"
+      ></app-task-detail-card>
+    </ng-container>
+
+    <!-- <div *ngIf="!(taskList | async)?.length">
       <p class="empty-message">完了タスクがまだありません</p>
-    </div>
+    </div> -->
   </div>
 
   <div [hidden]="scene !== 'like'">
-    <app-task-detail-card
-      *ngFor="let like of likeList | async; trackBy: trackByFn"
-      [user]="like.user"
-      [task]="{ like: like.like, task: like.task }"
-    ></app-task-detail-card>
+    <ng-template #loading>
+      <app-task-card-skeleton></app-task-card-skeleton>
+      <app-task-card-skeleton></app-task-card-skeleton>
+      <app-task-card-skeleton></app-task-card-skeleton>
+    </ng-template>
 
-    <div *ngIf="!(likeList | async)?.length">
+    <ng-container *ngIf="likeList | async; else loading">
+      <app-task-detail-card
+        *ngFor="let like of likeList | async; trackBy: trackByFn"
+        [user]="like.user"
+        [task]="{ like: like.like, task: like.task }"
+      ></app-task-detail-card>
+    </ng-container>
+
+    <!-- <div *ngIf="!(likeList | async)?.length">
       <p class="empty-message">いいねがまだありません</p>
-    </div>
+    </div> -->
   </div>
 </ion-content>
