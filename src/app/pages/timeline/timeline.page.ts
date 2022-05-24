@@ -53,6 +53,8 @@ export class TimelinePage implements OnInit {
       agoDateCount,
     );
 
+    console.log(timelineList);
+
     if (option?.isInit) {
       this.timelineData = [{ sectionLabel: this.dayAgo(agoDateCount), data: timelineList }];
       return;

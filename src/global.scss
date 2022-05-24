@@ -25,10 +25,6 @@
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
 
-ion-label {
-  color: var(--ion-color-medium) !important;
-}
-
 a {
   color: var(--ion-color-primary);
   text-decoration: none;
@@ -242,6 +238,10 @@ ion-infinite-scroll-content {
     --padding-end: 0;
   }
 
+  ion-label {
+    color: var(--ion-color-medium) !important;
+  }
+
   h1 {
     font-weight: 700;
     font-size: 1.5rem;
@@ -292,11 +292,21 @@ ion-infinite-scroll-content {
   }
 }
 
+.component-tag-modal {
+  ion-label {
+    color: var(--ion-color-medium) !important;
+  }
+}
+
 .component-task-modal {
   ion-item {
     --padding-start: 0;
     --padding-end: 0;
     padding: 0 1rem;
+  }
+
+  ion-label {
+    color: var(--ion-color-medium) !important;
   }
 
   .label-form {

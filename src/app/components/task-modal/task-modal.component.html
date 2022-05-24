@@ -8,12 +8,7 @@
   <form #f="ngForm">
     <ion-item>
       <ion-label position="stacked">タスク名</ion-label>
-      <ion-input
-        type="text"
-        name="taskName"
-        [(ngModel)]="taskName"
-        placeholder="タスクを入力してください"
-      ></ion-input>
+      <ion-input type="text" name="taskName" [(ngModel)]="taskName"></ion-input>
     </ion-item>
 
     <div class="label-form">
@@ -46,7 +41,6 @@
         rows="{{ isEdit ? 14 : 10 }}"
         name="description"
         [(ngModel)]="description"
-        placeholder="アウトプットメモを入力してください"
       ></ion-textarea>
     </ion-item>
 
