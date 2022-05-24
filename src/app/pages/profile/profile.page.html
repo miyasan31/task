@@ -23,32 +23,18 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div class="component-profile" [hidden]="scene !== 'profile'">
-    <div class="user-info">
-      <img
-        class="user-avatar"
-        src="{{ user?.avatar }}"
-        alt="{{ user?.userName }}のユーザーアバター"
-      />
-      <div class="user-status">
-        <div class="user-status-item">
-          <p class="count-text">20</p>
-          <p class="count-label">連続コミット</p>
-        </div>
-        <div class="user-status-item">
-          <p class="count-text">{{ isDoneTaskCount }}</p>
-          <p class="count-label">タスク完了</p>
-        </div>
-        <div class="user-status-item">
-          <p class="count-text">{{ likeCount }}</p>
-          <p class="count-label">貰ったいいね</p>
-        </div>
-      </div>
-    </div>
-    <p class="user-name">{{ user?.userName }}</p>
-    <p class="profile-body">{{ user?.profile || 'プロフィール文が未入力です。' }}</p>
-    <app-calendar-heatmap></app-calendar-heatmap>
-    <ion-button (click)="onSignOut()">サインアウト</ion-button>
+  <div class="profile-scene" [hidden]="scene !== 'profile'">
+    <app-profile-skeleton *ngIf="!user"></app-profile-skeleton>
+
+    <ng-container *ngIf="user">
+      <app-profile
+        [user]="user"
+        [isDoneTaskCount]="isDoneTaskCount"
+        [likeCount]="likeCount"
+      ></app-profile>
+      <app-calendar-heatmap></app-calendar-heatmap>
+      <ion-button (click)="onSignOut()">サインアウト</ion-button>
+    </ng-container>
   </div>
 
   <div [hidden]="scene !== 'task'">
@@ -65,10 +51,6 @@
         [task]="task"
       ></app-task-detail-card>
     </ng-container>
-
-    <!-- <div *ngIf="!(taskList | async)?.length">
-      <p class="empty-message">完了タスクがまだありません</p>
-    </div> -->
   </div>
 
   <div [hidden]="scene !== 'like'">
@@ -85,9 +67,5 @@
         [task]="{ like: like.like, task: like.task }"
       ></app-task-detail-card>
     </ng-container>
-
-    <!-- <div *ngIf="!(likeList | async)?.length">
-      <p class="empty-message">いいねがまだありません</p>
-    </div> -->
   </div>
 </ion-content>

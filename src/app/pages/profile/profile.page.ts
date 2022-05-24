@@ -7,6 +7,7 @@ import { IUser } from '~/interfaces/user/IUser';
 import { AuthService } from '~/services/auth/auth.service';
 import { ProfileService } from '~/services/profile/profile.service';
 import { ToastService } from '~/services/toast/toast.service';
+import { sleep } from '~/utils/sleep';
 
 type Scene = 'profile' | 'task' | 'like';
 
@@ -21,7 +22,7 @@ export class ProfilePage implements OnInit {
   isDoneTaskCount = 0;
   likeCount = 0;
   scene: Scene = 'profile';
-  user: IUser;
+  user: IUser | null = null;
 
   constructor(
     private authService: AuthService,
@@ -34,6 +35,7 @@ export class ProfilePage implements OnInit {
   }
 
   private async fetchProfile(): Promise<void> {
+    await sleep(2000);
     this.user = await this.authService.getAuthUserInfo();
     this.likeCount = await this.profileService.getUserLikeCount(this.user.id);
     this.isDoneTaskCount = await this.profileService.getUserIsDoneTaskCount(this.user.id);

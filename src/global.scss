@@ -121,9 +121,11 @@ ion-infinite-scroll-content {
   transform: translateY(-50px) !important;
 }
 
-.component-profile {
+.profile-scene {
   padding: 2rem 1rem;
+}
 
+.component-profile {
   .user-info {
     display: flex;
     align-items: center;
@@ -153,9 +155,19 @@ ion-infinite-scroll-content {
         line-height: 0rem;
       }
 
+      .count-text-skeleton {
+        width: 40px;
+        height: 1rem;
+      }
+
       .count-label {
         font-size: 0.5rem;
         line-height: 0rem;
+      }
+
+      .count-label-skeleton {
+        width: 50px;
+        height: 1rem;
       }
     }
   }
@@ -166,9 +178,26 @@ ion-infinite-scroll-content {
     line-height: 1.25rem;
   }
 
+  .user-name-skeleton {
+    height: 1.5rem;
+    width: 30%;
+    margin: 0.5rem 0;
+  }
+
   .profile-body {
     font-size: 0.9rem;
     line-height: 1.25rem;
+  }
+
+  .profile-body-skeleton {
+    height: 1rem;
+    width: 80%;
+    margin: 0.5rem 0;
+  }
+
+  .heatmap-skeleton {
+    height: 110px;
+    margin: 3rem auto;
   }
 }
 
