@@ -76,6 +76,7 @@
         *ngFor="let like of likeList | async; trackBy: trackByFn"
         [user]="like.user"
         [task]="{ like: like.like, task: like.task, tag: like.tag }"
+        path="profile/{{ like.tag.id }}"
       ></app-task-detail-card>
     </ng-container>
   </div>

@@ -23,6 +23,11 @@ const routes: Routes = [
           import('~/pages/profile/profile.module').then((m) => m.ProfilePageModule),
       },
       {
+        path: 'setting',
+        loadChildren: () =>
+          import('~/pages/setting/setting.module').then((m) => m.SettingPageModule),
+      },
+      {
         path: '',
         redirectTo: '/timeline',
         pathMatch: 'full',
