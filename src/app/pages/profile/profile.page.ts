@@ -11,7 +11,7 @@ import { ToastService } from '~/services/toast/toast.service';
 type Scene = 'profile' | 'task' | 'like';
 
 @Component({
-  selector: 'app-profile',
+  selector: 'app-profile-page',
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
 })

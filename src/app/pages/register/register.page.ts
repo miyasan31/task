@@ -9,7 +9,7 @@ const dummyAvatar =
   'https://firebasestorage.googleapis.com/v0/b/task-6fa6f.appspot.com/o/dummy%2Fonepiece01_luffy2.png?alt=media&token=65baee2d-0955-490d-ada1-be36687fe21e';
 
 @Component({
-  selector: 'app-register',
+  selector: 'app-register-page',
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
 })

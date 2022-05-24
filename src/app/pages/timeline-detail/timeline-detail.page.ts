@@ -9,7 +9,7 @@ import { TimelineService } from '~/services/timeline/timeline.service';
 import { UserService } from '~/services/user/user.service';
 
 @Component({
-  selector: 'app-timeline-detail',
+  selector: 'app-timeline-detail-page',
   templateUrl: './timeline-detail.page.html',
   styleUrls: ['./timeline-detail.page.scss'],
 })

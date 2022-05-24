@@ -9,7 +9,7 @@ import { TaskService } from '~/services/task/task.service';
 import { ToastService } from '~/services/toast/toast.service';
 
 @Component({
-  selector: 'app-task',
+  selector: 'app-task-page',
   templateUrl: './task.page.html',
   styleUrls: ['./task.page.scss'],
 })

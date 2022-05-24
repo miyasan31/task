@@ -12,7 +12,7 @@ type TimelineData = {
 };
 
 @Component({
-  selector: 'app-timeline',
+  selector: 'app-timeline-page',
   templateUrl: './timeline.page.html',
   styleUrls: ['./timeline.page.scss'],
 })

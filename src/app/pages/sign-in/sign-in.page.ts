@@ -4,7 +4,7 @@ import { AuthService } from '~/services/auth/auth.service';
 import { ToastService } from '~/services/toast/toast.service';
 
 @Component({
-  selector: 'app-sign-in',
+  selector: 'app-sign-in-page',
   templateUrl: './sign-in.page.html',
   styleUrls: ['./sign-in.page.scss'],
 })
