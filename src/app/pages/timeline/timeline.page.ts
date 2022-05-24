@@ -20,39 +20,44 @@ export class TimelinePage implements OnInit {
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
 
   agoDateCount = 1;
-  timelineData: TimelineData[] | null = null;
+  timelineData: TimelineData[] | null = [];
   // --- MEMO:Observable用 ---
   // timelineData: Observable<ITimeline[]>;
 
   constructor(private timelineService: TimelineService) {}
 
-  private dayAgo(agoDate: number): Date {
-    return new Date(new Date().setDate(new Date().getDate() - agoDate));
-  }
-
   async ngOnInit() {
-    await sleep(400);
-    const timelineList = await this.timelineService.getTimelineUserTaskList(
-      this.agoDateCount,
-      this.agoDateCount,
-    );
-    this.timelineData = [{ sectionLabel: this.dayAgo(this.agoDateCount), data: timelineList }];
+    await this.timelineFetch(400, 1, { isInit: true });
   }
 
-  async onLoadData($event) {
+  async onLoadPrevData($event) {
     this.agoDateCount++;
-    await sleep(600);
-    const addTimelineList = await this.timelineService.getTimelineUserTaskList(
-      this.agoDateCount,
-      this.agoDateCount,
+    await this.timelineFetch(600, this.agoDateCount);
+    await $event.target.complete();
+  }
+
+  async onTimelineRefresh($event) {
+    this.agoDateCount = 1;
+    await this.timelineFetch(400, this.agoDateCount, { isInit: true });
+    await $event.target.complete();
+  }
+
+  async timelineFetch(delay: number, agoDateCount: number, option?: { isInit?: boolean }) {
+    await sleep(delay);
+    const timelineList = await this.timelineService.getTimelineUserTaskList(
+      agoDateCount,
+      agoDateCount,
     );
-    if (addTimelineList.length) {
+
+    if (option?.isInit) {
+      this.timelineData = [{ sectionLabel: this.dayAgo(agoDateCount), data: timelineList }];
+      return;
     }
+
     this.timelineData = [
       ...this.timelineData,
-      { sectionLabel: this.dayAgo(this.agoDateCount), data: addTimelineList },
+      { sectionLabel: this.dayAgo(agoDateCount), data: timelineList },
     ];
-    await $event.target.complete();
   }
 
   // --- MEMO:Observable用 ---
@@ -66,6 +71,10 @@ export class TimelinePage implements OnInit {
   //   this.agoDateCount = this.agoDateCount + 1;
   //   this.timelineData = this.timelineService.getTimelineUserTaskList(this.agoDateCount);
   // }
+
+  private dayAgo(agoDate: number): Date {
+    return new Date(new Date().setDate(new Date().getDate() - agoDate));
+  }
 
   trackByFn(index, item): number {
     return item.id;

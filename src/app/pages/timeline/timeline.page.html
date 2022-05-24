@@ -4,8 +4,18 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="timeline-page">
-  <ng-container *ngIf="!timelineData">
+<ion-content class="timeline-page">
+  <ion-refresher
+    slot="fixed"
+    pullFactor="0.5"
+    pullMin="100"
+    pullMax="200"
+    (ionRefresh)="onTimelineRefresh($event)"
+  >
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ng-container *ngIf="!timelineData.length">
     <!-- TODO:コンポーネント化するかもしれない（？） -->
     <ion-skeleton-text animated="true" class="timeline-section-header-skeleton"></ion-skeleton-text>
     <app-task-card-skeleton></app-task-card-skeleton>
@@ -45,7 +55,7 @@
       </ng-container>
   </ng-container> -->
 
-  <ion-infinite-scroll threshold="50px" (ionInfinite)="onLoadData($event)">
+  <ion-infinite-scroll threshold="50px" (ionInfinite)="onLoadPrevData($event)">
     <ion-infinite-scroll-content
       loading-spinner="bubbles"
       loading-text="タイムライン情報を取得中..."
