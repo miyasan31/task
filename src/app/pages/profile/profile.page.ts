@@ -35,7 +35,7 @@ export class ProfilePage implements OnInit {
   }
 
   private async fetchProfile(): Promise<void> {
-    await sleep(2000);
+    await sleep(400);
     this.user = await this.authService.getAuthUserInfo();
     this.likeCount = await this.profileService.getUserLikeCount(this.user.id);
     this.isDoneTaskCount = await this.profileService.getUserIsDoneTaskCount(this.user.id);
