@@ -20,10 +20,7 @@ export class TaskDetailCardComponent implements OnInit {
 
   ngOnInit() {}
 
-  async onLikeClick($event, taskId: ITask['id'], like: ILike): Promise<void> {
-    $event.stopPropagation();
-    $event.preventDefault();
-
+  async onLikeClick(taskId: ITask['id'], like: ILike): Promise<void> {
     if (like) {
       this.likeService.delete(like.id);
       return;

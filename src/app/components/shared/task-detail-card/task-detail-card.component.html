@@ -14,7 +14,7 @@
         color="{{ task.like ? 'primary' : 'none' }}"
         size="small"
         class="card-favorite-button"
-        (click)="onLikeClick($event, task.task.id, task.like)"
+        (click)="onLikeClick(task.task.id, task.like)"
       >
         <ion-icon name="heart" class="card-favorite-button-icon"></ion-icon>
       </ion-fab-button>

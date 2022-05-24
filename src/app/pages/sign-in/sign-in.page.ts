@@ -40,7 +40,7 @@ export class SignInPage implements OnInit {
     }
   }
 
-  private initForm() {
+  private initForm(): void {
     this.email = '';
     this.password = '';
   }

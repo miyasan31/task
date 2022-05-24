@@ -123,7 +123,7 @@ export class TagModalComponent implements OnInit {
     await picker.present();
   }
 
-  private tagListLengthCheck() {
+  private tagListLengthCheck(): boolean {
     if (this.tagList.length === 10) {
       this.isVisible = false;
       return;

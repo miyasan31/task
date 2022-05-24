@@ -40,8 +40,8 @@ export class RegisterPage implements OnInit {
     this.avatar = userInfo.photoURL || dummyAvatar;
   }
 
-  onFileSelected(event) {
-    const file: File = event.target.files[0];
+  onFileSelected($event): void {
+    const file: File = $event.target.files[0];
 
     if (!file) {
       return;

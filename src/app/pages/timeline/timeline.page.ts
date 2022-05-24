@@ -30,19 +30,23 @@ export class TimelinePage implements OnInit {
     await this.timelineFetch(400, 1, { isInit: true });
   }
 
-  async onLoadPrevData($event) {
+  async onLoadPrevData($event): Promise<void> {
     this.agoDateCount++;
     await this.timelineFetch(600, this.agoDateCount);
     await $event.target.complete();
   }
 
-  async onTimelineRefresh($event) {
+  async onTimelineRefresh($event): Promise<void> {
     this.agoDateCount = 1;
     await this.timelineFetch(400, this.agoDateCount, { isInit: true });
     await $event.target.complete();
   }
 
-  async timelineFetch(delay: number, agoDateCount: number, option?: { isInit?: boolean }) {
+  async timelineFetch(
+    delay: number,
+    agoDateCount: number,
+    option?: { isInit?: boolean },
+  ): Promise<void> {
     await sleep(delay);
     const timelineList = await this.timelineService.getTimelineUserTaskList(
       agoDateCount,

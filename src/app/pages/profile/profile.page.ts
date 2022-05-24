@@ -62,7 +62,7 @@ export class ProfilePage implements OnInit {
     await $event.target.complete();
   }
 
-  onSegmentChanged($event: any): void {
+  onSegmentChanged($event): void {
     const scene = $event.detail.value;
     switch (scene) {
       case 'profile':
