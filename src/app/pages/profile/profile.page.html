@@ -59,6 +59,7 @@
         *ngFor="let task of taskList | async; trackBy: trackByFn"
         [user]="user"
         [task]="task"
+        path="profile/{{ task.tag.id }}"
       ></app-task-detail-card>
     </ng-container>
   </div>

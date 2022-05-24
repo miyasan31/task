@@ -25,7 +25,7 @@
   <ion-card-content class="card-content">
     <h1 class="card-task-name">{{ task.task.taskName }}</h1>
     <p class="card-description">{{ task.task.description }}</p>
-    <ion-chip outline color="{{ task.tag.color }}">
+    <ion-chip outline color="{{ task.tag.color }}" (click)="navigatePush(path)">
       <ion-label>{{ task.tag.tagName }}</ion-label>
     </ion-chip>
   </ion-card-content>

@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 
 import { ILike } from '~/interfaces/like/ILike';
 import { ITask } from '~/interfaces/task/ITask';
@@ -15,8 +16,13 @@ import { LikeService } from '~/services/like/like.service';
 export class TaskDetailCardComponent implements OnInit {
   @Input() user: IUser;
   @Input() task: ITaskCard;
+  @Input() path?: string;
 
-  constructor(private authService: AuthService, private likeService: LikeService) {}
+  constructor(
+    private authService: AuthService,
+    private likeService: LikeService,
+    private navController: NavController,
+  ) {}
 
   ngOnInit() {}
 
@@ -34,5 +40,13 @@ export class TaskDetailCardComponent implements OnInit {
     };
 
     this.likeService.create(createLike);
+  }
+
+  navigatePush(path?: string): void {
+    console.log(path);
+    if (!path) {
+      return;
+    }
+    this.navController.navigateForward(path);
   }
 }
