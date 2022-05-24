@@ -1,0 +1,25 @@
+<div class="component-profile">
+  <div class="user-info">
+    <img
+      class="user-avatar"
+      src="{{ user?.avatar }}"
+      alt="{{ user?.userName }}のユーザーアバター"
+    />
+    <div class="user-status">
+      <div class="user-status-item">
+        <p class="count-text">20</p>
+        <p class="count-label">連続コミット</p>
+      </div>
+      <div class="user-status-item">
+        <p class="count-text">{{ isDoneTaskCount }}</p>
+        <p class="count-label">タスク完了</p>
+      </div>
+      <div class="user-status-item">
+        <p class="count-text">{{ likeCount }}</p>
+        <p class="count-label">貰ったいいね</p>
+      </div>
+    </div>
+  </div>
+  <p class="user-name">{{ user?.userName }}</p>
+  <p class="profile-body">{{ user?.profile || 'プロフィール文が未入力です。' }}</p>
+</div>
