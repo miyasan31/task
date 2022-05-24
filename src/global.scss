@@ -25,6 +25,19 @@
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
 
+.ion-color-tomato {
+  --ion-color-base: var(--ion-color-tomato);
+  --ion-color-base-rgb: var(--ion-color-tomato-rgb);
+  --ion-color-contrast: var(--ion-color-tomato-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-tomato-contrast-rgb);
+  --ion-color-shade: var(--ion-color-tomato-shade);
+  --ion-color-tint: var(--ion-color-tomato-tint);
+}
+
+ion-chip {
+  margin: 0;
+}
+
 a {
   color: var(--ion-color-primary);
   text-decoration: none;
@@ -474,6 +487,7 @@ ion-infinite-scroll-content {
     }
 
     .card-description {
+      margin-bottom: 1.25rem;
       font-size: 0.9rem;
       font-weight: 400;
       line-height: 1.5;

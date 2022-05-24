@@ -17,11 +17,13 @@ import { first, map, mergeMap } from 'rxjs/operators';
 import { ILike } from '~/interfaces/like/ILike';
 import { ILikedTaskCard } from '~/interfaces/profile/ILikedTaskCard';
 import { IProfileRepository } from '~/interfaces/profile/IProfileRepository';
+import { ITag } from '~/interfaces/tag/ITag';
 import { ITask } from '~/interfaces/task/ITask';
 import { ITaskCard } from '~/interfaces/timeline/ITaskCard';
 import { IUser } from '~/interfaces/user/IUser';
 import { IUserRepository } from '~/interfaces/user/IUserRepository';
 import { likeConverter } from '~/libs/converter/like.converter';
+import { tagConverter } from '~/libs/converter/tag.converter';
 import { taskConverter } from '~/libs/converter/task.converter';
 import { userConverter } from '~/libs/converter/user.converter';
 
@@ -35,16 +37,20 @@ export class ProfileRepository implements IProfileRepository {
   private taskColRef: CollectionReference<ITask>;
   private likeDocRef: DocumentReference<ILike>;
   private likeColRef: CollectionReference<ILike>;
+  private tagDocRef: DocumentReference<ITag>;
+  private tagColRef: CollectionReference<ITag>;
 
   constructor(private firestore: Firestore) {
     this.taskColRef = collection(this.firestore, 'tasks').withConverter(taskConverter);
     this.likeColRef = collection(this.firestore, 'likes').withConverter(likeConverter);
+    this.tagColRef = collection(this.firestore, 'tags').withConverter(tagConverter);
   }
 
   getUserTaskListWithLike(
     profileUserId: IUser['id'],
     currentUserId: IUser['id'],
   ): Observable<ITaskCard[]> {
+    console.log(profileUserId, currentUserId);
     try {
       const taskQuery = query(
         this.taskColRef,
@@ -53,6 +59,13 @@ export class ProfileRepository implements IProfileRepository {
         orderBy('createdAt', 'desc'),
       );
       const taskDocList = collectionData(taskQuery);
+
+      const tagQuery = query(
+        this.tagColRef,
+        where('userId', '==', profileUserId),
+        where('isActive', '==', true),
+      );
+      const userTagList = collectionData(tagQuery);
 
       const taskCardList = taskDocList.pipe(
         mergeMap((taskList) => {
@@ -71,12 +84,14 @@ export class ProfileRepository implements IProfileRepository {
                 return collectionData(likeQuery).pipe(map((like) => like[0]));
               }),
             ),
+            userTagList,
           ]);
         }),
-        map(([taskList, likeList]) =>
+        map(([taskList, likeList, tagList]) =>
           taskList.map((task) => {
             const isLike = likeList.filter((like) => like && like.taskId === task.id)[0];
-            return { task, like: isLike };
+            const isTag = tagList.filter((tag) => tag && tag.id === task.tagId)[0];
+            return { task, like: isLike, tag: isTag };
           }),
         ),
       );
@@ -107,6 +122,7 @@ export class ProfileRepository implements IProfileRepository {
           const promise = userLikedTaskIdList.map(async (taskId, index) => {
             const taskDocRef = doc(this.firestore, `tasks/${taskId}`).withConverter(taskConverter);
             const task = await docData(taskDocRef).pipe(first()).toPromise(Promise);
+
             const isLikeQuery = query(
               this.likeColRef,
               where('userId', '==', currentUserId),
@@ -115,11 +131,16 @@ export class ProfileRepository implements IProfileRepository {
             const isLikeDocList = await collectionData(isLikeQuery)
               .pipe(first())
               .toPromise(Promise);
+
             const userDocRef = doc(this.firestore, `users/${task.userId}`).withConverter(
               userConverter,
             );
             const user = await docData(userDocRef).pipe(first()).toPromise(Promise);
-            return { user, task, like: isLikeDocList[0] };
+
+            const tagDocRef = doc(this.firestore, `tags/${task.tagId}`).withConverter(tagConverter);
+            const tag = await docData(tagDocRef).pipe(first()).toPromise(Promise);
+
+            return { user, task, like: isLikeDocList[0], tag };
           });
 
           return await Promise.all(promise);

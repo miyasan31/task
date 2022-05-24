@@ -74,7 +74,7 @@
       <app-task-detail-card
         *ngFor="let like of likeList | async; trackBy: trackByFn"
         [user]="like.user"
-        [task]="{ like: like.like, task: like.task }"
+        [task]="{ like: like.like, task: like.task, tag: like.tag }"
       ></app-task-detail-card>
     </ng-container>
   </div>
