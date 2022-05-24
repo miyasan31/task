@@ -19,39 +19,40 @@
         (ionChange)="onChangeTagName($event)"
         (ionBlur)="onCreateTag()"
       ></ion-input>
-      <!-- <ion-badge
-        slot="end"
-        [style.background-color]="searchTagColor(createTag.color)"
-        (click)="onPresentPicker()"
-        >{{ createTag.color || '未選択' }}</ion-badge
-      > -->
-      <ion-chip slot="end" outline (click)="onPresentPicker()">
-        <ion-label color="{{ createTag.color }}">{{ createTag.color }}</ion-label>
+      <ion-chip outline color="{{ createTag.color }}" slot="end" (click)="onPresentPicker()">
+        <ion-label>{{ createTag.color }}</ion-label>
       </ion-chip>
     </ion-item>
   </div>
 
-  <div *ngFor="let tag of tagList; let i = index; trackBy: trackByFn">
+  <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 2rem 1rem">
+    <ion-chip
+      *ngFor="let tag of tagList; let i = index; trackBy: trackByFn"
+      outline
+      color="{{ tag.color }}"
+      slot="end"
+      class="ion-chip-large"
+      (click)="onPresentPicker(i)"
+    >
+      <ion-label>{{ tag.tagName }}</ion-label>
+    </ion-chip>
+  </div>
+
+  <!-- <div *ngFor="let tag of tagList; let i = index; trackBy: trackByFn">
     <ion-item-sliding>
       <ion-item-options side="end">
         <ion-item-option color="danger" (click)="onInactiveTag(tag)">削除</ion-item-option>
       </ion-item-options>
 
-      <ion-item>
-        <ion-text slot="start">{{ tag.tagName }}</ion-text>
-        <!-- <ion-badge
-          [style.background-color]="tag.color"
-          style="color: #ffffff; font-weight: 600"
-          slot="end"
-          (click)="onPresentPicker(i)"
-          >{{ tag.color }}</ion-badge
-        > -->
-        <ion-chip slot="end" outline (click)="onPresentPicker(i)">
-          <ion-label color="{{ tag.color }}">{{ tag.color }}</ion-label>
+      <div style="display: flex; justify-content: space-between; padding: 0.25rem 1rem">
+        <ion-label slot="start">{{ tag.tagName }}</ion-label>
+
+        <ion-chip outline color="{{ tag.color }}" slot="end" (click)="onPresentPicker(i)">
+          <ion-label>{{ tag.color }}</ion-label>
         </ion-chip>
-      </ion-item>
+      </div>
     </ion-item-sliding>
-  </div>
+  </div> -->
 
   <div *ngIf="!tagList?.length">
     <p class="empty-message">タグが登録されていません</p>

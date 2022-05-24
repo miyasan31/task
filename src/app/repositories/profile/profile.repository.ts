@@ -50,7 +50,6 @@ export class ProfileRepository implements IProfileRepository {
     profileUserId: IUser['id'],
     currentUserId: IUser['id'],
   ): Observable<ITaskCard[]> {
-    console.log(profileUserId, currentUserId);
     try {
       const taskQuery = query(
         this.taskColRef,

@@ -115,6 +115,22 @@
   --ion-color-tint: var(--ion-color-gray-tint);
 }
 
+ion-chip {
+  margin: 0;
+}
+
+.ion-chip-large {
+  width: fit-content;
+  height: fit-content;
+  border-radius: 999px;
+  padding: 0.75rem 1.25rem;
+  ion-label {
+    width: 100%;
+    text-align: center;
+    font-size: 1rem;
+  }
+}
+
 a {
   color: var(--ion-color-primary);
   text-decoration: none;
@@ -379,12 +395,6 @@ ion-infinite-scroll-content {
     flex-wrap: nowrap;
     padding: 0 1rem;
     text-align: center;
-  }
-}
-
-.component-tag-modal {
-  ion-label {
-    color: var(--ion-color-medium) !important;
   }
 }
 
