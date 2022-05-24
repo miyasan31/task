@@ -35,7 +35,11 @@ export class ProfilePage implements OnInit {
   }
 
   private async fetchProfile(): Promise<void> {
-    await sleep(400);
+    await this.fetchUserProfile(400);
+  }
+
+  private async fetchUserProfile(delay: number): Promise<void> {
+    await sleep(delay);
     this.user = await this.authService.getAuthUserInfo();
     this.likeCount = await this.profileService.getUserLikeCount(this.user.id);
     this.isDoneTaskCount = await this.profileService.getUserIsDoneTaskCount(this.user.id);
@@ -51,6 +55,11 @@ export class ProfilePage implements OnInit {
     setTimeout(() => {
       this.likeList = this.profileService.getUserLikedTaskList(this.user.id, this.user.id);
     }, 300);
+  }
+
+  async onProfileRefresh($event): Promise<void> {
+    await this.fetchUserProfile(600);
+    await $event.target.complete();
   }
 
   onSegmentChanged($event: any): void {
