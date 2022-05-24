@@ -1,9 +1,9 @@
 import { Timestamp } from '@angular/fire/firestore';
 
-import { colorPallet } from '~/constants/colorPicker';
+import { colorPicker } from '~/constants/colorPicker';
 import { IUser } from '~/interfaces/user/IUser';
 
-export type ColorScheme = typeof colorPallet[number]['name'];
+export type ColorScheme = typeof colorPicker[number]['value'];
 
 export interface ITag {
   id: string;

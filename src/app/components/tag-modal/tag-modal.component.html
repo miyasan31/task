@@ -19,12 +19,15 @@
         (ionChange)="onChangeTagName($event)"
         (ionBlur)="onCreateTag()"
       ></ion-input>
-      <ion-badge
+      <!-- <ion-badge
         slot="end"
         [style.background-color]="searchTagColor(createTag.color)"
         (click)="onPresentPicker()"
         >{{ createTag.color || '未選択' }}</ion-badge
-      >
+      > -->
+      <ion-chip slot="end" outline (click)="onPresentPicker()">
+        <ion-label color="{{ createTag.color }}">{{ createTag.color }}</ion-label>
+      </ion-chip>
     </ion-item>
   </div>
 
@@ -36,13 +39,16 @@
 
       <ion-item>
         <ion-text slot="start">{{ tag.tagName }}</ion-text>
-        <ion-badge
-          [style.background-color]="searchTagColor(tag.color)"
+        <!-- <ion-badge
+          [style.background-color]="tag.color"
           style="color: #ffffff; font-weight: 600"
           slot="end"
           (click)="onPresentPicker(i)"
           >{{ tag.color }}</ion-badge
-        >
+        > -->
+        <ion-chip slot="end" outline (click)="onPresentPicker(i)">
+          <ion-label color="{{ tag.color }}">{{ tag.color }}</ion-label>
+        </ion-chip>
       </ion-item>
     </ion-item-sliding>
   </div>
