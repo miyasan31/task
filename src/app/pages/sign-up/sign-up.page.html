@@ -1,7 +1,9 @@
 <ion-content>
+  <ion-back-button defaultHref="/timeline" class="back-button" text="戻る"></ion-back-button>
+
   <div class="flex align-center h-screen">
     <form class="custom-form" autocomplete="off">
-      <h1>サインイン</h1>
+      <h1>サインアップ</h1>
 
       <ion-item>
         <ion-label position="stacked">メールアドレス</ion-label>
@@ -13,7 +15,16 @@
         <ion-input type="password" name="password" [(ngModel)]="password"></ion-input>
       </ion-item>
 
-      <ion-button expand="block" (click)="onEmailSignIn()">メールアドレスでサインイン</ion-button>
+      <ion-item>
+        <ion-label position="stacked">確認用パスワード</ion-label>
+        <ion-input
+          type="confirmPassword"
+          name="confirmPassword"
+          [(ngModel)]="confirmPassword"
+        ></ion-input>
+      </ion-item>
+
+      <ion-button expand="block" (click)="onEmailSignUp()">メールアドレスでサインアップ</ion-button>
 
       <div class="component-divider">
         <div class="border"></div>
@@ -22,11 +33,9 @@
       </div>
 
       <ion-button expand="block" (click)="onGoogleSignIn()"
-        >Googleアカウントでサインイン</ion-button
+        >Googleアカウントでサインアップ</ion-button
       >
-      <ion-button expand="block" disabled="true">Appleアカウントでサインイン</ion-button>
-
-      <a routerLink="/signup" class="link-button"> サインアップはこちら </a>
+      <ion-button expand="block" disabled="true">Appleアカウントでサインアップ</ion-button>
     </form>
   </div>
 </ion-content>

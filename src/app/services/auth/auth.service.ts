@@ -9,11 +9,13 @@ import {
   User,
 } from '@angular/fire/auth';
 import { Capacitor } from '@capacitor/core';
-import { AlertController, NavController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 
+import { IEmailSign, IEmailSignConfirm } from '~/interfaces/auth/IAuthEmail';
 import { IUser } from '~/interfaces/user/IUser';
-import { ToastService } from '~/services/toast/toast.service';
+import { AuthPipe } from '~/services/auth/auth.pipe';
 import { UserService } from '~/services/user/user.service';
+import { isError } from '~/utils/isError';
 
 import { firebaseError } from './firebase.error';
 
@@ -25,10 +27,9 @@ type RedirectPath = '/signin' | '/register' | '/task';
 export class AuthService {
   constructor(
     private auth: Auth,
-    private toastService: ToastService,
+    private authPipe: AuthPipe,
     private userService: UserService,
     private navController: NavController,
-    private alertController: AlertController,
   ) {}
 
   // Google
@@ -62,26 +63,39 @@ export class AuthService {
     }
   }
 
-  async emailSignUp(data: { email: string; password: string }): Promise<void> {
-    if (!data.email) {
-      throw new Error('メールアドレスを入力してください');
-    }
+  async emailSignUp(data: IEmailSignConfirm): Promise<void> {
+    const emailData = this.authPipe.signUp(data);
 
-    if (!data.password) {
-      throw new Error('パスワードを入力してください');
+    if (isError(emailData)) {
+      throw new Error(emailData.message);
     }
 
     try {
-      const session = await createUserWithEmailAndPassword(this.auth, data.email, data.password);
+      const session = await createUserWithEmailAndPassword(
+        this.auth,
+        emailData.email,
+        emailData.password,
+      );
       await this.signedInCheckUserInfo(session.user.uid);
     } catch (error) {
-      await this.emailSignIn(data);
+      const errorMessage = this.alertError(error);
+      throw new Error(errorMessage);
     }
   }
 
-  async emailSignIn(data: { email: string; password: string }): Promise<void> {
+  async emailSignIn(data: IEmailSign): Promise<void> {
+    const emailData = this.authPipe.signIn(data);
+
+    if (isError(emailData)) {
+      throw new Error(emailData.message);
+    }
+
     try {
-      const session = await signInWithEmailAndPassword(this.auth, data.email, data.password);
+      const session = await signInWithEmailAndPassword(
+        this.auth,
+        emailData.email,
+        emailData.password,
+      );
       await this.signedInCheckUserInfo(session.user.uid);
     } catch (error) {
       const errorMessage = this.alertError(error);

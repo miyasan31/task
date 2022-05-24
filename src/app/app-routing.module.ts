@@ -21,6 +21,12 @@ const routes: Routes = [
     data: { authGuardPipe: redirectLoggedIn },
   },
   {
+    path: 'signup',
+    loadChildren: () => import('~/pages/sign-up/sign-up.module').then((m) => m.SignUpPageModule),
+    canActivate: [AuthGuard],
+    data: { authGuardPipe: redirectLoggedIn },
+  },
+  {
     path: 'register',
     loadChildren: () =>
       import('~/pages/register/register.module').then((m) => m.RegisterPageModule),

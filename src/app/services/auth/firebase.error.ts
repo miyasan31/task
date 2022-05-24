@@ -1,7 +1,7 @@
 export const firebaseError = {
   'auth/invalid-email': {
     code: 'invalid-email',
-    message: 'メールアドレスのフォーマットが間違っています。',
+    message: 'メールアドレスのフォーマットが間違っています',
   },
   'auth/wrong-password': {
     code: 'wrong-password',
