@@ -23,7 +23,6 @@ export class TaskCardComponent implements OnInit {
     $event.stopPropagation();
     $event.preventDefault();
 
-    console.log(path);
     if (!path) {
       return;
     }

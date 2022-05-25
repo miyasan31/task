@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 
 import { ITask } from '~/interfaces/task/ITask';
 import { ITaskCard } from '~/interfaces/timeline/ITaskCard';
+import { ITiedTagTask } from '~/interfaces/timeline/ITiedTagTask';
 import { ITimeline } from '~/interfaces/timeline/ITimeline';
 import { ITimelineRepository } from '~/interfaces/timeline/ITimelineRepository';
 import { IUser } from '~/interfaces/user/IUser';
@@ -34,5 +35,12 @@ export class TimelineService implements ITimelineRepository {
       startDate,
       endDate,
     );
+  }
+
+  getTiedTagTaskList(
+    tagId: ITask['tagId'],
+    currentUserId: IUser['id'],
+  ): Observable<ITiedTagTask[]> {
+    return this.timelineRepository.getTiedTagTaskList(tagId, currentUserId);
   }
 }

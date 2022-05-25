@@ -2,6 +2,7 @@ import { Observable } from 'rxjs';
 
 import { ITask } from '~/interfaces/task/ITask';
 import { ITaskCard } from '~/interfaces/timeline/ITaskCard';
+import { ITiedTagTask } from '~/interfaces/timeline/ITiedTagTask';
 import { ITimeline } from '~/interfaces/timeline/ITimeline';
 import { IUser } from '~/interfaces/user/IUser';
 
@@ -15,4 +16,5 @@ export interface ITimelineRepository {
     startDate: number,
     endDate: number,
   ): Observable<ITaskCard[]>;
+  getTiedTagTaskList(userId: IUser['id'], currentUserId: IUser['id']): Observable<ITiedTagTask[]>;
 }

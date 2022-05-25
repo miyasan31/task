@@ -44,7 +44,6 @@ export class TaskDetailCardComponent implements OnInit {
   }
 
   navigatePush(path?: string): void {
-    console.log(path);
     if (!path) {
       return;
     }

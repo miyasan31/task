@@ -3,6 +3,8 @@ import {
   collection,
   collectionData,
   CollectionReference,
+  doc,
+  docData,
   DocumentReference,
   endAt,
   Firestore,
@@ -12,12 +14,13 @@ import {
 } from '@angular/fire/firestore';
 import { startAt } from '@firebase/firestore';
 import { combineLatest, Observable, of } from 'rxjs';
-import { map, mergeMap, take } from 'rxjs/operators';
+import { first, map, mergeMap, take } from 'rxjs/operators';
 
 import { ILike } from '~/interfaces/like/ILike';
 import { ITag } from '~/interfaces/tag/ITag';
 import { ITask } from '~/interfaces/task/ITask';
 import { ITaskCard } from '~/interfaces/timeline/ITaskCard';
+import { ITiedTagTask } from '~/interfaces/timeline/ITiedTagTask';
 import { ITimeline } from '~/interfaces/timeline/ITimeline';
 import { ITimelineRepository } from '~/interfaces/timeline/ITimelineRepository';
 import { IUser } from '~/interfaces/user/IUser';
@@ -182,5 +185,47 @@ export class TimelineRepository implements ITimelineRepository {
       console.error(error.message);
       throw new Error('サーバーエラーが発生しました');
     }
+  }
+
+  getTiedTagTaskList(
+    tagId: ITask['tagId'],
+    currentUserId: IUser['id'],
+  ): Observable<ITiedTagTask[]> {
+    const taskQuery = query(
+      this.taskColRef,
+      where('tagId', '==', tagId),
+      where('isDone', '==', true),
+      orderBy('updatedAt', 'desc'),
+    );
+    const taskTiedTaskList = collectionData(taskQuery);
+
+    const taskCardList = taskTiedTaskList.pipe(
+      mergeMap((taskList) => {
+        const taskIdList = taskList.map((task) => task.id);
+
+        return combineLatest([
+          of(taskList),
+          combineLatest(
+            taskIdList.map((taskId) => {
+              const likeQuery = query(
+                this.likeColRef,
+                where('userId', '==', currentUserId),
+                where('taskId', '==', taskId),
+              );
+
+              return collectionData(likeQuery).pipe(map((like) => like[0]));
+            }),
+          ),
+        ]);
+      }),
+      map(([taskList, likeList]) =>
+        taskList.map((task) => {
+          const isLike = likeList.filter((like) => like && like.taskId === task.id)[0];
+          return { task, like: isLike };
+        }),
+      ),
+    );
+
+    return taskCardList;
   }
 }

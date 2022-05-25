@@ -4,8 +4,24 @@
       <ion-back-button (click)="navigateBack()" text=""></ion-back-button>
     </ion-buttons>
 
-    <ion-title>ユーザータグのタスク一覧</ion-title>
+    <ion-title>{{ user?.userName }}さんの{{ tag?.tagName }}のタスク</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content> </ion-content>
+<ion-content>
+  <ng-template #loading>
+    <app-task-detail-card-skeleton></app-task-detail-card-skeleton>
+    <app-task-detail-card-skeleton></app-task-detail-card-skeleton>
+    <app-task-detail-card-skeleton></app-task-detail-card-skeleton>
+  </ng-template>
+
+  <ng-container *ngIf="tiedTagTaskList | async; else loading">
+    <app-task-detail-card
+      *ngFor="let data of tiedTagTaskList | async; trackBy: trackByFn"
+      [user]="user"
+      [task]="{ task: data.task, like: data.like, tag: tag }"
+      profilePath="profile/{{ user.id }}"
+      tagPath=""
+    ></app-task-detail-card>
+  </ng-container>
+</ion-content>
