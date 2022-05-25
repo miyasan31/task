@@ -7,6 +7,7 @@ import { CalenderHeatmapComponentModule } from '~/components/calendar-heatmap/ca
 import { ProfileComponentModule } from '~/components/profile/profile.module';
 import { ProfileSkeletonComponentModule } from '~/components/profile-skeleton/profile-skeleton.module';
 import { SharedComponentsModule } from '~/components/shared/shared-components.module';
+import { SettingPage } from '~/pages/setting/setting.page';
 
 import { ProfilePage } from './profile.page';
 import { ProfilePageRoutingModule } from './profile-routing.module';
@@ -22,6 +23,6 @@ import { ProfilePageRoutingModule } from './profile-routing.module';
     ProfileSkeletonComponentModule,
     CalenderHeatmapComponentModule,
   ],
-  declarations: [ProfilePage],
+  declarations: [ProfilePage, SettingPage],
 })
 export class ProfilePageModule {}

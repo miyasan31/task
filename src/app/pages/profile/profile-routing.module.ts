@@ -9,6 +9,10 @@ const routes: Routes = [
     component: ProfilePage,
   },
   {
+    path: 'setting',
+    loadChildren: () => import('~/pages/setting/setting.module').then((m) => m.SettingPageModule),
+  },
+  {
     path: ':userId',
     loadChildren: () =>
       import('~/pages/other-profile/other-profile.module').then((m) => m.OtherProfilePageModule),
