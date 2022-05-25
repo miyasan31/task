@@ -46,8 +46,28 @@
         [isDoneTaskCount]="isDoneTaskCount"
         [likeCount]="likeCount"
       ></app-profile>
-      <app-calendar-heatmap></app-calendar-heatmap>
-      <ion-button (click)="onSignOut()">サインアウト</ion-button>
+      <!-- <app-calendar-heatmap></app-calendar-heatmap> -->
+
+      <div style="display: flex; gap: 1px; margin: 2rem 0">
+        <ion-item
+          *ngFor="let data of tagChart"
+          [style.width.%]="data.percentage"
+          color="{{ data.tag.color }}"
+          style="height: 12px"
+        ></ion-item>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem">
+        <ion-chip
+          *ngFor="let data of tagChart"
+          outline
+          color="{{ data.tag.color }}"
+          slot="end"
+          routerLink="/profile/{{ profileUserId }}/{{ data.tag.id }}"
+        >
+          <ion-label>{{ data.tag.tagName }} {{ data.percentage }}%</ion-label>
+        </ion-chip>
+      </div>
     </ng-container>
   </div>
 

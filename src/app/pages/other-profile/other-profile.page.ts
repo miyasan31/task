@@ -3,6 +3,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { ILikedTaskCard } from '~/interfaces/profile/ILikedTaskCard';
+import { ITagChart } from '~/interfaces/profile/ITagChart';
 import { ITaskCard } from '~/interfaces/timeline/ITaskCard';
 import { IUser } from '~/interfaces/user/IUser';
 import { AuthService } from '~/services/auth/auth.service';
@@ -27,6 +28,7 @@ export class OtherProfilePage implements OnInit {
   scene: Scene = 'profile';
   profileUser: IUser | null = null;
   currentUser: IUser | null = null;
+  tagChart: ITagChart[];
 
   constructor(
     private route: ActivatedRoute,
@@ -55,6 +57,7 @@ export class OtherProfilePage implements OnInit {
     this.profileUser = await this.userService.get(this.profileUserId);
     this.likeCount = await this.profileService.getUserLikeCount(this.profileUserId);
     this.isDoneTaskCount = await this.profileService.getUserIsDoneTaskCount(this.profileUserId);
+    this.tagChart = await this.profileService.getTagChartData(this.profileUserId);
   }
 
   private fetchTaskList(): void {
