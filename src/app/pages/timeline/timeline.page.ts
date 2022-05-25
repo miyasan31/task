@@ -8,6 +8,7 @@ import { sleep } from '~/utils/sleep';
 
 type TimelineData = {
   sectionLabel: Date;
+  sectionId: number;
   data: ITimeline[];
 };
 
@@ -54,13 +55,19 @@ export class TimelinePage implements OnInit {
     );
 
     if (option?.isInit) {
-      this.timelineData = [{ sectionLabel: this.dayAgo(agoDateCount), data: timelineList }];
+      this.timelineData = [
+        {
+          sectionLabel: this.dayAgo(agoDateCount),
+          sectionId: this.agoDateCount,
+          data: timelineList,
+        },
+      ];
       return;
     }
 
     this.timelineData = [
       ...this.timelineData,
-      { sectionLabel: this.dayAgo(agoDateCount), data: timelineList },
+      { sectionLabel: this.dayAgo(agoDateCount), sectionId: this.agoDateCount, data: timelineList },
     ];
   }
 
