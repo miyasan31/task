@@ -31,7 +31,8 @@
         <app-task-card
           [user]="tl.user"
           [taskList]="tl.task"
-          routerLink="{{ tl.user.id }}"
+          routerLink="{{ agoDateCount }}/{{ tl.user.id }}"
+          profilePath="profile/{{ tl.user.id }}"
         ></app-task-card>
       </ng-container>
 

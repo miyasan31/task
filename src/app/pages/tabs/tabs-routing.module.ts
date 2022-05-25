@@ -18,14 +18,9 @@ const routes: Routes = [
         loadChildren: () => import('~/pages/task/task.module').then((m) => m.TaskPageModule),
       },
       {
-        path: 'profile',
+        path: 'my-profile',
         loadChildren: () =>
           import('~/pages/profile/profile.module').then((m) => m.ProfilePageModule),
-      },
-      {
-        path: 'setting',
-        loadChildren: () =>
-          import('~/pages/setting/setting.module').then((m) => m.SettingPageModule),
       },
       {
         path: '',

@@ -20,7 +20,8 @@
       *ngFor="let task of taskList | async; trackBy: trackByFn"
       [user]="user"
       [task]="task"
-      path="profile/{{ task.tag.id }}"
+      profilePath="profile/{{ user.id }}"
+      tagPath="profile/{{ user.id }}/{{ task.tag.id }}"
     ></app-task-detail-card>
   </ng-container>
 </ion-content>

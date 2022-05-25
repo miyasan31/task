@@ -1,6 +1,8 @@
 <ion-card routerLink="{{ routerLink }}" class="component-card">
   <ion-card-header class="card-header">
-    <img class="card-header-avatar" src="{{ user.avatar }}" alt="{{ user.userName }}のアバター" />
+    <a (click)="navigatePush($event, profilePath)">
+      <img class="card-header-avatar" src="{{ user.avatar }}" alt="{{ user.userName }}のアバター" />
+    </a>
 
     <div class="card-title-box">
       <ion-card-title class="card-header-title">{{ user.userName }}</ion-card-title>

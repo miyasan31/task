@@ -31,6 +31,21 @@ const routes: Routes = [
     loadChildren: () =>
       import('~/pages/register/register.module').then((m) => m.RegisterPageModule),
   },
+  {
+    path: 'profile/:userId',
+    loadChildren: () =>
+      import('~/pages/other-profile/other-profile.module').then((m) => m.OtherProfilePageModule),
+  },
+  {
+    path: 'profile/:userId/:tagId',
+    loadChildren: () =>
+      import('~/pages/tag-detail/tag-detail.module').then((m) => m.TagDetailPageModule),
+  },
+  {
+    path: '',
+    redirectTo: '/timeline',
+    pathMatch: 'full',
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],

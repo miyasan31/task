@@ -11,7 +11,7 @@ const routes: Routes = [
     component: TimelinePage,
   },
   {
-    path: ':userId',
+    path: ':timelineId/:userId',
     component: TimelineDetailPage,
   },
 ];
