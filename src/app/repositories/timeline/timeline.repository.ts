@@ -3,8 +3,6 @@ import {
   collection,
   collectionData,
   CollectionReference,
-  doc,
-  docData,
   DocumentReference,
   endAt,
   Firestore,
@@ -69,7 +67,7 @@ export class TimelineRepository implements ITimelineRepository {
         startAt(date.startTimestamp),
         endAt(date.endTimestamp),
       );
-      const taskList = await collectionData(taskQuery).pipe(take(1)).toPromise(Promise);
+      const taskList = await collectionData(taskQuery).pipe(first()).toPromise(Promise);
 
       const timelineList = userList.reduce((current, prev) => {
         const userTaskList = taskList.filter((task) => task && task.userId === prev.id);
