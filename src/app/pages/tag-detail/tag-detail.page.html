@@ -11,8 +11,6 @@
 <ion-content>
   <ng-template #loading>
     <app-task-detail-card-skeleton></app-task-detail-card-skeleton>
-    <app-task-detail-card-skeleton></app-task-detail-card-skeleton>
-    <app-task-detail-card-skeleton></app-task-detail-card-skeleton>
   </ng-template>
 
   <ng-container *ngIf="tiedTagTaskList | async; else loading">

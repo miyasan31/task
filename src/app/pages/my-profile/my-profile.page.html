@@ -76,9 +76,7 @@
 
   <div [hidden]="scene !== 'task'">
     <ng-template #loading>
-      <app-task-card-skeleton></app-task-card-skeleton>
-      <app-task-card-skeleton></app-task-card-skeleton>
-      <app-task-card-skeleton></app-task-card-skeleton>
+      <app-task-detail-card-skeleton></app-task-detail-card-skeleton>
     </ng-template>
 
     <ng-container *ngIf="taskList | async; else loading">
@@ -98,9 +96,7 @@
 
   <div [hidden]="scene !== 'like'">
     <ng-template #loading>
-      <app-task-card-skeleton></app-task-card-skeleton>
-      <app-task-card-skeleton></app-task-card-skeleton>
-      <app-task-card-skeleton></app-task-card-skeleton>
+      <app-task-detail-card-skeleton></app-task-detail-card-skeleton>
     </ng-template>
 
     <ng-container *ngIf="likeList | async; else loading">
