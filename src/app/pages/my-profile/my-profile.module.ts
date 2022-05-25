@@ -7,6 +7,7 @@ import { CalenderHeatmapComponentModule } from '~/components/calendar-heatmap/ca
 import { ProfileComponentModule } from '~/components/profile/profile.module';
 import { ProfileSkeletonComponentModule } from '~/components/profile-skeleton/profile-skeleton.module';
 import { SharedComponentsModule } from '~/components/shared/shared-components.module';
+import { TagChartComponentModule } from '~/components/tag-chart/tag-chart.module';
 import { SettingPage } from '~/pages/setting/setting.page';
 
 import { MyProfilePage } from './my-profile.page';
@@ -22,6 +23,7 @@ import { MyProfilePageRoutingModule } from './my-profile-routing.module';
     ProfileComponentModule,
     ProfileSkeletonComponentModule,
     CalenderHeatmapComponentModule,
+    TagChartComponentModule,
   ],
   declarations: [MyProfilePage, SettingPage],
 })

@@ -47,35 +47,13 @@
         [likeCount]="likeCount"
       ></app-profile>
       <!-- <app-calendar-heatmap></app-calendar-heatmap> -->
-
-      <div style="display: flex; gap: 1px; margin: 2rem 0">
-        <ion-item
-          *ngFor="let data of tagChart"
-          [style.width.%]="data.percentage"
-          color="{{ data.tag.color }}"
-          style="height: 12px"
-        ></ion-item>
-      </div>
-
-      <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem">
-        <ion-chip
-          *ngFor="let data of tagChart"
-          outline
-          color="{{ data.tag.color }}"
-          slot="end"
-          routerLink="/profile/{{ profileUserId }}/{{ data.tag.id }}"
-        >
-          <ion-label>{{ data.tag.tagName }} {{ data.percentage }}%</ion-label>
-        </ion-chip>
-      </div>
+      <app-tag-chart [tagChart]="tagChart" [userId]="profileUser.id"></app-tag-chart>
     </ng-container>
   </div>
 
   <div [hidden]="scene !== 'task'">
     <ng-template #loadingTaskList>
-      <app-task-card-skeleton></app-task-card-skeleton>
-      <app-task-card-skeleton></app-task-card-skeleton>
-      <app-task-card-skeleton></app-task-card-skeleton>
+      <app-task-detail-card-skeleton></app-task-detail-card-skeleton>
     </ng-template>
 
     <ng-container *ngIf="taskList | async; else loadingTaskList">
@@ -95,9 +73,7 @@
 
   <div [hidden]="scene !== 'like'">
     <ng-template #loadingLikeList>
-      <app-task-card-skeleton></app-task-card-skeleton>
-      <app-task-card-skeleton></app-task-card-skeleton>
-      <app-task-card-skeleton></app-task-card-skeleton>
+      <app-task-detail-card-skeleton></app-task-detail-card-skeleton>
     </ng-template>
 
     <ng-container *ngIf="likeList | async; else loadingLikeList">

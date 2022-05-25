@@ -1,0 +1,20 @@
+<div class="component-tag-chart">
+  <ion-item
+    *ngFor="let data of tagChart"
+    [style.width.%]="data.percentage"
+    color="{{ data.tag.color }}"
+    style="height: 12px"
+  ></ion-item>
+</div>
+
+<div class="component-tag-list">
+  <ion-chip
+    *ngFor="let data of tagChart"
+    outline
+    slot="end"
+    color="{{ data.tag.color }}"
+    routerLink="/profile/{{ userId }}/{{ data.tag.id }}"
+  >
+    <ion-label>{{ data.tag.tagName }} {{ data.percentage }}%</ion-label>
+  </ion-chip>
+</div>
