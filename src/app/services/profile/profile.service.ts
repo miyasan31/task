@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 
 import { ILikedTaskCard } from '~/interfaces/profile/ILikedTaskCard';
 import { IProfileRepository } from '~/interfaces/profile/IProfileRepository';
+import { ITagChart } from '~/interfaces/profile/ITagChart';
 import { ITaskCard } from '~/interfaces/timeline/ITaskCard';
 import { IUser } from '~/interfaces/user/IUser';
 import { ProfileRepository } from '~/repositories/profile/profile.repository';
@@ -33,5 +34,9 @@ export class ProfileService implements IProfileRepository {
 
   getUserLikeCount(profileUserId: IUser['id']): Promise<number> {
     return this.profileRepository.getUserLikeCount(profileUserId);
+  }
+
+  getTagChartData(userId: IUser['id']): Promise<ITagChart[]> {
+    return this.profileRepository.getTagChartData(userId);
   }
 }

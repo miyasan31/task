@@ -3,6 +3,7 @@ import { NavController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 
 import { ILikedTaskCard } from '~/interfaces/profile/ILikedTaskCard';
+import { ITagChart } from '~/interfaces/profile/ITagChart';
 import { ITaskCard } from '~/interfaces/timeline/ITaskCard';
 import { IUser } from '~/interfaces/user/IUser';
 import { AuthService } from '~/services/auth/auth.service';
@@ -24,6 +25,7 @@ export class ProfilePage implements OnInit {
   likeCount = 0;
   scene: Scene = 'profile';
   user: IUser | null = null;
+  tagChart: ITagChart[];
 
   constructor(
     private authService: AuthService,
@@ -45,6 +47,7 @@ export class ProfilePage implements OnInit {
     this.user = await this.authService.getAuthUserInfo();
     this.likeCount = await this.profileService.getUserLikeCount(this.user.id);
     this.isDoneTaskCount = await this.profileService.getUserIsDoneTaskCount(this.user.id);
+    this.tagChart = await this.profileService.getTagChartData(this.user.id);
   }
 
   private fetchTaskList(): void {

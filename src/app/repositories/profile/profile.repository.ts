@@ -17,6 +17,7 @@ import { first, map, mergeMap } from 'rxjs/operators';
 import { ILike } from '~/interfaces/like/ILike';
 import { ILikedTaskCard } from '~/interfaces/profile/ILikedTaskCard';
 import { IProfileRepository } from '~/interfaces/profile/IProfileRepository';
+import { ITagChart } from '~/interfaces/profile/ITagChart';
 import { ITag } from '~/interfaces/tag/ITag';
 import { ITask } from '~/interfaces/task/ITask';
 import { ITaskCard } from '~/interfaces/timeline/ITaskCard';
@@ -185,5 +186,34 @@ export class ProfileRepository implements IProfileRepository {
       console.error(error.message);
       throw new Error('サーバーエラーが発生しました');
     }
+  }
+
+  async getTagChartData(userId: IUser['id']): Promise<ITagChart[]> {
+    const tagQuery = query(this.tagColRef, where('userId', '==', userId));
+    const tagDocList = await collectionData(tagQuery).pipe(first()).toPromise(Promise);
+
+    const taskQuery = query(
+      this.taskColRef,
+      where('userId', '==', userId),
+      where('isDone', '==', true),
+    );
+    const taskDocList = await collectionData(taskQuery).pipe(first()).toPromise(Promise);
+
+    return tagDocList
+      .reduce<ITagChart[]>((all, current) => {
+        const filterdCount = taskDocList.reduce(
+          (allCount, task) => (task.tagId === current.id ? allCount + 1 : allCount),
+          0,
+        );
+        return [
+          ...all,
+          {
+            tag: current,
+            percentage: Math.floor((filterdCount / taskDocList.length) * 1000 + 0.5) / 10,
+          },
+        ];
+      }, [])
+      .filter((data) => data.percentage)
+      .sort((a, b) => (a.percentage > b.percentage ? -1 : 1));
   }
 }
