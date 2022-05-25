@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 
@@ -8,6 +9,7 @@ import { IUser } from '~/interfaces/user/IUser';
 import { AuthService } from '~/services/auth/auth.service';
 import { ProfileService } from '~/services/profile/profile.service';
 import { ToastService } from '~/services/toast/toast.service';
+import { UserService } from '~/services/user/user.service';
 import { sleep } from '~/utils/sleep';
 
 type Scene = 'profile' | 'task' | 'like';
@@ -18,21 +20,31 @@ type Scene = 'profile' | 'task' | 'like';
   styleUrls: ['./other-profile.page.scss'],
 })
 export class OtherProfilePage implements OnInit {
+  profileUserId: string;
   taskList: Observable<ITaskCard[]>;
   likeList: Observable<ILikedTaskCard[]>;
   isDoneTaskCount = 0;
   likeCount = 0;
   scene: Scene = 'profile';
-  user: IUser | null = null;
+  profileUser: IUser | null = null;
+  currentUser: IUser | null = null;
 
   constructor(
+    private route: ActivatedRoute,
     private authService: AuthService,
+    private userService: UserService,
     private profileService: ProfileService,
     private toastService: ToastService,
     private navController: NavController,
   ) {}
 
   async ngOnInit() {
+    const subscribe = this.route.paramMap.subscribe((prams: ParamMap) => {
+      this.profileUserId = prams.get('userId');
+    });
+    subscribe.unsubscribe();
+
+    this.currentUser = await this.authService.getAuthUserInfo();
     await this.fetchProfile();
   }
 
@@ -42,20 +54,26 @@ export class OtherProfilePage implements OnInit {
 
   private async fetchUserProfile(delay: number): Promise<void> {
     await sleep(delay);
-    this.user = await this.authService.getAuthUserInfo();
-    this.likeCount = await this.profileService.getUserLikeCount(this.user.id);
-    this.isDoneTaskCount = await this.profileService.getUserIsDoneTaskCount(this.user.id);
+    this.profileUser = await this.userService.get(this.profileUserId);
+    this.likeCount = await this.profileService.getUserLikeCount(this.profileUserId);
+    this.isDoneTaskCount = await this.profileService.getUserIsDoneTaskCount(this.profileUserId);
   }
 
   private fetchTaskList(): void {
     setTimeout(() => {
-      this.taskList = this.profileService.getUserTaskListWithLike(this.user.id, this.user.id);
+      this.taskList = this.profileService.getUserTaskListWithLike(
+        this.profileUserId,
+        this.currentUser.id,
+      );
     }, 300);
   }
 
   private fetchLikeList(): void {
     setTimeout(() => {
-      this.likeList = this.profileService.getUserLikedTaskList(this.user.id, this.user.id);
+      this.likeList = this.profileService.getUserLikedTaskList(
+        this.profileUserId,
+        this.currentUser.id,
+      );
     }, 300);
   }
 
@@ -68,7 +86,7 @@ export class OtherProfilePage implements OnInit {
     const scene = $event.detail.value;
     switch (scene) {
       case 'profile':
-        if (this.user) {
+        if (this.profileUser) {
           break;
         }
         this.fetchProfile();

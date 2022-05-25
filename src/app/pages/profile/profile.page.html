@@ -63,8 +63,8 @@
         *ngFor="let task of taskList | async; trackBy: trackByFn"
         [user]="user"
         [task]="task"
-        profilePath="{{ user.id }}"
-        tagPath="{{ user.id }}/{{ task.tag.id }}"
+        profilePath=""
+        tagPath="profile/{{ user.id }}/{{ task.tag.id }}"
       ></app-task-detail-card>
     </ng-container>
   </div>
@@ -81,8 +81,8 @@
         *ngFor="let like of likeList | async; trackBy: trackByFn"
         [user]="like.user"
         [task]="{ like: like.like, task: like.task, tag: like.tag }"
-        profilePath="profile/{{ user.id }}"
-        tagPath="profile/{{ user.id }}/{{ like.tag.id }}"
+        profilePath="profile/{{ like.user.id }}"
+        tagPath="profile/{{ like.user.id }}/{{ like.tag.id }}"
       ></app-task-detail-card>
     </ng-container>
   </div>

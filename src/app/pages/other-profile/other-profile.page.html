@@ -4,7 +4,7 @@
       <ion-back-button (click)="navigateBack()" text=""></ion-back-button>
     </ion-buttons>
 
-    <ion-title>{{ user?.userName }}</ion-title>
+    <ion-title>{{ profileUser?.userName }}</ion-title>
   </ion-toolbar>
 
   <ion-toolbar>
@@ -38,11 +38,11 @@
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
 
-    <app-profile-skeleton *ngIf="!user"></app-profile-skeleton>
+    <app-profile-skeleton *ngIf="!profileUser"></app-profile-skeleton>
 
-    <ng-container *ngIf="user">
+    <ng-container *ngIf="profileUser">
       <app-profile
-        [user]="user"
+        [user]="profileUser"
         [isDoneTaskCount]="isDoneTaskCount"
         [likeCount]="likeCount"
       ></app-profile>
@@ -61,10 +61,10 @@
     <ng-container *ngIf="taskList | async; else loading">
       <app-task-detail-card
         *ngFor="let task of taskList | async; trackBy: trackByFn"
-        [user]="user"
+        [user]="profileUser"
         [task]="task"
-        profilePath="{{ user.id }}"
-        tagPath="{{ user.id }}/{{ task.tag.id }}"
+        profilePath=""
+        tagPath="profile/{{ profileUser.id }}/{{ task.tag.id }}"
       ></app-task-detail-card>
     </ng-container>
   </div>
@@ -81,8 +81,8 @@
         *ngFor="let like of likeList | async; trackBy: trackByFn"
         [user]="like.user"
         [task]="{ like: like.like, task: like.task, tag: like.tag }"
-        profilePath="profile/{{ user.id }}"
-        tagPath="profile/{{ user.id }}/{{ like.tag.id }}"
+        profilePath="profile/{{ like.user.id }}"
+        tagPath="profile/{{ like.user.id }}/{{ like.tag.id }}"
       ></app-task-detail-card>
     </ng-container>
   </div>
