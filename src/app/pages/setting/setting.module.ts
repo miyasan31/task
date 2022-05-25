@@ -8,6 +8,6 @@ import { SettingPageRoutingModule } from './setting-routing.module';
 
 @NgModule({
   imports: [CommonModule, FormsModule, IonicModule, SettingPageRoutingModule],
-  declarations: [SettingPage],
+  declarations: [],
 })
 export class SettingPageModule {}
