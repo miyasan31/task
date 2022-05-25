@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { NavController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 
 import { ILikedTaskCard } from '~/interfaces/profile/ILikedTaskCard';
@@ -35,7 +34,6 @@ export class OtherProfilePage implements OnInit {
     private userService: UserService,
     private profileService: ProfileService,
     private toastService: ToastService,
-    private navController: NavController,
   ) {}
 
   async ngOnInit() {
@@ -111,10 +109,6 @@ export class OtherProfilePage implements OnInit {
   async onSignOut(): Promise<void> {
     await this.authService.signOut();
     await this.toastService.presentToast('サインアウトしました', 'success');
-  }
-
-  navigateBack(): void {
-    this.navController.back();
   }
 
   trackByFnTaskList(_, item: ITaskCard): string {

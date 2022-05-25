@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { NavController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 
 import { ITag } from '~/interfaces/tag/ITag';
@@ -26,7 +25,6 @@ export class TagDetailPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private authService: AuthService,
-    private navController: NavController,
     private timelineService: TimelineService,
     private userService: UserService,
     private tagService: TagService,
@@ -47,10 +45,6 @@ export class TagDetailPage implements OnInit {
     setTimeout(() => {
       this.tiedTagTaskList = this.timelineService.getTiedTagTaskList(this.tagId, authUser.uid);
     }, 400);
-  }
-
-  navigateBack(): void {
-    this.navController.back();
   }
 
   trackByFn(_, item: ITiedTagTask): string {
