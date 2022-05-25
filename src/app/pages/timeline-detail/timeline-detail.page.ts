@@ -15,6 +15,7 @@ import { UserService } from '~/services/user/user.service';
 })
 export class TimelineDetailPage implements OnInit {
   userId: string;
+  timelineId: number;
   taskList: Observable<ITaskCard[]>;
   user: IUser;
 
@@ -28,6 +29,7 @@ export class TimelineDetailPage implements OnInit {
   async ngOnInit() {
     const subscribe = this.route.paramMap.subscribe((prams: ParamMap) => {
       this.userId = prams.get('userId');
+      this.timelineId = parseInt(prams.get('timelineId'), 10);
     });
     subscribe.unsubscribe();
 
@@ -35,7 +37,12 @@ export class TimelineDetailPage implements OnInit {
     this.user = await this.userService.get(this.userId);
 
     setTimeout(() => {
-      this.taskList = this.timelineService.getTimelineDetailTaskListWithLike(this.userId, user.uid);
+      this.taskList = this.timelineService.getTimelineDetailTaskListWithLike(
+        this.userId,
+        user.uid,
+        this.timelineId,
+        this.timelineId,
+      );
     }, 500);
   }
 

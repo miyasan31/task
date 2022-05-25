@@ -62,7 +62,7 @@ export class TimelineRepository implements ITimelineRepository {
         this.taskColRef,
         where('userId', 'in', timelineUserIdList),
         where('isDone', '==', true),
-        orderBy('createdAt', 'desc'),
+        orderBy('updatedAt', 'desc'),
         startAt(date.startTimestamp),
         endAt(date.endTimestamp),
       );
@@ -125,15 +125,17 @@ export class TimelineRepository implements ITimelineRepository {
   getTimelineDetailTaskListWithLike(
     taskUserId: ITask['userId'],
     currentUserId: IUser['id'],
+    startDate: number,
+    endDate: number,
   ): Observable<ITaskCard[]> {
     try {
-      const date = limitedTime();
+      const date = limitedTime(startDate, endDate);
 
       const taskQuery = query(
         this.taskColRef,
         where('userId', '==', taskUserId),
         where('isDone', '==', true),
-        orderBy('createdAt', 'desc'),
+        orderBy('updatedAt', 'desc'),
         startAt(date.startTimestamp),
         endAt(date.endTimestamp),
       );

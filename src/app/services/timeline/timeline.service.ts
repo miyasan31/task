@@ -25,7 +25,14 @@ export class TimelineService implements ITimelineRepository {
   getTimelineDetailTaskListWithLike(
     taskUserId: ITask['userId'],
     currentUserId: IUser['id'],
+    startDate: number,
+    endDate: number,
   ): Observable<ITaskCard[]> {
-    return this.timelineRepository.getTimelineDetailTaskListWithLike(taskUserId, currentUserId);
+    return this.timelineRepository.getTimelineDetailTaskListWithLike(
+      taskUserId,
+      currentUserId,
+      startDate,
+      endDate,
+    );
   }
 }

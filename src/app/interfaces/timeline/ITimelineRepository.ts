@@ -12,5 +12,7 @@ export interface ITimelineRepository {
   getTimelineDetailTaskListWithLike(
     taskUserId: ITask['userId'],
     currentUserId: IUser['id'],
+    startDate: number,
+    endDate: number,
   ): Observable<ITaskCard[]>;
 }
