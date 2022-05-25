@@ -20,7 +20,11 @@ import { first, map } from 'rxjs/operators';
 
 import { ITask } from '~/interfaces/task/ITask';
 import { ITaskRepository } from '~/interfaces/task/ITaskRepository';
-import { taskConverter, updateTaskConverter } from '~/libs/converter/task.converter';
+import {
+  likeCountTaskConverter,
+  taskConverter,
+  updateTaskConverter,
+} from '~/libs/converter/task.converter';
 import { limitedTime } from '~/utils/limitedTime';
 
 @Injectable({
@@ -109,13 +113,17 @@ export class TaskRepository implements ITaskRepository {
 
   // いいね数をカウントアップする
   likeCountUp(task: ITask): Promise<void> {
-    const taskDocRef = doc(this.firestore, `tasks/${task.id}`).withConverter(updateTaskConverter);
+    const taskDocRef = doc(this.firestore, `tasks/${task.id}`).withConverter(
+      likeCountTaskConverter,
+    );
     return setDoc(taskDocRef, { ...task, likeCount: task.likeCount + 1 }, { merge: true });
   }
 
   // いいね数をカウントダウンする
   likeCountDown(task: ITask): Promise<void> {
-    const taskDocRef = doc(this.firestore, `tasks/${task.id}`).withConverter(updateTaskConverter);
+    const taskDocRef = doc(this.firestore, `tasks/${task.id}`).withConverter(
+      likeCountTaskConverter,
+    );
     return setDoc(taskDocRef, { ...task, likeCount: task.likeCount - 1 }, { merge: true });
   }
 }
