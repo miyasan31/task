@@ -1,6 +1,14 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="onModalDismiss()">閉じる</ion-button>
+    </ion-buttons>
+
     <ion-title>タスク{{ isEdit ? '編集' : '作成' }}</ion-title>
+
+    <ion-buttons slot="end" *ngIf="isEdit">
+      <ion-button color="danger" (click)="onDeleteTask(taskId)">削除</ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -37,11 +45,7 @@
 
     <ion-item class="description-textarea">
       <ion-label position="stacked">アウトプットメモ</ion-label>
-      <ion-textarea
-        rows="{{ isEdit ? 14 : 10 }}"
-        name="description"
-        [(ngModel)]="description"
-      ></ion-textarea>
+      <ion-textarea rows="20" name="description" [(ngModel)]="description"></ion-textarea>
     </ion-item>
 
     <ion-item class="ion-align-items-center is-done-radio" detail="false">
@@ -55,15 +59,6 @@
       >
       <ion-button expand="block" class="button button-outline" (click)="onModalDismiss()">
         キャンセル
-      </ion-button>
-      <ion-button
-        *ngIf="isEdit"
-        expand="block"
-        color="danger"
-        class="button button-danger"
-        (click)="onDeleteTask(taskId)"
-      >
-        削除する
       </ion-button>
     </div>
   </form>
