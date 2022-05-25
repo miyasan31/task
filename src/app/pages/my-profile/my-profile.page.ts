@@ -14,11 +14,11 @@ import { sleep } from '~/utils/sleep';
 type Scene = 'profile' | 'task' | 'like';
 
 @Component({
-  selector: 'app-profile-page',
-  templateUrl: './profile.page.html',
-  styleUrls: ['./profile.page.scss'],
+  selector: 'app-my-profile-page',
+  templateUrl: './my-profile.page.html',
+  styleUrls: ['./my-profile.page.scss'],
 })
-export class ProfilePage implements OnInit {
+export class MyProfilePage implements OnInit {
   taskList: Observable<ITaskCard[]>;
   likeList: Observable<ILikedTaskCard[]>;
   isDoneTaskCount = 0;

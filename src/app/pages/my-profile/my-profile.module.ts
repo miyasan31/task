@@ -9,8 +9,8 @@ import { ProfileSkeletonComponentModule } from '~/components/profile-skeleton/pr
 import { SharedComponentsModule } from '~/components/shared/shared-components.module';
 import { SettingPage } from '~/pages/setting/setting.page';
 
-import { ProfilePage } from './profile.page';
-import { ProfilePageRoutingModule } from './profile-routing.module';
+import { MyProfilePage } from './my-profile.page';
+import { MyProfilePageRoutingModule } from './my-profile-routing.module';
 
 @NgModule({
   imports: [
@@ -18,11 +18,11 @@ import { ProfilePageRoutingModule } from './profile-routing.module';
     FormsModule,
     IonicModule,
     SharedComponentsModule,
-    ProfilePageRoutingModule,
+    MyProfilePageRoutingModule,
     ProfileComponentModule,
     ProfileSkeletonComponentModule,
     CalenderHeatmapComponentModule,
   ],
-  declarations: [ProfilePage, SettingPage],
+  declarations: [MyProfilePage, SettingPage],
 })
-export class ProfilePageModule {}
+export class MyProfilePageModule {}
