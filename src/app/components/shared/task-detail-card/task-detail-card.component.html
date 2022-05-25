@@ -1,6 +1,6 @@
 <ion-card class="component-card">
   <ion-card-header class="card-header">
-    <a (click)="navigatePush(profilePath)">
+    <a (click)="navigatePush($event, profilePath)">
       <img class="card-header-avatar" src="{{ user.avatar }}" alt="{{ user.avatar }}のアバター" />
     </a>
 
@@ -27,7 +27,7 @@
   <ion-card-content class="card-content">
     <h1 class="card-task-name">{{ task.task.taskName }}</h1>
     <p class="card-description">{{ task.task.description }}</p>
-    <ion-chip outline color="{{ task.tag.color }}" (click)="navigatePush(tagPath)">
+    <ion-chip outline color="{{ task.tag.color }}" (click)="navigatePush($event, tagPath)">
       <ion-label>{{ task.tag.tagName }}</ion-label>
     </ion-chip>
   </ion-card-content>

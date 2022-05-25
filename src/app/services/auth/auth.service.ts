@@ -9,17 +9,15 @@ import {
   User,
 } from '@angular/fire/auth';
 import { Capacitor } from '@capacitor/core';
-import { NavController } from '@ionic/angular';
 
 import { IEmailSign, IEmailSignConfirm } from '~/interfaces/auth/IAuthEmail';
 import { IUser } from '~/interfaces/user/IUser';
 import { AuthPipe } from '~/services/auth/auth.pipe';
+import { RouterService } from '~/services/router/router.service';
 import { UserService } from '~/services/user/user.service';
 import { isError } from '~/utils/isError';
 
 import { firebaseError } from './firebase.error';
-
-type RedirectPath = '/signin' | '/register' | '/task';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +27,7 @@ export class AuthService {
     private auth: Auth,
     private authPipe: AuthPipe,
     private userService: UserService,
-    private navController: NavController,
+    private routerService: RouterService,
   ) {}
 
   // Google
@@ -105,7 +103,7 @@ export class AuthService {
 
   async signOut(): Promise<void> {
     await signOut(this.auth);
-    this.navigatePath('/signin', { isRoot: true });
+    this.routerService.navigatePath('/signin', { isRoot: true });
   }
 
   // 認証済のユーザーIDを取得する
@@ -125,20 +123,12 @@ export class AuthService {
 
     // 存在しなかったらユーザー登録画面に遷移
     if (!userResult) {
-      this.navigatePath('/register');
+      this.routerService.navigatePath('/register');
       return;
     }
 
     // 存在したらメイン画面に遷移
-    this.navigatePath('/task');
-  }
-
-  navigatePath(path: RedirectPath, options?: { isRoot: boolean }): void {
-    if (options && options.isRoot) {
-      this.navController.navigateRoot(path);
-      return;
-    }
-    this.navController.navigateForward(path);
+    this.routerService.navigatePath('/task');
   }
 
   private alertError(e): string {

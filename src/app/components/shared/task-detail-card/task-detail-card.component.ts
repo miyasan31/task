@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
 
 import { ILike } from '~/interfaces/like/ILike';
 import { ITask } from '~/interfaces/task/ITask';
@@ -7,6 +6,7 @@ import { ITaskCard } from '~/interfaces/timeline/ITaskCard';
 import { IUser } from '~/interfaces/user/IUser';
 import { AuthService } from '~/services/auth/auth.service';
 import { LikeService } from '~/services/like/like.service';
+import { RouterService } from '~/services/router/router.service';
 
 @Component({
   selector: 'app-task-detail-card',
@@ -22,7 +22,7 @@ export class TaskDetailCardComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private likeService: LikeService,
-    private navController: NavController,
+    private routerService: RouterService,
   ) {}
 
   ngOnInit() {}
@@ -43,10 +43,7 @@ export class TaskDetailCardComponent implements OnInit {
     this.likeService.create(createLike);
   }
 
-  navigatePush(path?: string): void {
-    if (!path) {
-      return;
-    }
-    this.navController.navigateForward(path);
+  navigatePush($event, path?: string): void {
+    this.routerService.navigatePush($event, path);
   }
 }

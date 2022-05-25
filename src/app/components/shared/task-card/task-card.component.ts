@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
 
 import { ITask } from '~/interfaces/task/ITask';
 import { IUser } from '~/interfaces/user/IUser';
+import { RouterService } from '~/services/router/router.service';
 
 @Component({
   selector: 'app-task-card',
@@ -15,17 +15,11 @@ export class TaskCardComponent implements OnInit {
   @Input() routerLink: string;
   @Input() profilePath?: string;
 
-  constructor(private navController: NavController) {}
+  constructor(private routerService: RouterService) {}
 
   ngOnInit() {}
 
   navigatePush($event, path?: string): void {
-    $event.stopPropagation();
-    $event.preventDefault();
-
-    if (!path) {
-      return;
-    }
-    this.navController.navigateForward(path);
+    this.routerService.navigatePush($event, path);
   }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from '~/services/auth/auth.service';
+import { RouterService } from '~/services/router/router.service';
 import { ToastService } from '~/services/toast/toast.service';
 import { UserService } from '~/services/user/user.service';
 
@@ -25,6 +26,7 @@ export class RegisterPage implements OnInit {
     private authService: AuthService,
     private userService: UserService,
     private toastService: ToastService,
+    private routerService: RouterService,
   ) {}
 
   async ngOnInit() {
@@ -66,7 +68,7 @@ export class RegisterPage implements OnInit {
     try {
       await this.userService.create(createUser, this.file);
       this.toastService.presentToast('ユーザー登録が完了しました', 'success');
-      this.authService.navigatePath('/task');
+      this.routerService.navigatePath('/task');
     } catch (error) {
       console.error(error.message);
       this.toastService.presentToast(error.message, 'error');
