@@ -99,7 +99,11 @@ export class ProfilePage implements OnInit {
     this.navController.back();
   }
 
-  trackByFn(index, item): number {
-    return item.id;
+  trackByFnTaskList(_, item: ITaskCard): string {
+    return item.task.id;
+  }
+
+  trackByFnLikeList(_, item: ILikedTaskCard): string {
+    return item.like.id;
   }
 }

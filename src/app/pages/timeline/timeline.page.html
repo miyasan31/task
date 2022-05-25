@@ -24,10 +24,10 @@
   </ng-container>
 
   <ng-container *ngIf="timelineData">
-    <ng-container *ngFor="let t of timelineData; trackBy: trackByFn">
+    <ng-container *ngFor="let t of timelineData; trackBy: trackByFnSection">
       <h1 class="timeline-section-header">{{ t.sectionLabel | date: 'yyyy年M月d日' }}</h1>
 
-      <ng-container *ngFor="let tl of t.data; trackBy: trackByFn">
+      <ng-container *ngFor="let tl of t.data; trackBy: trackByTask">
         <app-task-card
           [user]="tl.user"
           [taskList]="tl.task"
@@ -56,7 +56,7 @@
       </ng-container>
   </ng-container> -->
 
-  <ion-infinite-scroll threshold="50px" (ionInfinite)="onLoadPrevData($event)">
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="onLoadPrevData($event)">
     <ion-infinite-scroll-content
       loading-spinner="bubbles"
       loading-text="タイムライン情報を取得中..."

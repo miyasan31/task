@@ -46,7 +46,7 @@ export class TimelineDetailPage implements OnInit {
     }, 500);
   }
 
-  trackByFn(index, item): number {
-    return item.id;
+  trackByFn(_, item: ITaskCard): string {
+    return item.task.id;
   }
 }

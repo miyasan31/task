@@ -76,7 +76,7 @@ export class TaskPage implements OnInit {
     return await modal.present();
   }
 
-  trackByFn(index, item): number {
+  trackByFn(_, item: ITask): string {
     return item.id;
   }
 }

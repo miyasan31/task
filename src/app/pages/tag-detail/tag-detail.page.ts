@@ -53,7 +53,7 @@ export class TagDetailPage implements OnInit {
     this.navController.back();
   }
 
-  trackByFn(index, item): number {
-    return item.id;
+  trackByFn(_, item: ITiedTagTask): string {
+    return item.task.id;
   }
 }

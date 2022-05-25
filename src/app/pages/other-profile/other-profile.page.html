@@ -52,38 +52,46 @@
   </div>
 
   <div [hidden]="scene !== 'task'">
-    <ng-template #loading>
+    <ng-template #loadingTaskList>
       <app-task-card-skeleton></app-task-card-skeleton>
       <app-task-card-skeleton></app-task-card-skeleton>
       <app-task-card-skeleton></app-task-card-skeleton>
     </ng-template>
 
-    <ng-container *ngIf="taskList | async; else loading">
+    <ng-container *ngIf="taskList | async; else loadingTaskList">
       <app-task-detail-card
-        *ngFor="let task of taskList | async; trackBy: trackByFn"
+        *ngFor="let task of taskList | async; trackBy: trackByFnTaskList"
         [user]="profileUser"
         [task]="task"
         profilePath=""
         tagPath="profile/{{ profileUser.id }}/{{ task.tag.id }}"
       ></app-task-detail-card>
+
+      <div *ngIf="!(taskList | async)?.length">
+        <p class="empty-message">完了したタスクがありません</p>
+      </div>
     </ng-container>
   </div>
 
   <div [hidden]="scene !== 'like'">
-    <ng-template #loading>
+    <ng-template #loadingLikeList>
       <app-task-card-skeleton></app-task-card-skeleton>
       <app-task-card-skeleton></app-task-card-skeleton>
       <app-task-card-skeleton></app-task-card-skeleton>
     </ng-template>
 
-    <ng-container *ngIf="likeList | async; else loading">
+    <ng-container *ngIf="likeList | async; else loadingLikeList">
       <app-task-detail-card
-        *ngFor="let like of likeList | async; trackBy: trackByFn"
+        *ngFor="let like of likeList | async; trackBy: trackByFnLikeList"
         [user]="like.user"
         [task]="{ like: like.like, task: like.task, tag: like.tag }"
         profilePath="profile/{{ like.user.id }}"
         tagPath="profile/{{ like.user.id }}/{{ like.tag.id }}"
       ></app-task-detail-card>
+
+      <div *ngIf="!(likeList | async)?.length">
+        <p class="empty-message">いいねしたタスクがありません</p>
+      </div>
     </ng-container>
   </div>
 </ion-content>

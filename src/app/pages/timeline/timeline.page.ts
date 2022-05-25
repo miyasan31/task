@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonInfiniteScroll } from '@ionic/angular';
-import { Observable } from 'rxjs';
 
 import { ITimeline } from '~/interfaces/timeline/ITimeline';
 import { TimelineService } from '~/services/timeline/timeline.service';
@@ -20,7 +19,7 @@ type TimelineData = {
 export class TimelinePage implements OnInit {
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
 
-  agoDateCount = 1;
+  agoDateCount = 0;
   timelineData: TimelineData[] | null = [];
   // --- MEMO:Observable用 ---
   // timelineData: Observable<ITimeline[]>;
@@ -28,7 +27,9 @@ export class TimelinePage implements OnInit {
   constructor(private timelineService: TimelineService) {}
 
   async ngOnInit() {
-    await this.timelineFetch(400, 1, { isInit: true });
+    await this.timelineFetch(400, this.agoDateCount, { isInit: true });
+    this.agoDateCount++;
+    await this.timelineFetch(400, this.agoDateCount);
   }
 
   async onLoadPrevData($event): Promise<void> {
@@ -38,8 +39,10 @@ export class TimelinePage implements OnInit {
   }
 
   async onTimelineRefresh($event): Promise<void> {
-    this.agoDateCount = 1;
+    this.agoDateCount = 0;
     await this.timelineFetch(400, this.agoDateCount, { isInit: true });
+    this.agoDateCount++;
+    await this.timelineFetch(400, this.agoDateCount);
     await $event.target.complete();
   }
 
@@ -84,10 +87,14 @@ export class TimelinePage implements OnInit {
   // }
 
   private dayAgo(agoDate: number): Date {
-    return new Date(new Date().setDate(new Date().getDate() - agoDate));
+    return new Date(new Date().setDate(new Date().getDate() - agoDate || 0));
   }
 
-  trackByFn(index, item): number {
-    return item.id;
+  trackByFnSection(_, item: TimelineData): number {
+    return item.sectionId;
+  }
+
+  trackByTask(_, item: TimelineData['data'][number]): string {
+    return item.user.id;
   }
 }
