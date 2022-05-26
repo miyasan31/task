@@ -14,7 +14,6 @@ import { ToastService } from '~/services/toast/toast.service';
   styleUrls: ['./task.page.scss'],
 })
 export class TaskPage implements OnInit {
-  skeleton = [...new Array(5)];
   taskList: Observable<ITask[]>;
 
   constructor(

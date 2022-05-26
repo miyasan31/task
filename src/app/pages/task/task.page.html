@@ -18,7 +18,7 @@
   </ion-fab>
 
   <ng-template #loading>
-    <app-task-skeleton *ngFor="let item of skeleton"></app-task-skeleton>
+    <app-task-skeleton></app-task-skeleton>
   </ng-template>
 
   <ng-container *ngIf="taskList | async; else loading">
