@@ -8,7 +8,6 @@ import { IUser } from '~/interfaces/user/IUser';
 import { AuthService } from '~/services/auth/auth.service';
 import { ProfileService } from '~/services/profile/profile.service';
 import { RouterService } from '~/services/router/router.service';
-import { ToastService } from '~/services/toast/toast.service';
 import { sleep } from '~/utils/sleep';
 
 type Scene = 'profile' | 'task' | 'like';
@@ -30,7 +29,6 @@ export class MyProfilePage implements OnInit {
   constructor(
     private authService: AuthService,
     private profileService: ProfileService,
-    private toastService: ToastService,
     private routerService: RouterService,
   ) {}
 
@@ -91,11 +89,6 @@ export class MyProfilePage implements OnInit {
       default:
         break;
     }
-  }
-
-  async onSignOut(): Promise<void> {
-    await this.authService.signOut();
-    await this.toastService.presentToast('サインアウトしました', 'success');
   }
 
   navigatePush($event, path?: string): void {

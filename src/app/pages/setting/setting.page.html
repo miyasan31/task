@@ -8,4 +8,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content> </ion-content>
+<ion-content>
+  <ion-button (click)="navigatePush($event, 'my-profile/setting/tag-edit')">タグ編集</ion-button>
+
+  <ion-button (click)="onSignOut()">サインアウト</ion-button>
+</ion-content>
