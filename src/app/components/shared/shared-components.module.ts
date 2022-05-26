@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
+import { LineClampComponent } from '~/components/line-clamp/line-clamp.component';
 import { TaskCardComponent } from '~/components/shared/task-card/task-card.component';
 import { TaskCardSkeletonComponent } from '~/components/shared/task-card-skeleton/task-card-skeleton.component';
 import { TaskDetailCardComponent } from '~/components/shared/task-detail-card/task-detail-card.component';
@@ -15,6 +16,7 @@ import { TaskDetailCardSkeletonComponent } from '~/components/shared/task-detail
     TaskDetailCardComponent,
     TaskCardSkeletonComponent,
     TaskDetailCardSkeletonComponent,
+    LineClampComponent,
   ],
   exports: [
     TaskCardComponent,
