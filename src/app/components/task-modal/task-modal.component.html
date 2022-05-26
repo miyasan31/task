@@ -19,33 +19,17 @@
       <ion-input type="text" name="taskName" [(ngModel)]="taskName"></ion-input>
     </ion-item>
 
-    <div class="label-form">
-      <ion-item class="flex-1">
-        <ion-label position="stacked">タグ</ion-label>
-        <ion-select
-          cancelText="キャンセル"
-          okText="選択"
-          title="タスクに紐付けるタグ"
-          name="tagId"
-          *ngIf="tagList && (tagList | async)?.length"
-          [(ngModel)]="tagId"
-        >
-          <ion-select-option
-            *ngFor="let tag of tagList | async; trackBy: trackByFn"
-            value="{{ tag.id }}"
-            >{{ tag.tagName }}</ion-select-option
-          >
-        </ion-select>
-      </ion-item>
-
-      <ion-button expand="block" class="tag-modal-button" (click)="onPresentTagModal($event)">
-        <ion-icon name="pencil"></ion-icon>
-      </ion-button>
-    </div>
-
     <ion-item class="description-textarea">
       <ion-label position="stacked">アウトプットメモ</ion-label>
-      <ion-textarea rows="20" name="description" [(ngModel)]="description"></ion-textarea>
+      <ion-textarea rows="16" name="description" [(ngModel)]="description"></ion-textarea>
+    </ion-item>
+
+    <ion-item (click)="onPresentTagModal($event)">
+      <ion-label position="stacked">タグ</ion-label>
+      <div *ngIf="selectTag" class="tag-select">
+        <ion-icon name="ellipse" color="{{ selectTag?.color }}"></ion-icon>
+        <ion-text>{{ selectTag?.tagName || '' }}</ion-text>
+      </div>
     </ion-item>
 
     <ion-item class="ion-align-items-center is-done-radio" detail="false">

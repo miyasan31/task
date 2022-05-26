@@ -384,6 +384,14 @@ ion-infinite-scroll-content {
     }
   }
 
+  .tag-select {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+    margin-left: 0.25rem;
+  }
+
   .description-textarea {
   }
 

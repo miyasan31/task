@@ -20,7 +20,7 @@ export class TaskModalComponent implements OnInit {
   @Input() taskId?: ITask['id'];
   @Input() isEdit: boolean;
 
-  tagList: Observable<ITag[]>;
+  tagList: ITag[];
 
   taskName: ITask['taskName'] = '';
   description: ITask['description'] = '';
@@ -28,6 +28,8 @@ export class TaskModalComponent implements OnInit {
   likeCount: ITask['likeCount'] = 0;
   tagId: ITask['tagId'] = '';
   createdAt: ITask['createdAt'];
+
+  selectTag: ITag | null = null;
 
   constructor(
     private authService: AuthService,
@@ -39,14 +41,9 @@ export class TaskModalComponent implements OnInit {
 
   async ngOnInit() {
     const user = await this.authService.getAuthUser();
-    this.tagList = await this.tagService.getTagList(user.uid);
+    this.tagList = await this.tagService.getTagList(user.uid).pipe(first()).toPromise(Promise);
 
-    const tagListCheck = await this.tagList
-      .pipe(first())
-      .toPromise(Promise)
-      .then((tagList) => tagList);
-
-    if (tagListCheck.length === 0) {
+    if (this.tagList.length === 0) {
       this.toastService.presentToast('タグが登録されていません', 'warning');
     }
 
@@ -58,9 +55,10 @@ export class TaskModalComponent implements OnInit {
     this.taskName = task.taskName;
     this.description = task.description;
     this.isDone = task.isDone;
-    this.tagId = task.tagId;
     this.likeCount = task.likeCount;
+    this.tagId = task.tagId;
     this.createdAt = task.createdAt;
+    this.selectTag = this.tagList.find((tag) => tag.id === this.tagId);
   }
 
   async onUpsertTask(): Promise<void> {
@@ -74,7 +72,7 @@ export class TaskModalComponent implements OnInit {
       isDone: !!this.isDone,
       likeCount: this.likeCount,
       userId: user.uid,
-      tagId: this.tagId,
+      tagId: this.selectTag.id,
       createdAt: this.createdAt,
     };
 
@@ -111,7 +109,15 @@ export class TaskModalComponent implements OnInit {
     const modal = await this.modalController.create({
       component: TagModalComponent,
       canDismiss: true,
-      presentingElement: await this.modalController.getTop(),
+      initialBreakpoint: 0.35,
+      breakpoints: [0, 0.35],
+    });
+
+    modal.onDidDismiss().then((res: { data: ITag }) => {
+      if (!res.data) {
+        return;
+      }
+      this.selectTag = res.data;
     });
 
     return await modal.present();
