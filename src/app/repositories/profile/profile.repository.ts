@@ -177,10 +177,18 @@ export class ProfileRepository implements IProfileRepository {
       if (taskDocList.length === 0) {
         return 0;
       }
-      const taskIdList = taskDocList.map((task) => task.id);
 
-      const likeQuery = query(this.likeColRef, where('taskId', 'in', taskIdList));
-      const likeDocList = await collectionData(likeQuery).pipe(first()).toPromise(Promise);
+      const likeListPromise = taskDocList.map((task) => {
+        const likeQuery = query(this.likeColRef, where('taskId', '==', task.id));
+        return collectionData(likeQuery).pipe(first()).toPromise(Promise);
+      });
+
+      const promiseLikeData = await Promise.all(likeListPromise);
+
+      const likeDocList = promiseLikeData
+        .filter((like) => like && like.length > 0)
+        .reduce((all, current) => [...all, ...current], []);
+
       return likeDocList.length;
     } catch (error) {
       console.error(error.message);

@@ -57,17 +57,19 @@ export class TimelineRepository implements ITimelineRepository {
       const userQuery = query(this.userColRef);
       const userList = await collectionData(userQuery).pipe(take(1)).toPromise(Promise);
 
-      const timelineUserIdList = userList.map((user) => user.id);
-
-      const taskQuery = query(
-        this.taskColRef,
-        where('userId', 'in', timelineUserIdList),
-        where('isDone', '==', true),
-        orderBy('updatedAt', 'desc'),
-        startAt(date.startTimestamp),
-        endAt(date.endTimestamp),
-      );
-      const taskList = await collectionData(taskQuery).pipe(first()).toPromise(Promise);
+      const taskListPromise = userList.map((user) => {
+        const taskQuery = query(
+          this.taskColRef,
+          where('userId', '==', user.id),
+          where('isDone', '==', true),
+          orderBy('updatedAt', 'desc'),
+          startAt(date.startTimestamp),
+          endAt(date.endTimestamp),
+        );
+        return collectionData(taskQuery).pipe(first()).toPromise(Promise);
+      });
+      const promiseTaskData = await Promise.all(taskListPromise);
+      const taskList = promiseTaskData.reduce((all, current) => [...all, ...current], []);
 
       const timelineList = userList.reduce((current, prev) => {
         const userTaskList = taskList.filter((task) => task && task.userId === prev.id);
