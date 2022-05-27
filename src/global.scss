@@ -58,6 +58,11 @@ ion-checkbox {
   --background: none;
 }
 
+ion-button {
+  --box-shadow: none;
+  --border-radius: 3px;
+}
+
 ion-item {
   --border-color: var(--ion-color-medium-shade);
 }
@@ -160,6 +165,26 @@ ion-infinite-scroll-content {
     font-weight: 700;
     color: var(--ion-color-light-contrast);
     background-color: var(--ion-color-light-tint);
+  }
+
+  .more_button {
+    --background: transparent;
+    --background-activated-opacity: 0.4;
+    --border-style: none;
+    --border-radius: 0px;
+    border-style: none;
+    margin-bottom: 300px;
+  }
+
+  .more-loading {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    margin-bottom: 300px;
+  }
+
+  ion-spinner {
+    transform: scale(2);
   }
 }
 
@@ -349,19 +374,9 @@ ion-infinite-scroll-content {
     padding: 1rem 0.75rem;
   }
 
-  .button {
-    --box-shadow: none;
-    --border-radius: 3px;
-  }
-
-  .button-primary {
-  }
-
   .button-outline {
     --background: transparent;
-  }
-
-  .button-danger {
+    --background-activated-opacity: 0.4;
   }
 }
 
@@ -432,20 +447,9 @@ ion-infinite-scroll-content {
     padding: 1rem 0.75rem;
   }
 
-  .button {
-    --box-shadow: none;
-    --border-radius: 3px;
-  }
-
-  .button-primary {
-  }
-
   .button-outline {
     --background: transparent;
     --background-activated-opacity: 0.4;
-  }
-
-  .button-danger {
   }
 }
 

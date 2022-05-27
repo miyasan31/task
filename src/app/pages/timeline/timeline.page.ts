@@ -19,6 +19,7 @@ type TimelineData = {
 export class TimelinePage implements OnInit {
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
 
+  isLoading = false;
   agoDateCount = 0;
   timelineData: TimelineData[] | null = [];
   // --- MEMO:Observable用 ---
@@ -32,11 +33,18 @@ export class TimelinePage implements OnInit {
     await this.timelineFetch(400, this.agoDateCount);
   }
 
-  async onLoadPrevData($event): Promise<void> {
+  async onLoadMoreData(): Promise<void> {
+    this.isLoading = true;
     this.agoDateCount++;
     await this.timelineFetch(600, this.agoDateCount);
-    await $event.target.complete();
+    this.isLoading = false;
   }
+
+  // async onLoadPrevData($event): Promise<void> {
+  //   this.agoDateCount++;
+  //   await this.timelineFetch(600, this.agoDateCount);
+  //   await $event.target.complete();
+  // }
 
   async onTimelineRefresh($event): Promise<void> {
     this.agoDateCount = 0;
@@ -51,6 +59,7 @@ export class TimelinePage implements OnInit {
     agoDateCount: number,
     option?: { isInit?: boolean },
   ): Promise<void> {
+    console.log(agoDateCount);
     await sleep(delay);
     const timelineList = await this.timelineService.getTimelineUserTaskList(
       agoDateCount,
