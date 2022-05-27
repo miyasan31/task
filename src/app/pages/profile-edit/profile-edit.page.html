@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="my-profile/setting" text="戻る"></ion-back-button>
+    </ion-buttons>
+    <ion-title>プロフィール編集</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form #f="ngForm" class="custom-form" autocomplete="off">
+    <div class="flex align-center gap-6">
+      <img
+        class="avatar"
+        src="{{ filePreview || userInfo.avatar }}"
+        alt="{{ userInfo.userName }}のユーザーアバター"
+      />
+      <input
+        #fileInputRef
+        type="file"
+        accept="image/*"
+        style="display: none"
+        (change)="onFileSelected($event)"
+      />
+      <ion-button fill="outline" (click)="fileInputRef.click()">変更する</ion-button>
+    </div>
+
+    <ion-item>
+      <ion-label position="stacked">ユーザー名</ion-label>
+      <ion-input
+        type="text"
+        name="userName"
+        [(ngModel)]="userInfo.userName"
+        placeholder="ユーザー名を入力してください"
+      ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">プロフィール文</ion-label>
+      <ion-textarea
+        type="text"
+        name="profile"
+        [(ngModel)]="userInfo.profile"
+        rows="6"
+        placeholder="プロフィール文を入力してください"
+      ></ion-textarea>
+    </ion-item>
+
+    <ion-button expand="block" (click)="onUserUpdate()">保存する</ion-button>
+  </form>
+</ion-content>

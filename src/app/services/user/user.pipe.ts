@@ -36,10 +36,6 @@ export class UserPipe implements IUser {
       return new Error('ユーザー名を入力してください');
     }
 
-    if (!updateUser.profile) {
-      return new Error('プロフィールを入力してください');
-    }
-
     if (!updateUser.avatar) {
       return new Error('アバターを選択してください');
     }

@@ -19,6 +19,10 @@ export class RouterService {
     this.navController.navigateForward(path);
   }
 
+  navigateBack(path: string): void {
+    this.navController.navigateBack(path);
+  }
+
   navigatePath(path: RedirectPath, options?: { isRoot: boolean }): void {
     if (options && options.isRoot) {
       this.navController.navigateRoot(path);

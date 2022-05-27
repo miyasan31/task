@@ -28,7 +28,7 @@ export class UserService implements IUserRepository {
     if (avatarFile) {
       this.avatarUrl = await this.avatarUpload(avatarFile, user.id);
     }
-
+    console.log(this.avatarUrl);
     const createUser = this.userPipe.create({
       ...user,
       avatar: this.avatarUrl || user.avatar,
@@ -39,12 +39,19 @@ export class UserService implements IUserRepository {
     return this.userRepository.create(createUser);
   }
 
-  update(user: IUser): Promise<void> {
-    const updateUser = this.userPipe.update(user);
+  async update(user: IUser, avatarFile?: File): Promise<void> {
+    if (avatarFile) {
+      this.avatarUrl = await this.avatarUpload(avatarFile, user.id);
+    }
+
+    const updateUser = this.userPipe.update({
+      ...user,
+      avatar: this.avatarUrl || user.avatar,
+    });
     if (isError(updateUser)) {
       throw new Error(updateUser.message);
     }
-    return this.userRepository.update(user);
+    return this.userRepository.update(updateUser);
   }
 
   delete(userId: IUser['id']): Promise<void> {

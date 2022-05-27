@@ -49,6 +49,11 @@ const routes: Routes = [
     redirectTo: '/timeline',
     pathMatch: 'full',
   },
+  {
+    path: 'profile-edit',
+    loadChildren: () =>
+      import('./pages/profile-edit/profile-edit.module').then((m) => m.ProfileEditPageModule),
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],

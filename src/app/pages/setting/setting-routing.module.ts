@@ -12,6 +12,11 @@ const routes: Routes = [
     path: 'tag',
     loadChildren: () => import('~/pages/tag/tag.module').then((m) => m.TagPageModule),
   },
+  {
+    path: 'profile-edit',
+    loadChildren: () =>
+      import('~/pages/profile-edit/profile-edit.module').then((m) => m.ProfileEditPageModule),
+  },
 ];
 
 @NgModule({
