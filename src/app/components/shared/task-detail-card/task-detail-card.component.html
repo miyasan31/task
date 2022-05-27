@@ -26,7 +26,7 @@
 
   <ion-card-content class="card-content">
     <h1 class="card-task-name">{{ task.task.taskName }}</h1>
-    <app-line-clamp row="10">
+    <app-line-clamp [row]="10">
       <p #content class="card-description">{{ task.task.description }}</p>
     </app-line-clamp>
 

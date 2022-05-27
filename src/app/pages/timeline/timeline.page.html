@@ -19,8 +19,6 @@
     <!-- TODO:コンポーネント化するかもしれない（？） -->
     <ion-skeleton-text animated="true" class="timeline-section-header-skeleton"></ion-skeleton-text>
     <app-task-card-skeleton></app-task-card-skeleton>
-    <app-task-card-skeleton></app-task-card-skeleton>
-    <app-task-card-skeleton></app-task-card-skeleton>
   </ng-container>
 
   <ng-container *ngIf="timelineData">
@@ -37,7 +35,7 @@
       </ng-container>
 
       <ng-container *ngIf="!t.data.length">
-        <p class="empty-message">アクティブユーザーがいませんでした</p>
+        <p class="empty-message">アクティブユーザーがいません</p>
       </ng-container>
     </ng-container>
   </ng-container>
