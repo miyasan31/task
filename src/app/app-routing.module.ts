@@ -33,6 +33,11 @@ const routes: Routes = [
     data: { authGuardPipe: redirectLoggedIn },
   },
   {
+    path: 'tag-register',
+    loadChildren: () =>
+      import('~/pages/tag-register/tag-register.module').then((m) => m.TagRegisterPageModule),
+  },
+  {
     path: 'profile/:userId',
     loadChildren: () =>
       import('~/pages/other-profile/other-profile.module').then((m) => m.OtherProfilePageModule),
@@ -48,11 +53,6 @@ const routes: Routes = [
     path: '',
     redirectTo: '/timeline',
     pathMatch: 'full',
-  },
-  {
-    path: 'profile-edit',
-    loadChildren: () =>
-      import('./pages/profile-edit/profile-edit.module').then((m) => m.ProfileEditPageModule),
   },
 ];
 @NgModule({

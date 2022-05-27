@@ -18,6 +18,10 @@ export class TagService implements ITagRepository {
     return this.tagRepository.get(tagId);
   }
 
+  getTagList(userId: IUser['id']): Observable<ITag[]> {
+    return this.tagRepository.getTagList(userId);
+  }
+
   async create(tag: ICreateTag): Promise<ITag['id']> {
     const checkTagList = await this.checkInactiveTag(tag.userId, tag.tagName);
 
@@ -40,8 +44,8 @@ export class TagService implements ITagRepository {
     return this.update(activedTag);
   }
 
-  getTagList(userId: IUser['id']): Observable<ITag[]> {
-    return this.tagRepository.getTagList(userId);
+  createTagList(userId: IUser['id'], tagList: ITag['tagName'][]): Promise<void> {
+    return this.tagRepository.createTagList(userId, tagList);
   }
 
   update(tag: ITag): Promise<ITag['id']> {

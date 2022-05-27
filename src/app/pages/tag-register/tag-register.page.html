@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>タグ登録</ion-title>
+
+    <ion-buttons slot="end" *ngIf="selectTag.length" (click)="onCreateTagList()">
+      <ion-button color="primary">登録</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="tag-page">
+  <p *ngIf="selectTag.length > 9" class="error-message">登録できるタグは10個までです</p>
+
+  <div class="tag-chip-group">
+    <ion-chip
+      *ngFor="let tag of tagSample; let i = index; trackBy: trackByFn"
+      outline
+      color="{{ selectTag.includes(tag) ? 'primary' : 'gray' }}"
+      slot="end"
+      (click)="onSelectTagName(i)"
+    >
+      <ion-label>{{ tag }}</ion-label>
+    </ion-chip>
+
+    <ion-fab-button
+      *ngIf="10 > selectTag.length"
+      size="small"
+      class="tag-add-button"
+      (click)="onCreateTag()"
+    >
+      <ion-icon name="add" color="primary" class="add-icon"></ion-icon>
+    </ion-fab-button>
+  </div>
+</ion-content>

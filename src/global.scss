@@ -213,6 +213,12 @@ ion-infinite-scroll-content {
     }
   }
 }
+.error-message {
+  color: var(--ion-color-danger);
+  font-size: 1rem;
+  padding: 2rem 0;
+  text-align: center;
+}
 
 .empty-message {
   padding: 2rem 0;

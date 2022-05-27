@@ -16,6 +16,7 @@ import {
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 
+import { colorPicker } from '~/constants/colorPicker';
 import { ITag } from '~/interfaces/tag/ITag';
 import { ITagRepository } from '~/interfaces/tag/ITagRepository';
 import { IUser } from '~/interfaces/user/IUser';
@@ -70,6 +71,24 @@ export class TagRepository implements ITagRepository {
       console.error(error.message);
       throw new Error('サーバーエラーが発生しました');
     }
+  }
+
+  async createTagList(userId: IUser['id'], tagList: ITag['tagName'][]): Promise<void> {
+    await Promise.all([
+      ...tagList.map(async (tagName, index) => {
+        const tagId = doc(this.tagColRef).id;
+        const tagDocRef = doc(this.firestore, `tags/${tagId}`).withConverter(tagConverter);
+        await setDoc(tagDocRef, {
+          id: tagId,
+          tagName,
+          userId,
+          color: colorPicker[index].value,
+          isActive: true,
+        });
+      }),
+    ]);
+
+    return;
   }
 
   // タグ情報を更新する

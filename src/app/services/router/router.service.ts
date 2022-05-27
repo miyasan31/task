@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NavController } from '@ionic/angular';
 
-type RedirectPath = '/signin' | '/register' | '/task';
+type RedirectPath = '/signin' | '/register' | '/task' | '/tag-register';
 
 @Injectable({
   providedIn: 'root',
