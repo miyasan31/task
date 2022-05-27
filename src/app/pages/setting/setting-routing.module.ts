@@ -9,8 +9,8 @@ const routes: Routes = [
     component: SettingPage,
   },
   {
-    path: 'tag-edit',
-    loadChildren: () => import('~/pages/tag-edit/tag-edit.module').then((m) => m.TagEditPageModule),
+    path: 'tag',
+    loadChildren: () => import('~/pages/tag/tag.module').then((m) => m.TagPageModule),
   },
 ];
 

@@ -3,13 +3,20 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="my-profile" text="戻る"></ion-back-button>
     </ion-buttons>
-
     <ion-title>設定</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-button (click)="navigatePush($event, 'my-profile/setting/tag-edit')">タグ編集</ion-button>
+  <ion-item [routerLink]="['tag']">
+    <ion-text class="ion-padding-start">タグ</ion-text>
+  </ion-item>
 
-  <ion-button (click)="onSignOut()">サインアウト</ion-button>
+  <ion-item>
+    <ion-text class="ion-padding-start">テーマ</ion-text>
+  </ion-item>
+
+  <ion-item (click)="onSignOut()">
+    <ion-text color="danger" class="ion-padding-start">サインアウト</ion-text>
+  </ion-item>
 </ion-content>

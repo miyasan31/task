@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from '~/services/auth/auth.service';
-import { RouterService } from '~/services/router/router.service';
 import { ToastService } from '~/services/toast/toast.service';
 
 @Component({
@@ -10,17 +9,9 @@ import { ToastService } from '~/services/toast/toast.service';
   styleUrls: ['./setting.page.scss'],
 })
 export class SettingPage implements OnInit {
-  constructor(
-    private authService: AuthService,
-    private toastService: ToastService,
-    private routerService: RouterService,
-  ) {}
+  constructor(private authService: AuthService, private toastService: ToastService) {}
 
   ngOnInit() {}
-
-  navigatePush($event, path?: string): void {
-    this.routerService.navigatePush($event, path);
-  }
 
   async onSignOut(): Promise<void> {
     await this.authService.signOut();

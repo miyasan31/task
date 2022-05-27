@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="my-profile/setting" text="戻る"></ion-back-button>
+    </ion-buttons>
+    <ion-title>タグ一覧</ion-title>
+    <ion-buttons slot="end" *ngIf="isVisible">
+      <ion-button (click)="onCreateTag()">作成</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="tag-page">
+  <div class="tag-chip-group">
+    <ion-chip
+      *ngFor="let tag of tagList; let i = index; trackBy: trackByFn"
+      outline
+      color="{{ tag.color }}"
+      slot="end"
+      class="ion-chip-large"
+      (click)="onPresentActionSheet(tag, i)"
+    >
+      <ion-label>{{ tag.tagName }}</ion-label>
+    </ion-chip>
+
+    <ion-fab-button *ngIf="isVisible" size="small" class="tag-add-button" (click)="onCreateTag()">
+      <ion-icon name="add" color="primary" class="add-icon"></ion-icon>
+    </ion-fab-button>
+  </div>
+
+  <div *ngIf="!tagList?.length">
+    <p class="empty-message">タグが登録されていません</p>
+  </div>
+</ion-content>

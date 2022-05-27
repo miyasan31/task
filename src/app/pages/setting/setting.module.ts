@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { SettingPageRoutingModule } from './setting-routing.module';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, SettingPageRoutingModule],
+  imports: [CommonModule, FormsModule, IonicModule, RouterModule, SettingPageRoutingModule],
   declarations: [],
 })
 export class SettingPageModule {}
