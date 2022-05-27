@@ -18,7 +18,9 @@ type Scene = 'profile' | 'task' | 'like';
   styleUrls: ['./my-profile.page.scss'],
 })
 export class MyProfilePage implements OnInit {
+  isLoadingTask = true;
   taskList: Observable<ITaskCard[]>;
+  isLoadingLike = true;
   likeList: Observable<ILikedTaskCard[]>;
   isDoneTaskCount = 0;
   likeCount = 0;
@@ -58,12 +60,20 @@ export class MyProfilePage implements OnInit {
     setTimeout(() => {
       this.taskList = this.profileService.getUserTaskListWithLike(this.user.id, this.user.id);
     }, 300);
+
+    setTimeout(() => {
+      this.isLoadingTask = false;
+    }, 1000);
   }
 
   private fetchLikeList(): void {
     setTimeout(() => {
       this.likeList = this.profileService.getUserLikedTaskList(this.user.id, this.user.id);
     }, 300);
+
+    setTimeout(() => {
+      this.isLoadingLike = false;
+    }, 1000);
   }
 
   async onProfileRefresh($event): Promise<void> {

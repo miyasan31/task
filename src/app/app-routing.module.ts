@@ -30,16 +30,19 @@ const routes: Routes = [
     path: 'register',
     loadChildren: () =>
       import('~/pages/register/register.module').then((m) => m.RegisterPageModule),
+    data: { authGuardPipe: redirectLoggedIn },
   },
   {
     path: 'profile/:userId',
     loadChildren: () =>
       import('~/pages/other-profile/other-profile.module').then((m) => m.OtherProfilePageModule),
+    data: { authGuardPipe: redirectLoggedIn },
   },
   {
     path: 'profile/:userId/:tagId',
     loadChildren: () =>
       import('~/pages/tag-detail/tag-detail.module').then((m) => m.TagDetailPageModule),
+    data: { authGuardPipe: redirectLoggedIn },
   },
   {
     path: '',

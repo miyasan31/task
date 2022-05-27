@@ -49,8 +49,8 @@
       </ion-item-sliding>
     </ng-container>
 
-    <div *ngIf="!(taskList | async)?.length">
-      <p class="empty-message">タスクが登録されていません</p>
+    <div *ngIf="!isLoading">
+      <p *ngIf="!(taskList | async)?.length" class="empty-message">タスクが登録されていません</p>
     </div>
   </ng-container>
 </ion-content>

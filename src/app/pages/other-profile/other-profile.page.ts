@@ -21,7 +21,9 @@ type Scene = 'profile' | 'task' | 'like';
 })
 export class OtherProfilePage implements OnInit {
   profileUserId: string;
+  isLoadingTask = true;
   taskList: Observable<ITaskCard[]>;
+  isLoadingLike = true;
   likeList: Observable<ILikedTaskCard[]>;
   isDoneTaskCount = 0;
   likeCount = 0;
@@ -44,11 +46,7 @@ export class OtherProfilePage implements OnInit {
     });
     subscribe.unsubscribe();
 
-    const [currentUser] = await Promise.all([
-      this.authService.getAuthUserInfo(),
-      this.fetchProfile(),
-    ]);
-    this.currentUser = currentUser;
+    this.fetchProfile();
   }
 
   private fetchProfile(): void {
@@ -56,7 +54,10 @@ export class OtherProfilePage implements OnInit {
   }
 
   private async fetchUserProfile(delay: number): Promise<void> {
-    const [profileUser] = await Promise.all([this.authService.getAuthUserInfo(), sleep(delay)]);
+    const [profileUser] = await Promise.all([
+      this.userService.get(this.profileUserId),
+      sleep(delay),
+    ]);
     this.profileUser = profileUser;
 
     const [isDoneTaskCount, likeCount, tagChart] = await Promise.all([
@@ -69,22 +70,36 @@ export class OtherProfilePage implements OnInit {
     this.tagChart = tagChart;
   }
 
-  private fetchTaskList(): void {
+  private async fetchTaskList(): Promise<void> {
+    if (!this.currentUser) {
+      this.currentUser = await this.authService.getAuthUserInfo();
+    }
     setTimeout(() => {
       this.taskList = this.profileService.getUserTaskListWithLike(
         this.profileUserId,
         this.currentUser.id,
       );
     }, 300);
+
+    setTimeout(() => {
+      this.isLoadingTask = false;
+    }, 1000);
   }
 
-  private fetchLikeList(): void {
+  private async fetchLikeList(): Promise<void> {
+    if (!this.currentUser) {
+      this.currentUser = await this.authService.getAuthUserInfo();
+    }
     setTimeout(() => {
       this.likeList = this.profileService.getUserLikedTaskList(
         this.profileUserId,
         this.currentUser.id,
       );
     }, 300);
+
+    setTimeout(() => {
+      this.isLoadingLike = false;
+    }, 1000);
   }
 
   async onProfileRefresh($event): Promise<void> {
@@ -124,10 +139,10 @@ export class OtherProfilePage implements OnInit {
   }
 
   trackByFnTaskList(_, item: ITaskCard): string {
-    return item.task.id;
+    return item.task?.id;
   }
 
   trackByFnLikeList(_, item: ILikedTaskCard): string {
-    return item.like.id;
+    return item.like?.id;
   }
 }

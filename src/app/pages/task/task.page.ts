@@ -15,6 +15,7 @@ import { ToastService } from '~/services/toast/toast.service';
 })
 export class TaskPage implements OnInit {
   taskList: Observable<ITask[]>;
+  isLoading = true;
 
   constructor(
     private authService: AuthService,
@@ -31,6 +32,10 @@ export class TaskPage implements OnInit {
     setTimeout(() => {
       this.taskList = this.taskService.getTaskList(uid);
     }, 300);
+
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 1000);
   }
 
   async onReversingTaskCompletion($event, task: ITask): Promise<void> {

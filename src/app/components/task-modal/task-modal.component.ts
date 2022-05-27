@@ -16,8 +16,8 @@ import { ToastService } from '~/services/toast/toast.service';
   styleUrls: ['./task-modal.component.scss'],
 })
 export class TaskModalComponent implements OnInit {
-  @Input() taskId?: ITask['id'];
-  @Input() isEdit: boolean;
+  @Input() taskId?: ITask['id'] | null = null;
+  @Input() isEdit = false;
 
   tagList: ITag[];
 
@@ -62,7 +62,6 @@ export class TaskModalComponent implements OnInit {
   }
 
   async onUpsertTask(): Promise<void> {
-    // TODO:グローバルステートから参照する
     const user = await this.authService.getAuthUser();
 
     const upsertTask = {
@@ -72,7 +71,7 @@ export class TaskModalComponent implements OnInit {
       isDone: !!this.isDone,
       likeCount: this.likeCount,
       userId: user.uid,
-      tagId: this.selectTag.id,
+      tagId: this.selectTag?.id,
       createdAt: this.createdAt,
     };
 
