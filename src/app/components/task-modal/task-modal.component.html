@@ -21,14 +21,14 @@
 
     <ion-item class="description-textarea">
       <ion-label position="stacked">アウトプットメモ</ion-label>
-      <ion-textarea rows="16" name="description" [(ngModel)]="description"></ion-textarea>
+      <ion-textarea rows="14" name="description" [(ngModel)]="description"></ion-textarea>
     </ion-item>
 
-    <ion-item (click)="onPresentTagModal($event)">
+    <ion-item button="true" (click)="onPresentTagModal($event)" detail="false">
       <ion-label position="stacked">タグ</ion-label>
-      <div *ngIf="selectTag" class="tag-select">
-        <ion-icon name="ellipse" color="{{ selectTag?.color }}"></ion-icon>
-        <ion-text>{{ selectTag?.tagName || '' }}</ion-text>
+      <div class="tag-select">
+        <ion-icon *ngIf="selectTag" name="ellipse" color="{{ selectTag?.color }}"></ion-icon>
+        <ion-text *ngIf="selectTag">{{ selectTag?.tagName || '' }}</ion-text>
       </div>
     </ion-item>
 
@@ -41,9 +41,7 @@
       <ion-button expand="block" (click)="onUpsertTask()"
         >{{ isEdit ? '保存' : '作成' }}する</ion-button
       >
-      <ion-button expand="block" class="button-outline" (click)="onModalDismiss()">
-        キャンセル
-      </ion-button>
+      <ion-button fill="outline" expand="block" (click)="onModalDismiss()"> キャンセル </ion-button>
     </div>
   </form>
 </ion-content>

@@ -21,7 +21,7 @@
     <app-task-card-skeleton></app-task-card-skeleton>
   </ng-container>
 
-  <ng-container *ngIf="timelineData">
+  <ng-container *ngIf="timelineData.length">
     <ng-container *ngFor="let t of timelineData; trackBy: trackByFnSection">
       <h1 class="timeline-section-header">{{ t.sectionLabel | date: 'yyyy年M月d日' }}</h1>
 
@@ -38,6 +38,18 @@
         <p class="empty-message">アクティブユーザーがいません</p>
       </ng-container>
     </ng-container>
+
+    <ion-button
+      *ngIf="!isLoading"
+      fill="outline"
+      expand="block"
+      class="more_button"
+      (click)="onLoadMoreData()"
+      >{{ dayAgo(agoDateCount + 1) | date: 'M月d日' }}のタイムラインを読み込む</ion-button
+    >
+    <div *ngIf="isLoading" class="more-loading">
+      <ion-spinner name="dots" color="primary"></ion-spinner>
+    </div>
   </ng-container>
 
   <!-- MEMO:Observable用 -->
@@ -53,18 +65,6 @@
           <p class="empty-message">昨日のアクティブユーザーはいませんでした</p>
       </ng-container>
   </ng-container> -->
-
-  <ion-button
-    *ngIf="!isLoading"
-    expand="block"
-    class="button-outline more_button"
-    (click)="onLoadMoreData()"
-    >もっと見る</ion-button
-  >
-
-  <div *ngIf="isLoading" class="more-loading">
-    <ion-spinner name="dots" color="primary"></ion-spinner>
-  </div>
 
   <!-- <ion-infinite-scroll threshold="100px" (ionInfinite)="onLoadPrevData($event)">
     <ion-infinite-scroll-content

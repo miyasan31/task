@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
-import { Observable } from 'rxjs';
+import { AlertController, ModalController } from '@ionic/angular';
 import { first } from 'rxjs/operators';
 
 import { TagModalComponent } from '~/components/tag-modal/tag-modal.component';
@@ -37,6 +36,7 @@ export class TaskModalComponent implements OnInit {
     private tagService: TagService,
     private toastService: ToastService,
     private modalController: ModalController,
+    private alertController: AlertController,
   ) {}
 
   async ngOnInit() {
@@ -92,14 +92,28 @@ export class TaskModalComponent implements OnInit {
   }
 
   async onDeleteTask(taskId: ITask['id']): Promise<void> {
-    try {
-      await this.taskService.delete(taskId);
-      this.toastService.presentToast('タスクを削除しました', 'success');
-      this.onModalDismiss();
-    } catch (error) {
-      console.error(error.message);
-      this.toastService.presentToast(error.message, 'error');
-    }
+    const alert = await this.alertController.create({
+      message: '本当に削除しますか？',
+      buttons: [
+        { text: 'キャンセル' },
+        {
+          role: 'destructive',
+          text: '削除する',
+          handler: async () => {
+            try {
+              await this.taskService.delete(taskId);
+              this.toastService.presentToast('タスクを削除しました', 'success');
+              this.onModalDismiss();
+            } catch (error) {
+              console.error(error.message);
+              this.toastService.presentToast(error.message, 'error');
+            }
+          },
+        },
+      ],
+    });
+
+    await alert.present();
   }
 
   async onPresentTagModal($event): Promise<void> {
@@ -109,8 +123,8 @@ export class TaskModalComponent implements OnInit {
     const modal = await this.modalController.create({
       component: TagModalComponent,
       canDismiss: true,
-      initialBreakpoint: 0.35,
-      breakpoints: [0, 0.35],
+      initialBreakpoint: 0.5,
+      breakpoints: [0, 0.5],
     });
 
     modal.onDidDismiss().then((res: { data?: ITag }) => {

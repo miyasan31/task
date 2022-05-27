@@ -17,11 +17,7 @@
 
       <ion-item>
         <ion-label position="stacked">確認用パスワード</ion-label>
-        <ion-input
-          type="confirmPassword"
-          name="confirmPassword"
-          [(ngModel)]="confirmPassword"
-        ></ion-input>
+        <ion-input type="password" name="confirmPassword" [(ngModel)]="confirmPassword"></ion-input>
       </ion-item>
 
       <ion-button expand="block" (click)="onEmailSignUp()">メールアドレスでサインアップ</ion-button>

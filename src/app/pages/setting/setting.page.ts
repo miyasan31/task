@@ -26,7 +26,7 @@ export class SettingPage implements OnInit {
           text: 'キャンセル',
         },
         {
-          role: '',
+          role: 'destructive',
           text: 'サインアウト',
           handler: async () => {
             await this.authService.signOut();

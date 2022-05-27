@@ -32,20 +32,26 @@ export class MyProfilePage implements OnInit {
     private routerService: RouterService,
   ) {}
 
-  async ngOnInit() {
-    await this.fetchProfile();
+  ngOnInit() {
+    this.fetchProfile();
   }
 
-  private async fetchProfile(): Promise<void> {
-    await this.fetchUserProfile(400);
+  private fetchProfile(): void {
+    this.fetchUserProfile(400);
   }
 
   private async fetchUserProfile(delay: number): Promise<void> {
-    await sleep(delay);
-    this.user = await this.authService.getAuthUserInfo();
-    this.likeCount = await this.profileService.getUserLikeCount(this.user.id);
-    this.isDoneTaskCount = await this.profileService.getUserIsDoneTaskCount(this.user.id);
-    this.tagChart = await this.profileService.getTagChartData(this.user.id);
+    const [user] = await Promise.all([this.authService.getAuthUserInfo(), sleep(delay)]);
+    this.user = user;
+
+    const [isDoneTaskCount, likeCount, tagChart] = await Promise.all([
+      this.profileService.getUserIsDoneTaskCount(this.user.id),
+      this.profileService.getUserLikeCount(this.user.id),
+      this.profileService.getTagChartData(this.user.id),
+    ]);
+    this.isDoneTaskCount = isDoneTaskCount;
+    this.likeCount = likeCount;
+    this.tagChart = tagChart;
   }
 
   private fetchTaskList(): void {

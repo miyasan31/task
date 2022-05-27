@@ -47,7 +47,7 @@ ion-toolbar {
 ion-header,
 ion-toolbar,
 ion-tab-bar {
-  --background: var(--ion-color-light);
+  --background: var(--ion-color-light-tint);
 }
 
 ion-input,
@@ -115,20 +115,19 @@ ion-infinite-scroll-content {
   }
 
   .tag-add-button {
-    width: 28px;
-    height: 28px;
+    width: 42px;
+    height: 42px;
     padding: 0px;
     margin: 0px;
     border-radius: 999px;
-    border: 1px solid var(--ion-color-primary);
     --background: transparent;
     --box-shadow: none;
     --background-activated-opacity: 0.4;
   }
 
   .add-icon {
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
     border-radius: 999px;
     font-size: 1rem;
   }
@@ -173,18 +172,18 @@ ion-infinite-scroll-content {
     --border-style: none;
     --border-radius: 0px;
     border-style: none;
-    margin-bottom: 300px;
+    margin-bottom: 200px;
   }
 
   .more-loading {
     display: flex;
     justify-content: center;
     margin-top: 1rem;
-    margin-bottom: 300px;
-  }
+    margin-bottom: 200px;
 
-  ion-spinner {
-    transform: scale(2);
+    ion-spinner {
+      transform: scale(2);
+    }
   }
 }
 
@@ -373,11 +372,6 @@ ion-infinite-scroll-content {
   .button-group {
     padding: 1rem 0.75rem;
   }
-
-  .button-outline {
-    --background: transparent;
-    --background-activated-opacity: 0.4;
-  }
 }
 
 .component-divider {
@@ -434,6 +428,7 @@ ion-infinite-scroll-content {
     gap: 0.75rem;
     margin-bottom: 0.5rem;
     margin-left: 0.25rem;
+    height: 36px;
   }
 
   .description-textarea {
@@ -445,11 +440,6 @@ ion-infinite-scroll-content {
 
   .button-group {
     padding: 1rem 0.75rem;
-  }
-
-  .button-outline {
-    --background: transparent;
-    --background-activated-opacity: 0.4;
   }
 }
 

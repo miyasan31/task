@@ -59,12 +59,10 @@ export class TimelinePage implements OnInit {
     agoDateCount: number,
     option?: { isInit?: boolean },
   ): Promise<void> {
-    console.log(agoDateCount);
-    await sleep(delay);
-    const timelineList = await this.timelineService.getTimelineUserTaskList(
-      agoDateCount,
-      agoDateCount,
-    );
+    const [timelineList] = await Promise.all([
+      this.timelineService.getTimelineUserTaskList(agoDateCount, agoDateCount),
+      sleep(delay),
+    ]);
 
     if (option?.isInit) {
       this.timelineData = [

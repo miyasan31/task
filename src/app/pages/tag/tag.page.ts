@@ -3,7 +3,7 @@ import { ActionSheetController, AlertController, PickerController } from '@ionic
 import { first } from 'rxjs/operators';
 
 import { colorPicker } from '~/constants/colorPicker';
-import { ICreateTag, ITag } from '~/interfaces/tag/ITag';
+import { ITag } from '~/interfaces/tag/ITag';
 import { AuthService } from '~/services/auth/auth.service';
 import { TagService } from '~/services/tag/tag.service';
 import { ToastService } from '~/services/toast/toast.service';
@@ -38,16 +38,17 @@ export class TagPage implements OnInit {
 
   async onCreateTag(): Promise<void> {
     const alert = await this.alertController.create({
-      header: 'タグ作成',
+      header: 'タグ名入力',
+      message: '作成後にタグ名変更はできません。',
       inputs: [
         {
           name: 'tag',
-          placeholder: 'タグ名を入力してください',
+          placeholder: '',
           value: '',
         },
       ],
       buttons: [
-        { text: '閉じる' },
+        { text: 'キャンセル' },
         {
           text: '作成する',
           handler: async (data) => {
@@ -72,12 +73,10 @@ export class TagPage implements OnInit {
 
   async onPresentActionSheet(tag: ITag, index: number): Promise<void> {
     const actionSheet = await this.actionSheetController.create({
-      header: 'タグ編集',
       buttons: [
         {
           text: '削除する',
           role: 'destructive',
-          icon: 'trash',
           id: 'delete-button',
           data: {
             type: 'delete',
@@ -86,17 +85,8 @@ export class TagPage implements OnInit {
             this.onInactiveTag(tag);
           },
         },
-        // {
-        //   text: 'タグ名変更',
-        //   icon: 'pencil',
-        //   data: 10,
-        //   handler: () => {
-        //     console.log('Share clicked');
-        //   },
-        // },
         {
           text: 'カラー変更',
-          icon: 'color-palette',
           handler: async () => {
             await actionSheet.dismiss();
             await this.onPresentPicker(index);
@@ -104,14 +94,35 @@ export class TagPage implements OnInit {
         },
         {
           text: 'キャンセル',
-          icon: 'close',
           role: 'cancel',
-          handler: () => {},
         },
       ],
     });
 
     await actionSheet.present();
+  }
+
+  private async deleteTag(): Promise<void> {
+    const alert = await this.alertController.create({
+      message:
+        'このタグに紐づいていたタスクはプロフィールから表示されなくなります。それでも削除しますか？',
+      buttons: [
+        {
+          text: 'キャンセル',
+        },
+        {
+          role: '',
+          text: '削除する',
+          handler: async () => {
+            await this.authService.signOut();
+            await this.alertController.dismiss();
+            await this.toastService.presentToast('サインアウトしました', 'success');
+          },
+        },
+      ],
+    });
+
+    await alert.present();
   }
 
   private async onInactiveTag(currentTag: ITag): Promise<void> {
@@ -120,15 +131,32 @@ export class TagPage implements OnInit {
       isActive: false,
     };
 
-    try {
-      await this.tagService.update(updateTag);
-      this.toastService.presentToast('タグを削除しました', 'success');
-      this.tagList = this.tagList.filter((tag) => tag.id !== updateTag.id);
-      this.tagListLengthCheck();
-    } catch (error) {
-      console.error(error.message);
-      this.toastService.presentToast(error.message, 'error');
-    }
+    const alert = await this.alertController.create({
+      message: `タグに紐づくタスクはプロフィールから表示されなくなります。それでも削除しますか？
+      （同じ名前のタスクを再作成すると以前紐づいてたタスクは表示されるようになります。）`,
+      buttons: [
+        {
+          text: 'キャンセル',
+        },
+        {
+          role: 'destructive',
+          text: '削除する',
+          handler: async () => {
+            try {
+              await this.tagService.update(updateTag);
+              this.toastService.presentToast('タグを削除しました', 'success');
+              this.tagList = this.tagList.filter((tag) => tag.id !== updateTag.id);
+              this.tagListLengthCheck();
+            } catch (error) {
+              console.error(error.message);
+              this.toastService.presentToast(error.message, 'error');
+            }
+          },
+        },
+      ],
+    });
+
+    await alert.present();
   }
 
   async onPresentPicker(index: number): Promise<void> {
@@ -136,7 +164,7 @@ export class TagPage implements OnInit {
       buttons: [
         { text: 'キャンセル', role: 'cancel' },
         {
-          text: '確定',
+          text: '変更する',
           handler: (selected) => {
             const updateTag = {
               ...this.tagList[index],

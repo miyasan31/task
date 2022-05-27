@@ -44,20 +44,29 @@ export class OtherProfilePage implements OnInit {
     });
     subscribe.unsubscribe();
 
-    this.currentUser = await this.authService.getAuthUserInfo();
-    await this.fetchProfile();
+    const [currentUser] = await Promise.all([
+      this.authService.getAuthUserInfo(),
+      this.fetchProfile(),
+    ]);
+    this.currentUser = currentUser;
   }
 
-  private async fetchProfile(): Promise<void> {
-    await this.fetchUserProfile(400);
+  private fetchProfile(): void {
+    this.fetchUserProfile(400);
   }
 
   private async fetchUserProfile(delay: number): Promise<void> {
-    await sleep(delay);
-    this.profileUser = await this.userService.get(this.profileUserId);
-    this.likeCount = await this.profileService.getUserLikeCount(this.profileUserId);
-    this.isDoneTaskCount = await this.profileService.getUserIsDoneTaskCount(this.profileUserId);
-    this.tagChart = await this.profileService.getTagChartData(this.profileUserId);
+    const [profileUser] = await Promise.all([this.authService.getAuthUserInfo(), sleep(delay)]);
+    this.profileUser = profileUser;
+
+    const [isDoneTaskCount, likeCount, tagChart] = await Promise.all([
+      this.profileService.getUserIsDoneTaskCount(this.profileUserId),
+      this.profileService.getUserLikeCount(this.profileUserId),
+      this.profileService.getTagChartData(this.profileUserId),
+    ]);
+    this.isDoneTaskCount = isDoneTaskCount;
+    this.likeCount = likeCount;
+    this.tagChart = tagChart;
   }
 
   private fetchTaskList(): void {

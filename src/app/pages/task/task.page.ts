@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 
 import { TaskModalComponent } from '~/components/task-modal/task-modal.component';
@@ -21,6 +21,7 @@ export class TaskPage implements OnInit {
     private taskService: TaskService,
     private toastService: ToastService,
     private modalController: ModalController,
+    private alertController: AlertController,
   ) {}
 
   async ngOnInit() {
@@ -53,14 +54,28 @@ export class TaskPage implements OnInit {
     }
   }
 
-  onDeleteTask(taskId: ITask['id']): void {
-    try {
-      this.taskService.delete(taskId);
-      this.toastService.presentToast('タスクを削除しました', 'success');
-    } catch (error) {
-      console.error(error.message);
-      this.toastService.presentToast(error.message, 'error');
-    }
+  async onDeleteTask(taskId: ITask['id']): Promise<void> {
+    const alert = await this.alertController.create({
+      message: '本当に削除しますか？',
+      buttons: [
+        { text: 'キャンセル' },
+        {
+          role: 'destructive',
+          text: '削除する',
+          handler: async () => {
+            try {
+              this.taskService.delete(taskId);
+              this.toastService.presentToast('タスクを削除しました', 'success');
+            } catch (error) {
+              console.error(error.message);
+              this.toastService.presentToast(error.message, 'error');
+            }
+          },
+        },
+      ],
+    });
+
+    await alert.present();
   }
 
   async onPresentTaskModal(task?: ITask): Promise<void> {
