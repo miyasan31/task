@@ -28,7 +28,7 @@ export class TagModalComponent implements OnInit {
     this.tagList = await this.tagService.getTagList(user.uid).pipe(first()).toPromise(Promise);
   }
 
-  onModalDismiss(tag: ITag): void {
+  onModalDismiss(tag?: ITag): void {
     this.modalController.dismiss(tag);
   }
 

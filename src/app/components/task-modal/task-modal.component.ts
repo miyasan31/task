@@ -113,7 +113,7 @@ export class TaskModalComponent implements OnInit {
       breakpoints: [0, 0.35],
     });
 
-    modal.onDidDismiss().then((res: { data: ITag }) => {
+    modal.onDidDismiss().then((res: { data?: ITag }) => {
       if (!res.data) {
         return;
       }
