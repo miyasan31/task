@@ -13,8 +13,10 @@ import {
   template: ` <div #box class="box">
       <ng-content></ng-content>
     </div>
-    <a class="toggle-button" href="javascript:void(0)" *ngIf="enabled" (click)="toggle()">
-      {{ opened ? '少なく表示' : 'もっと見る' }}
+    <a class="toggle-button" href="javascript:void(0)" *ngIf="enabled" (click)="toggle()"
+      ><ion-text color="primary">
+        {{ opened ? '少なく表示' : 'もっと見る' }}
+      </ion-text>
     </a>`,
   styleUrls: ['./line-clamp.component.scss'],
 })

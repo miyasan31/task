@@ -19,7 +19,9 @@
         style="display: none"
         (change)="onFileSelected($event)"
       />
-      <ion-button fill="outline" (click)="fileInputRef.click()">変更する</ion-button>
+      <ion-button fill="outline" color="primary" (click)="fileInputRef.click()"
+        >変更する</ion-button
+      >
     </div>
 
     <ion-item>
@@ -32,6 +34,6 @@
       ></ion-input>
     </ion-item>
 
-    <ion-button expand="block" (click)="onUserRegister()">登録する</ion-button>
+    <ion-button expand="block" color="primary" (click)="onUserRegister()">登録する</ion-button>
   </form>
 </ion-content>

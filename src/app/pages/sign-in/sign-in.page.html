@@ -13,7 +13,9 @@
         <ion-input type="password" name="password" [(ngModel)]="password"></ion-input>
       </ion-item>
 
-      <ion-button expand="block" (click)="onEmailSignIn()">メールアドレスでサインイン</ion-button>
+      <ion-button expand="block" color="primary" (click)="onEmailSignIn()"
+        >メールアドレスでサインイン</ion-button
+      >
 
       <div class="component-divider">
         <div class="border"></div>
@@ -21,10 +23,12 @@
         <div class="border"></div>
       </div>
 
-      <ion-button expand="block" (click)="onGoogleSignIn()"
+      <ion-button expand="block" color="primary" (click)="onGoogleSignIn()"
         >Googleアカウントでサインイン</ion-button
       >
-      <ion-button expand="block" disabled="true">Appleアカウントでサインイン</ion-button>
+      <ion-button expand="block" color="primary" disabled="true"
+        >Appleアカウントでサインイン</ion-button
+      >
 
       <a routerLink="/signup" class="link-button"> サインアップはこちら </a>
     </form>

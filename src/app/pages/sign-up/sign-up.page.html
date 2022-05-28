@@ -1,5 +1,10 @@
 <ion-content>
-  <ion-back-button defaultHref="/timeline" class="back-button" text="戻る"></ion-back-button>
+  <ion-back-button
+    defaultHref="/timeline"
+    class="back-button"
+    color="primary"
+    text="戻る"
+  ></ion-back-button>
 
   <div class="flex align-center h-screen">
     <form class="custom-form" autocomplete="off">
@@ -20,7 +25,9 @@
         <ion-input type="password" name="confirmPassword" [(ngModel)]="confirmPassword"></ion-input>
       </ion-item>
 
-      <ion-button expand="block" (click)="onEmailSignUp()">メールアドレスでサインアップ</ion-button>
+      <ion-button expand="block" color="primary" (click)="onEmailSignUp()"
+        >メールアドレスでサインアップ</ion-button
+      >
 
       <div class="component-divider">
         <div class="border"></div>
@@ -28,10 +35,12 @@
         <div class="border"></div>
       </div>
 
-      <ion-button expand="block" (click)="onGoogleSignIn()"
+      <ion-button expand="block" color="primary" (click)="onGoogleSignIn()"
         >Googleアカウントでサインアップ</ion-button
       >
-      <ion-button expand="block" disabled="true">Appleアカウントでサインアップ</ion-button>
+      <ion-button expand="block" color="primary" disabled="true"
+        >Appleアカウントでサインアップ</ion-button
+      >
     </form>
   </div>
 </ion-content>

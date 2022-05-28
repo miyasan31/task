@@ -1,13 +1,11 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button (click)="onModalDismiss()">閉じる</ion-button>
+      <ion-button color="primary" (click)="onModalDismiss()">閉じる</ion-button>
     </ion-buttons>
-
     <ion-title>タスク{{ isEdit ? '編集' : '作成' }}</ion-title>
-
     <ion-buttons slot="end" *ngIf="isEdit">
-      <ion-button color="danger" (click)="onDeleteTask(taskId)">削除</ion-button>
+      <ion-button color="primary" color="danger" (click)="onDeleteTask(taskId)">削除</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -33,15 +31,17 @@
     </ion-item>
 
     <ion-item class="ion-align-items-center is-done-radio" detail="false">
-      <ion-checkbox slot="start" name="isDone" [(ngModel)]="isDone"></ion-checkbox>
+      <ion-checkbox slot="start" name="isDone" color="primary" [(ngModel)]="isDone"></ion-checkbox>
       <ion-text slot="end">完了</ion-text>
     </ion-item>
 
     <div class="button-group">
-      <ion-button expand="block" (click)="onUpsertTask()"
+      <ion-button expand="block" color="primary" (click)="onUpsertTask()"
         >{{ isEdit ? '保存' : '作成' }}する</ion-button
       >
-      <ion-button fill="outline" expand="block" (click)="onModalDismiss()"> キャンセル </ion-button>
+      <ion-button fill="outline" expand="block" color="primary" (click)="onModalDismiss()">
+        キャンセル
+      </ion-button>
     </div>
   </form>
 </ion-content>

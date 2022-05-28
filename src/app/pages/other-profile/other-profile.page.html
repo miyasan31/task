@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="timeline" text="戻る"></ion-back-button>
+      <ion-back-button defaultHref="timeline" color="primary" text="戻る"></ion-back-button>
     </ion-buttons>
 
     <ion-title>{{ profileUser?.userName }}</ion-title>
@@ -9,8 +9,9 @@
 
   <ion-toolbar>
     <ion-segment
-      [(ngModel)]="scene"
+      color="primary"
       class="component-segments"
+      [(ngModel)]="scene"
       (ionChange)="onSegmentChanged($event)"
     >
       <ion-segment-button value="profile">

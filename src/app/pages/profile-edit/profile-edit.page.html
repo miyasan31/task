@@ -1,7 +1,11 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="my-profile/setting" text="戻る"></ion-back-button>
+      <ion-back-button
+        defaultHref="my-profile/setting"
+        color="primary"
+        text="戻る"
+      ></ion-back-button>
     </ion-buttons>
     <ion-title>プロフィール編集</ion-title>
   </ion-toolbar>
@@ -22,7 +26,9 @@
         style="display: none"
         (change)="onFileSelected($event)"
       />
-      <ion-button fill="outline" (click)="fileInputRef.click()">変更する</ion-button>
+      <ion-button fill="outline" color="primary" (click)="fileInputRef.click()"
+        >変更する</ion-button
+      >
     </div>
 
     <ion-item>
@@ -46,6 +52,6 @@
       ></ion-textarea>
     </ion-item>
 
-    <ion-button expand="block" (click)="onUserUpdate()">保存する</ion-button>
+    <ion-button expand="block" color="primary" (click)="onUserUpdate()">保存する</ion-button>
   </form>
 </ion-content>
