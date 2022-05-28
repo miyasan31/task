@@ -12,7 +12,7 @@
 </ion-header>
 
 <ion-content>
-  <form #f="ngForm" class="custom-form" autocomplete="off">
+  <form #f="ngForm" class="custom-form">
     <div class="flex align-center gap-6">
       <img
         class="avatar"
@@ -44,10 +44,10 @@
     <ion-item>
       <ion-label position="stacked">プロフィール文</ion-label>
       <ion-textarea
+        rows="10"
         type="text"
         name="profile"
         [(ngModel)]="userInfo.profile"
-        rows="6"
         placeholder="プロフィール文を入力してください"
       ></ion-textarea>
     </ion-item>

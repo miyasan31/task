@@ -75,23 +75,40 @@ ion-infinite-scroll-content {
   margin-top: 20px;
 }
 
-.component-tag-chart {
-  display: flex;
-  gap: 1px;
-  margin: 2rem 0;
-
-  ion-item {
-    height: 12px;
-  }
+// Atom
+.link-button {
+  border-radius: 3px;
+  padding: 0.5rem;
+  text-align: center;
+}
+.link-button:hover {
+  background-color: hsla(206, 100%, 88%, 0.47);
 }
 
-.component-tag-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 2rem;
+// Atom
+.back-button {
+  position: fixed;
+  top: 1rem;
+  left: 0.5rem;
 }
 
+// Atom
+.error-message {
+  color: var(--ion-color-danger);
+  font-size: 1rem;
+  padding: 2rem 0;
+  text-align: center;
+}
+
+// Atom
+.empty-message {
+  padding: 2rem 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+// Atom
 .ion-chip-large {
   width: fit-content;
   height: fit-content;
@@ -105,50 +122,54 @@ ion-infinite-scroll-content {
   }
 }
 
-.tag-page {
-  .tag-chip-group {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.75rem;
-    margin: 2rem 1rem;
+// Atom
+.picker-opts {
+  .picker-opt:nth-child(1) {
+    color: #e93d82 !important;
   }
-
-  .tag-add-button {
-    width: 42px;
-    height: 42px;
-    padding: 0px;
-    margin: 0px;
-    border-radius: 999px;
-    --background: transparent;
-    --box-shadow: none;
-    --background-activated-opacity: 0.4;
+  .picker-opt:nth-child(2) {
+    color: #e54d2e !important;
   }
-
-  .add-icon {
-    width: 20px;
-    height: 20px;
-    border-radius: 999px;
-    font-size: 1rem;
+  .picker-opt:nth-child(3) {
+    color: #f76808 !important;
+  }
+  .picker-opt:nth-child(4) {
+    color: #ffb224 !important;
+  }
+  .picker-opt:nth-child(5) {
+    color: #30a46c !important;
+  }
+  .picker-opt:nth-child(6) {
+    color: #70e1c8 !important;
+  }
+  .picker-opt:nth-child(7) {
+    color: #68ddfd !important;
+  }
+  .picker-opt:nth-child(8) {
+    color: #0091ff !important;
+  }
+  .picker-opt:nth-child(9) {
+    color: #6e56cf !important;
+  }
+  .picker-opt:nth-child(10) {
+    color: #889096 !important;
   }
 }
 
-.link-button {
-  border-radius: 3px;
-  padding: 0.5rem;
-  text-align: center;
+// Atom
+.md .tabs-bottom {
+  transform: translateY(-56px) !important;
+}
+.ios .tabs-bottom {
+  transform: translateY(-50px) !important;
 }
 
-.link-button:hover {
-  background-color: hsla(206, 100%, 88%, 0.47);
+// Atom
+.profile-scene {
+  padding: 2rem 1rem;
 }
 
-.back-button {
-  position: fixed;
-  top: 1rem;
-  left: 0.5rem;
-}
-
+// Page
 .timeline-page {
   .timeline-section-header-skeleton {
     height: 32px;
@@ -187,6 +208,72 @@ ion-infinite-scroll-content {
   }
 }
 
+// Page
+.tag-page {
+  .tag-chip-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 2rem 1rem;
+  }
+
+  .tag-add-button {
+    width: 42px;
+    height: 42px;
+    padding: 0px;
+    margin: 0px;
+    border-radius: 999px;
+    --background: transparent;
+    --box-shadow: none;
+    --background-activated-opacity: 0.4;
+  }
+
+  .add-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 999px;
+    font-size: 1rem;
+  }
+}
+
+// Component
+.custom-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  width: 100%;
+
+  ion-item {
+    --padding-start: 0;
+    --padding-end: 0;
+  }
+
+  ion-label {
+    color: var(--ion-color-medium-shade) !important;
+  }
+
+  .form-header {
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--ion-color-dark);
+  }
+
+  .avatar {
+    width: 7.5rem;
+    height: 7.5rem;
+    border-radius: 3px;
+  }
+
+  .button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+}
+
+// Component (/task)
 .component-task-skeleton {
   display: flex;
   align-items: center;
@@ -206,6 +293,7 @@ ion-infinite-scroll-content {
   }
 }
 
+// Component (/my-profile, /profile)
 .component-segments {
   ion-segment-button {
     ion-label {
@@ -213,64 +301,27 @@ ion-infinite-scroll-content {
     }
   }
 }
-.error-message {
-  color: var(--ion-color-danger);
-  font-size: 1rem;
-  padding: 2rem 0;
-  text-align: center;
-}
 
-.empty-message {
-  padding: 2rem 0;
-  font-size: 1.1rem;
-  font-weight: 500;
-  text-align: center;
-}
+// Component (/my-profile, /profile)
+.component-tag-chart {
+  display: flex;
+  gap: 1px;
+  margin: 2rem 0;
 
-.picker-opts {
-  .picker-opt:nth-child(1) {
-    color: #e93d82 !important;
-  }
-  .picker-opt:nth-child(2) {
-    color: #e54d2e !important;
-  }
-  .picker-opt:nth-child(3) {
-    color: #f76808 !important;
-  }
-  .picker-opt:nth-child(4) {
-    color: #ffb224 !important;
-  }
-  .picker-opt:nth-child(5) {
-    color: #30a46c !important;
-  }
-  .picker-opt:nth-child(6) {
-    color: #70e1c8 !important;
-  }
-  .picker-opt:nth-child(7) {
-    color: #68ddfd !important;
-  }
-  .picker-opt:nth-child(8) {
-    color: #0091ff !important;
-  }
-  .picker-opt:nth-child(9) {
-    color: #6e56cf !important;
-  }
-  .picker-opt:nth-child(10) {
-    color: #889096 !important;
+  ion-item {
+    height: 12px;
   }
 }
 
-.md .tabs-bottom {
-  transform: translateY(-56px) !important;
-}
-.ios .tabs-bottom {
-  transform: translateY(-50px) !important;
-}
-
-.profile-scene {
-  padding: 2rem 1rem;
+// Component (/my-profile, /profile)
+.component-tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
 }
 
+// Component (/my-profile, /profile)
 .component-profile {
   .user-info {
     display: flex;
@@ -347,39 +398,7 @@ ion-infinite-scroll-content {
   }
 }
 
-.custom-form {
-  padding: 1rem;
-  display: flex;
-  gap: 0.5rem;
-  width: 100%;
-  flex-direction: column;
-
-  ion-item {
-    --padding-start: 0;
-    --padding-end: 0;
-  }
-
-  ion-label {
-    color: var(--ion-color-medium-shade) !important;
-  }
-
-  h1 {
-    font-weight: 700;
-    font-size: 1.5rem;
-    color: var(--ion-color-dark);
-  }
-
-  .avatar {
-    width: 7.5rem;
-    height: 7.5rem;
-    border-radius: 3px;
-  }
-
-  .button-group {
-    padding: 1rem 0.75rem;
-  }
-}
-
+// Component  (/sign-in, /sign-up)
 .component-divider {
   display: flex;
   align-items: center;
@@ -399,35 +418,8 @@ ion-infinite-scroll-content {
   }
 }
 
+// Component (/task)
 .component-task-modal {
-  ion-item {
-    --padding-start: 0;
-    --padding-end: 0;
-    padding: 0 1rem;
-  }
-
-  ion-label {
-    color: var(--ion-color-medium) !important;
-  }
-
-  .label-form {
-    display: flex;
-    align-items: flex-end;
-    gap: 0.25rem;
-    padding: 0 1rem 0 0;
-
-    .tag-modal-button {
-      width: 3rem;
-      height: 3rem;
-      --box-shadow: none;
-      --border-radius: 3px;
-
-      ion-icon {
-        font-size: 1.5rem;
-      }
-    }
-  }
-
   .tag-select {
     display: flex;
     align-items: center;
@@ -437,18 +429,12 @@ ion-infinite-scroll-content {
     height: 36px;
   }
 
-  .description-textarea {
-  }
-
   .is-done-radio {
     --border-style: none;
   }
-
-  .button-group {
-    padding: 1rem 0.75rem;
-  }
 }
 
+// Component (/task)
 .component-task-list {
   --border-style: none;
 
@@ -458,6 +444,7 @@ ion-infinite-scroll-content {
   }
 }
 
+// Component（/timeline, /timeline-detail, /my-profile ,/profile, /tag-detail）
 .component-card {
   margin: 0;
   padding: 1.5rem 1rem;
@@ -585,6 +572,7 @@ ion-infinite-scroll-content {
   }
 }
 
+// Tags Theme
 .ion-color-pink {
   --ion-color-base: var(--ion-color-pink);
   --ion-color-base-rgb: var(--ion-color-pink-rgb);
@@ -593,7 +581,6 @@ ion-infinite-scroll-content {
   --ion-color-shade: var(--ion-color-pink-shade);
   --ion-color-tint: var(--ion-color-pink-tint);
 }
-
 .ion-color-tomato {
   --ion-color-base: var(--ion-color-tomato);
   --ion-color-base-rgb: var(--ion-color-tomato-rgb);
@@ -602,7 +589,6 @@ ion-infinite-scroll-content {
   --ion-color-shade: var(--ion-color-tomato-shade);
   --ion-color-tint: var(--ion-color-tomato-tint);
 }
-
 .ion-color-orange {
   --ion-color-base: var(--ion-color-orange);
   --ion-color-base-rgb: var(--ion-color-orange-rgb);
@@ -611,7 +597,6 @@ ion-infinite-scroll-content {
   --ion-color-shade: var(--ion-color-orange-shade);
   --ion-color-tint: var(--ion-color-orange-tint);
 }
-
 .ion-color-yellow {
   --ion-color-base: var(--ion-color-yellow);
   --ion-color-base-rgb: var(--ion-color-yellow-rgb);
@@ -620,7 +605,6 @@ ion-infinite-scroll-content {
   --ion-color-shade: var(--ion-color-yellow-shade);
   --ion-color-tint: var(--ion-color-yellow-tint);
 }
-
 .ion-color-green {
   --ion-color-base: var(--ion-color-green);
   --ion-color-base-rgb: var(--ion-color-green-rgb);
@@ -629,7 +613,6 @@ ion-infinite-scroll-content {
   --ion-color-shade: var(--ion-color-green-shade);
   --ion-color-tint: var(--ion-color-green-tint);
 }
-
 .ion-color-mint {
   --ion-color-base: var(--ion-color-mint);
   --ion-color-base-rgb: var(--ion-color-mint-rgb);
@@ -638,7 +621,6 @@ ion-infinite-scroll-content {
   --ion-color-shade: var(--ion-color-mint-shade);
   --ion-color-tint: var(--ion-color-mint-tint);
 }
-
 .ion-color-sky {
   --ion-color-base: var(--ion-color-sky);
   --ion-color-base-rgb: var(--ion-color-sky-rgb);
@@ -647,7 +629,6 @@ ion-infinite-scroll-content {
   --ion-color-shade: var(--ion-color-sky-shade);
   --ion-color-tint: var(--ion-color-sky-tint);
 }
-
 .ion-color-blue {
   --ion-color-base: var(--ion-color-blue);
   --ion-color-base-rgb: var(--ion-color-blue-rgb);
@@ -656,7 +637,6 @@ ion-infinite-scroll-content {
   --ion-color-shade: var(--ion-color-blue-shade);
   --ion-color-tint: var(--ion-color-blue-tint);
 }
-
 .ion-color-violet {
   --ion-color-base: var(--ion-color-violet);
   --ion-color-base-rgb: var(--ion-color-violet-rgb);
@@ -665,7 +645,6 @@ ion-infinite-scroll-content {
   --ion-color-shade: var(--ion-color-violet-shade);
   --ion-color-tint: var(--ion-color-violet-tint);
 }
-
 .ion-color-gray {
   --ion-color-base: var(--ion-color-gray);
   --ion-color-base-rgb: var(--ion-color-gray-rgb);
@@ -674,7 +653,6 @@ ion-infinite-scroll-content {
   --ion-color-shade: var(--ion-color-gray-shade);
   --ion-color-tint: var(--ion-color-gray-tint);
 }
-
 .ion-color-slate {
   --ion-color-base: var(--ion-color-slate);
   --ion-color-base-rgb: var(--ion-color-slate-rgb);
@@ -684,7 +662,7 @@ ion-infinite-scroll-content {
   --ion-color-tint: var(--ion-color-slate-tint);
 }
 
-// tailwind css
+// Tailwind CSS
 .flex {
   display: flex;
 }

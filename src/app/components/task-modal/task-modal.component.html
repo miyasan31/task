@@ -11,15 +11,10 @@
 </ion-header>
 
 <ion-content fullscreen class="component-task-modal">
-  <form #f="ngForm">
+  <form #f="ngForm" class="custom-form">
     <ion-item>
       <ion-label position="stacked">タスク名</ion-label>
       <ion-input type="text" name="taskName" [(ngModel)]="taskName"></ion-input>
-    </ion-item>
-
-    <ion-item class="description-textarea">
-      <ion-label position="stacked">アウトプットメモ</ion-label>
-      <ion-textarea rows="14" name="description" [(ngModel)]="description"></ion-textarea>
     </ion-item>
 
     <ion-item button="true" (click)="onPresentTagModal($event)" detail="false">
@@ -28,6 +23,11 @@
         <ion-icon *ngIf="selectTag" name="ellipse" color="{{ selectTag?.color }}"></ion-icon>
         <ion-text *ngIf="selectTag">{{ selectTag?.tagName || '' }}</ion-text>
       </div>
+    </ion-item>
+
+    <ion-item class="description-textarea">
+      <ion-label position="stacked">アウトプットメモ</ion-label>
+      <ion-textarea rows="10" name="description" [(ngModel)]="description"></ion-textarea>
     </ion-item>
 
     <ion-item class="ion-align-items-center is-done-radio" detail="false">
