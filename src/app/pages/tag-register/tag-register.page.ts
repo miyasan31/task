@@ -76,7 +76,7 @@ export class TagRegisterPage implements OnInit {
     }
   }
 
-  trackByFn(_, item: ITag): string {
-    return item.id;
+  trackByFn(_, item: string): string {
+    return item;
   }
 }

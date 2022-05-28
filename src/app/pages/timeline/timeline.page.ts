@@ -93,7 +93,7 @@ export class TimelinePage implements OnInit {
   //   this.timelineData = this.timelineService.getTimelineUserTaskList(this.agoDateCount);
   // }
 
-  private dayAgo(agoDate: number): Date {
+  dayAgo(agoDate: number): Date {
     return new Date(new Date().setDate(new Date().getDate() - agoDate || 0));
   }
 
