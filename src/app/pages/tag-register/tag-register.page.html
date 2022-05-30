@@ -9,7 +9,7 @@
 
 <ion-content class="tag-page">
   <p *ngIf="selectTag.length > 9" class="error-message">登録できるタグは10個までです</p>
-
+  <p *ngIf="10 > selectTag.length" class="message">興味のあるタグを選択してください</p>
   <div class="tag-chip-group">
     <ion-chip
       *ngFor="let tag of tagSample; let i = index; trackBy: trackByFn"
