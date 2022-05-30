@@ -128,7 +128,7 @@ export class AuthService {
     }
 
     // 存在したらメイン画面に遷移
-    this.routerService.navigatePath('/task');
+    this.routerService.navigatePath('/timeline');
   }
 
   private alertError(e): string {
