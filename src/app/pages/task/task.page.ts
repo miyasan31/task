@@ -44,7 +44,7 @@ export class TaskPage implements OnInit {
 
     try {
       await this.taskService.update(updatedTask);
-      this.toastService.presentToast(
+      await this.toastService.presentToast(
         `タスクを${!task.isDone ? '完了' : '未完了'}にしました`,
         'success',
       );
@@ -64,8 +64,8 @@ export class TaskPage implements OnInit {
           text: '削除する',
           handler: async () => {
             try {
-              this.taskService.delete(taskId);
-              this.toastService.presentToast('タスクを削除しました', 'success');
+              await this.taskService.delete(taskId);
+              await this.toastService.presentToast('タスクを削除しました', 'success');
             } catch (error) {
               console.error(error.message);
               this.toastService.presentToast(error.message, 'error');

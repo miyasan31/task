@@ -68,8 +68,8 @@ export class TagRegisterPage implements OnInit {
     try {
       const user = await this.authService.getAuthUser();
       await this.tagService.createTagList(user.uid, this.selectTag);
-      this.toastService.presentToast('タグ登録が完了しました', 'success');
-      this.routerService.navigatePath('/task');
+      await this.toastService.presentToast('タグ登録が完了しました', 'success');
+      await this.routerService.navigatePath('/task', { isRoot: true });
     } catch (error) {
       console.error(error.message);
       this.toastService.presentToast(error.message, 'error');

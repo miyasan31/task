@@ -61,7 +61,7 @@ export class TagPage implements OnInit {
               userId: this.userId,
             };
             const tagId = await this.tagService.create(createTag);
-            this.toastService.presentToast('タグを作成しました', 'success');
+            await this.toastService.presentToast('タグを作成しました', 'success');
             this.tagList = [...this.tagList, { ...createTag, id: tagId }];
           },
         },
@@ -144,7 +144,7 @@ export class TagPage implements OnInit {
           handler: async () => {
             try {
               await this.tagService.update(updateTag);
-              this.toastService.presentToast('タグを削除しました', 'success');
+              await this.toastService.presentToast('タグを削除しました', 'success');
               this.tagList = this.tagList.filter((tag) => tag.id !== updateTag.id);
               this.tagListLengthCheck();
             } catch (error) {
@@ -183,7 +183,7 @@ export class TagPage implements OnInit {
   private async updateTagColor(index: number, updateTag: ITag): Promise<void> {
     try {
       await this.tagService.update(updateTag);
-      this.toastService.presentToast('タグカラーを変更しました', 'success');
+      await this.toastService.presentToast('タグカラーを変更しました', 'success');
       this.tagList[index] = updateTag;
     } catch (error) {
       console.error(error.message);

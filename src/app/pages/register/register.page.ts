@@ -67,7 +67,7 @@ export class RegisterPage implements OnInit {
 
     try {
       await this.userService.create(createUser, this.file);
-      this.toastService.presentToast('ユーザー登録が完了しました', 'success');
+      await this.toastService.presentToast('ユーザー登録が完了しました', 'success');
       this.routerService.navigatePath('/tag-register');
     } catch (error) {
       console.error(error.message);

@@ -59,7 +59,7 @@ export class ProfileEditPage implements OnInit {
   async onUserUpdate(): Promise<void> {
     try {
       await this.userService.update(this.userInfo, this.file);
-      this.toastService.presentToast('プロフィールを更新しました', 'success');
+      await this.toastService.presentToast('プロフィールを更新しました', 'success');
       this.routerService.navigateBack('my-profile/setting');
     } catch (error) {
       console.error(error.message);
