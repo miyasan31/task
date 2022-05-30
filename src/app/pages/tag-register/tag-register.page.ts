@@ -50,7 +50,7 @@ export class TagRegisterPage implements OnInit {
         },
       ],
       buttons: [
-        { text: 'キャンセル' },
+        { text: 'キャンセル', role: 'cancel' },
         {
           text: '作成する',
           handler: async (data) => {

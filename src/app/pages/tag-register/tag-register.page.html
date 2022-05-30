@@ -13,7 +13,7 @@
   <div class="tag-chip-group">
     <ion-chip
       *ngFor="let tag of tagSample; let i = index; trackBy: trackByFn"
-      outline
+      outline="{{ selectTag.includes(tag) ? 'primary' : 'gray' }}"
       color="{{ selectTag.includes(tag) ? 'primary' : 'gray' }}"
       slot="end"
       (click)="onSelectTagName(i)"

@@ -24,10 +24,11 @@ export class SettingPage implements OnInit {
       buttons: [
         {
           text: 'キャンセル',
+          role: 'cancel',
         },
         {
-          role: 'destructive',
           text: 'サインアウト',
+          role: 'destructive',
           handler: async () => {
             await this.authService.signOut();
             await this.alertController.dismiss();

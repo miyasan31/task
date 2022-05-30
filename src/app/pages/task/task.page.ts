@@ -58,7 +58,7 @@ export class TaskPage implements OnInit {
     const alert = await this.alertController.create({
       message: '本当に削除しますか？',
       buttons: [
-        { text: 'キャンセル' },
+        { text: 'キャンセル', role: 'cancel' },
         {
           role: 'destructive',
           text: '削除する',

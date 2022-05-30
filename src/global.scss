@@ -75,6 +75,10 @@ ion-infinite-scroll-content {
   margin-top: 20px;
 }
 
+ion-toast.my-toast {
+  font-weight: 700;
+}
+
 // Atom
 .link-button {
   border-radius: 3px;
@@ -154,14 +158,6 @@ ion-infinite-scroll-content {
   .picker-opt:nth-child(10) {
     color: #889096 !important;
   }
-}
-
-// Atom
-.md .tabs-bottom {
-  transform: translateY(-56px) !important;
-}
-.ios .tabs-bottom {
-  transform: translateY(-50px) !important;
 }
 
 // Atom
