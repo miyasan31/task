@@ -67,9 +67,7 @@
         tagPath="profile/{{ user.id }}/{{ task.tag.id }}"
       ></app-task-detail-card>
 
-      <div *ngIf="!isLoadingTask">
-        <p *ngIf="!(taskList | async)?.length" class="empty-message">完了したタスクがありません</p>
-      </div>
+      <p *ngIf="!(taskList | async)?.length" class="empty-message">完了したタスクがありません</p>
     </ng-container>
   </div>
 
@@ -87,11 +85,7 @@
         tagPath="profile/{{ like.user.id }}/{{ like.tag.id }}"
       ></app-task-detail-card>
 
-      <div *ngIf="!isLoadingLike">
-        <p *ngIf="!(likeList | async)?.length" class="empty-message">
-          いいねしたタスクがありません
-        </p>
-      </div>
+      <p *ngIf="!(likeList | async)?.length" class="empty-message">いいねしたタスクがありません</p>
     </ng-container>
   </div>
 </ion-content>

@@ -21,9 +21,7 @@ type Scene = 'profile' | 'task' | 'like';
 })
 export class OtherProfilePage implements OnInit {
   profileUserId: string;
-  isLoadingTask = true;
   taskList: Observable<ITaskCard[]>;
-  isLoadingLike = true;
   likeList: Observable<ILikedTaskCard[]>;
   isDoneTaskCount = 0;
   likeCount = 0;
@@ -80,10 +78,6 @@ export class OtherProfilePage implements OnInit {
         this.currentUser.id,
       );
     }, 300);
-
-    setTimeout(() => {
-      this.isLoadingTask = false;
-    }, 1000);
   }
 
   private async fetchLikeList(): Promise<void> {
@@ -96,10 +90,6 @@ export class OtherProfilePage implements OnInit {
         this.currentUser.id,
       );
     }, 300);
-
-    setTimeout(() => {
-      this.isLoadingLike = false;
-    }, 1000);
   }
 
   async onProfileRefresh($event): Promise<void> {
