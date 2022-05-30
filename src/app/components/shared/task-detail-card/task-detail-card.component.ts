@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { ILike } from '~/interfaces/like/ILike';
 import { ITask } from '~/interfaces/task/ITask';
@@ -18,6 +18,7 @@ export class TaskDetailCardComponent implements OnInit {
   @Input() task: ITaskCard;
   @Input() profilePath: string;
   @Input() tagPath: string;
+  @Output() presentEditTaskModal? = new EventEmitter<ITask>();
 
   constructor(
     private authService: AuthService,
@@ -27,7 +28,10 @@ export class TaskDetailCardComponent implements OnInit {
 
   ngOnInit() {}
 
-  async onLikeClick(taskId: ITask['id'], like: ILike): Promise<void> {
+  async onLikeClick($event, taskId: ITask['id'], like: ILike): Promise<void> {
+    $event.stopPropagation();
+    $event.preventDefault();
+
     if (like) {
       this.likeService.delete(like.id);
       return;
@@ -41,6 +45,10 @@ export class TaskDetailCardComponent implements OnInit {
     };
 
     this.likeService.create(createLike);
+  }
+
+  onEditClick(task: ITask): void {
+    this.presentEditTaskModal.emit(task);
   }
 
   navigatePush($event, path?: string): void {

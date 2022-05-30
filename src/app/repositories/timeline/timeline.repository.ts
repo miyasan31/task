@@ -55,7 +55,7 @@ export class TimelineRepository implements ITimelineRepository {
 
       // TODO:昨日アクティブだったユーザーを取得する
       const userQuery = query(this.userColRef);
-      const userList = await collectionData(userQuery).pipe(take(1)).toPromise(Promise);
+      const userList = await collectionData(userQuery).pipe(first()).toPromise(Promise);
 
       const taskListPromise = userList.map((user) => {
         const taskQuery = query(

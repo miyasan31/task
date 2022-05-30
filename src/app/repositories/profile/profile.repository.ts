@@ -3,12 +3,14 @@ import {
   collection,
   collectionData,
   CollectionReference,
+  deleteDoc,
   doc,
   docData,
   DocumentReference,
   Firestore,
   orderBy,
   query,
+  setDoc,
   where,
 } from '@angular/fire/firestore';
 import { combineLatest, Observable, of } from 'rxjs';
@@ -25,7 +27,7 @@ import { IUser } from '~/interfaces/user/IUser';
 import { IUserRepository } from '~/interfaces/user/IUserRepository';
 import { likeConverter } from '~/libs/converter/like.converter';
 import { tagConverter } from '~/libs/converter/tag.converter';
-import { taskConverter } from '~/libs/converter/task.converter';
+import { notTimeUpdatedTaskConverter, taskConverter } from '~/libs/converter/task.converter';
 import { userConverter } from '~/libs/converter/user.converter';
 
 @Injectable({
@@ -315,5 +317,40 @@ export class ProfileRepository implements IProfileRepository {
       }, [])
       .filter((data) => data.percentage)
       .sort((a, b) => (a.percentage > b.percentage ? -1 : 1));
+  }
+
+  afterTaskUpdate(task: ITask): Promise<void> {
+    try {
+      const taskDocRef = doc(this.firestore, `tasks/${task.id}`).withConverter(
+        notTimeUpdatedTaskConverter,
+      );
+      return setDoc(taskDocRef, task, { merge: true });
+    } catch (error) {
+      console.error(error.message);
+      throw new Error('サーバーエラーが発生しました');
+    }
+  }
+
+  async afterTaskDelete(taskId: ITask['id']): Promise<void> {
+    try {
+      const likeQuery = query(this.likeColRef, where('taskId', '==', taskId));
+      const deleteLikeList = await collectionData(likeQuery).pipe(first()).toPromise(Promise);
+
+      const deleteLikePromise = deleteLikeList.map((like) => {
+        const likeDocRef = doc(this.firestore, `likes/${like.id}`);
+        return deleteDoc(likeDocRef);
+      });
+
+      const taskDocRef = doc(this.firestore, `tasks/${taskId}`).withConverter(
+        notTimeUpdatedTaskConverter,
+      );
+      const deletePromise = deleteDoc(taskDocRef);
+
+      await Promise.all([deletePromise, ...deleteLikePromise]);
+      return;
+    } catch (error) {
+      console.error(error.message);
+      throw new Error('サーバーエラーが発生しました');
+    }
   }
 }

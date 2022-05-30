@@ -80,7 +80,7 @@ export const updateTaskConverter: FirestoreDataConverter<ITask> = {
   },
 };
 
-export const likeCountTaskConverter: FirestoreDataConverter<ITask> = {
+export const notTimeUpdatedTaskConverter: FirestoreDataConverter<ITask> = {
   // FireStore取得時の変換
   fromFirestore: (snapshot: QueryDocumentSnapshot, options: SnapshotOptions): ITask => {
     const data = snapshot.data(options);
