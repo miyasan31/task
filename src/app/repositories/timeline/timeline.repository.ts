@@ -3,6 +3,8 @@ import {
   collection,
   collectionData,
   CollectionReference,
+  doc,
+  docData,
   DocumentReference,
   endAt,
   Firestore,
@@ -53,27 +55,34 @@ export class TimelineRepository implements ITimelineRepository {
     try {
       const date = limitedTime(startDate, endDate);
 
-      // TODO:昨日アクティブだったユーザーを取得する
-      const userQuery = query(this.userColRef);
-      const userList = await collectionData(userQuery).pipe(take(1)).toPromise(Promise);
+      const taskQuery = query(
+        this.taskColRef,
+        where('isDone', '==', true),
+        orderBy('updatedAt', 'desc'),
+        startAt(date.startTimestamp),
+        endAt(date.endTimestamp),
+      );
 
-      const taskListPromise = userList.map((user) => {
-        const taskQuery = query(
-          this.taskColRef,
-          where('userId', '==', user.id),
-          where('isDone', '==', true),
-          orderBy('updatedAt', 'desc'),
-          startAt(date.startTimestamp),
-          endAt(date.endTimestamp),
-        );
-        return collectionData(taskQuery).pipe(first()).toPromise(Promise);
+      const taskList = await collectionData(taskQuery).pipe(first()).toPromise(Promise);
+
+      const taskUserIdList = taskList.reduce<string[]>((all, prev) => {
+        if (!all.includes(prev.userId)) {
+          return [...all, prev.userId];
+        }
+        return all;
+      }, []);
+
+      const userPromise = taskUserIdList.map(async (userId) => {
+        const userQuery = doc(this.firestore, `users/${userId}`).withConverter(userConverter);
+        return await docData(userQuery).pipe(first()).toPromise(Promise);
       });
-      const promiseTaskData = await Promise.all(taskListPromise);
-      const taskList = promiseTaskData.reduce((all, current) => [...all, ...current], []);
+
+      const promiseAllUserList = await Promise.all(userPromise);
+      const userList = promiseAllUserList.reduce((all, current) => [...all, current], []);
 
       const timelineList = userList.reduce((current, prev) => {
         const userTaskList = taskList.filter((task) => task && task.userId === prev.id);
-        return userTaskList.length > 0 ? [...current, { user: prev, task: userTaskList }] : current;
+        return [...current, { user: prev, task: userTaskList }];
       }, []);
 
       return timelineList;
