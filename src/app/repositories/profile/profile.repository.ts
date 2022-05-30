@@ -69,6 +69,10 @@ export class ProfileRepository implements IProfileRepository {
 
       const taskCardList = taskDocList.pipe(
         mergeMap((taskList) => {
+          if (taskList.length === 0) {
+            return of([]);
+          }
+
           const taskUserIdList = taskList.map((task) => task.id);
 
           return combineLatest([
@@ -87,13 +91,17 @@ export class ProfileRepository implements IProfileRepository {
             userTagList,
           ]);
         }),
-        map(([taskList, likeList, tagList]) =>
-          taskList.map((task) => {
+        map(([taskList, likeList, tagList]) => {
+          if (!taskList) {
+            return [];
+          }
+
+          return taskList.map((task) => {
             const isLike = likeList.filter((like) => like && like.taskId === task.id)[0];
             const isTag = tagList.filter((tag) => tag && tag.id === task.tagId)[0];
             return { task, like: isLike, tag: isTag };
-          }),
-        ),
+          });
+        }),
       );
 
       return taskCardList;
@@ -116,34 +124,67 @@ export class ProfileRepository implements IProfileRepository {
       const likeDocList = collectionData(likeQuery);
 
       const taskCardList = likeDocList.pipe(
-        mergeMap(async (likeList) => {
-          const userLikedTaskIdList = likeList.map((like) => like.taskId);
+        mergeMap((likeList) => {
+          if (likeList.length === 0) {
+            return of([]);
+          }
 
-          const promise = userLikedTaskIdList.map(async (taskId, index) => {
-            const taskDocRef = doc(this.firestore, `tasks/${taskId}`).withConverter(taskConverter);
-            const task = await docData(taskDocRef).pipe(first()).toPromise(Promise);
+          return combineLatest([
+            of(likeList),
+            combineLatest(
+              likeList.map((like) => {
+                // likeに紐づくtaskを取得
+                const taskDocRef = doc(this.firestore, `tasks/${like.taskId}`).withConverter(
+                  taskConverter,
+                );
+                const taskData = docData(taskDocRef);
 
-            const isLikeQuery = query(
-              this.likeColRef,
-              where('userId', '==', currentUserId),
-              where('taskId', '==', task.id),
-            );
-            const isLikeDocList = await collectionData(isLikeQuery)
-              .pipe(first())
-              .toPromise(Promise);
+                const taskWithTagWithUser = taskData.pipe(
+                  mergeMap((task) => {
+                    // taskに紐づくtagを取得
+                    const tagDocRef = doc(this.firestore, `tags/${task.tagId}`).withConverter(
+                      tagConverter,
+                    );
+                    const tagData = docData(tagDocRef).pipe(first());
 
-            const userDocRef = doc(this.firestore, `users/${task.userId}`).withConverter(
-              userConverter,
-            );
-            const user = await docData(userDocRef).pipe(first()).toPromise(Promise);
+                    // taskに紐づくuserを取得
+                    const userDocRef = doc(this.firestore, `users/${task.userId}`).withConverter(
+                      userConverter,
+                    );
+                    const userData = docData(userDocRef);
 
-            const tagDocRef = doc(this.firestore, `tags/${task.tagId}`).withConverter(tagConverter);
-            const tag = await docData(tagDocRef).pipe(first()).toPromise(Promise);
+                    // ユーザーがtaskをlikeしているかどうか
+                    const isLikeQuery = query(
+                      this.likeColRef,
+                      where('userId', '==', currentUserId),
+                      where('taskId', '==', task.id),
+                    );
+                    const isLikeData = collectionData(isLikeQuery);
 
-            return { user, task, like: isLikeDocList[0], tag };
+                    return combineLatest([of(task), tagData, userData, isLikeData]);
+                  }),
+                  map(([task, tag, user, isLikeData]) => ({
+                    task,
+                    tag,
+                    user,
+                    like: isLikeData[0],
+                  })),
+                );
+
+                return taskWithTagWithUser;
+              }),
+            ),
+          ]);
+        }),
+        map(([likeList, likeInfo]) => {
+          if (!likeList) {
+            return [];
+          }
+
+          return likeList.map((like) => {
+            const likeInfoResult = likeInfo.filter((info) => info.task.id === like.taskId)[0];
+            return { ...likeInfoResult };
           });
-
-          return await Promise.all(promise);
         }),
       );
 
@@ -153,6 +194,57 @@ export class ProfileRepository implements IProfileRepository {
       throw new Error('サーバーエラーが発生しました');
     }
   }
+
+  // getUserLikedTaskList(
+  //   profileUserId: IUser['id'],
+  //   currentUserId: IUser['id'],
+  // ): Observable<ILikedTaskCard[]> {
+  //   try {
+  //     const likeQuery = query(
+  //       this.likeColRef,
+  //       where('userId', '==', profileUserId),
+  //       orderBy('createdAt', 'desc'),
+  //     );
+  //     const likeDocList = collectionData(likeQuery);
+
+  //     const taskCardList = likeDocList.pipe(
+  //       mergeMap(async (likeList) => {
+  //         const userLikedTaskIdList = likeList.map((like) => like.taskId);
+
+  //         const promise = userLikedTaskIdList.map(async (taskId) => {
+  //           const taskDocRef = doc(this.firestore, `tasks/${taskId}`).withConverter(taskConverter);
+  //           const task = await docData(taskDocRef).pipe(first()).toPromise(Promise);
+
+  //           const isLikeQuery = query(
+  //             this.likeColRef,
+  //             where('userId', '==', currentUserId),
+  //             where('taskId', '==', task.id),
+  //           );
+  //           const isLikeDocList = await collectionData(isLikeQuery)
+  //             .pipe(first())
+  //             .toPromise(Promise);
+
+  //           const userDocRef = doc(this.firestore, `users/${task.userId}`).withConverter(
+  //             userConverter,
+  //           );
+  //           const user = await docData(userDocRef).pipe(first()).toPromise(Promise);
+
+  //           const tagDocRef = doc(this.firestore, `tags/${task.tagId}`).withConverter(tagConverter);
+  //           const tag = await docData(tagDocRef).pipe(first()).toPromise(Promise);
+
+  //           return { user, task, like: isLikeDocList[0], tag };
+  //         });
+
+  //         return await Promise.all(promise);
+  //       }),
+  //     );
+
+  //     return taskCardList;
+  //   } catch (error) {
+  //     console.error(error.message);
+  //     throw new Error('サーバーエラーが発生しました');
+  //   }
+  // }
 
   async getUserIsDoneTaskCount(profileUserId: IUser['id']): Promise<number> {
     try {
