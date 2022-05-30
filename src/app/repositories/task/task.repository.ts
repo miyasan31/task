@@ -21,7 +21,7 @@ import { first, map } from 'rxjs/operators';
 import { ITask } from '~/interfaces/task/ITask';
 import { ITaskRepository } from '~/interfaces/task/ITaskRepository';
 import {
-  likeCountTaskConverter,
+  notTimeUpdatedTaskConverter,
   taskConverter,
   updateTaskConverter,
 } from '~/libs/converter/task.converter';
@@ -114,7 +114,7 @@ export class TaskRepository implements ITaskRepository {
   // いいね数をカウントアップする
   likeCountUp(task: ITask): Promise<void> {
     const taskDocRef = doc(this.firestore, `tasks/${task.id}`).withConverter(
-      likeCountTaskConverter,
+      notTimeUpdatedTaskConverter,
     );
     return setDoc(taskDocRef, { ...task, likeCount: task.likeCount + 1 }, { merge: true });
   }
@@ -122,7 +122,7 @@ export class TaskRepository implements ITaskRepository {
   // いいね数をカウントダウンする
   likeCountDown(task: ITask): Promise<void> {
     const taskDocRef = doc(this.firestore, `tasks/${task.id}`).withConverter(
-      likeCountTaskConverter,
+      notTimeUpdatedTaskConverter,
     );
     return setDoc(taskDocRef, { ...task, likeCount: task.likeCount - 1 }, { merge: true });
   }

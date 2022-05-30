@@ -6,6 +6,7 @@ import { TagModalComponent } from '~/components/tag-modal/tag-modal.component';
 import { ITag } from '~/interfaces/tag/ITag';
 import { ITask } from '~/interfaces/task/ITask';
 import { AuthService } from '~/services/auth/auth.service';
+import { ProfileService } from '~/services/profile/profile.service';
 import { TagService } from '~/services/tag/tag.service';
 import { TaskService } from '~/services/task/task.service';
 import { ToastService } from '~/services/toast/toast.service';
@@ -18,6 +19,7 @@ import { ToastService } from '~/services/toast/toast.service';
 export class TaskModalComponent implements OnInit {
   @Input() taskId?: ITask['id'] | null = null;
   @Input() isEdit = false;
+  @Input() isAfterEdit = false;
 
   tagList: ITag[];
 
@@ -33,6 +35,7 @@ export class TaskModalComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private taskService: TaskService,
+    private profileService: ProfileService,
     private tagService: TagService,
     private toastService: ToastService,
     private modalController: ModalController,
@@ -77,7 +80,11 @@ export class TaskModalComponent implements OnInit {
 
     try {
       if (this.isEdit) {
-        await this.taskService.update(upsertTask);
+        if (this.isAfterEdit) {
+          await this.profileService.afterTaskUpdate(upsertTask);
+        } else {
+          await this.taskService.update(upsertTask);
+        }
       } else {
         await this.taskService.create(upsertTask);
       }
@@ -92,7 +99,9 @@ export class TaskModalComponent implements OnInit {
 
   async onDeleteTask(taskId: ITask['id']): Promise<void> {
     const alert = await this.alertController.create({
-      message: '本当に削除しますか？',
+      message: `本当に削除しますか？${
+        this.isAfterEdit ? 'このタスクに付けられたいいねも同時に削除されます。' : ''
+      }`,
       buttons: [
         { text: 'キャンセル', role: 'cancel' },
         {
@@ -100,7 +109,11 @@ export class TaskModalComponent implements OnInit {
           role: 'destructive',
           handler: async () => {
             try {
-              await this.taskService.delete(taskId);
+              if (this.isAfterEdit) {
+                await this.profileService.afterTaskDelete(taskId);
+              } else {
+                await this.taskService.delete(taskId);
+              }
               this.toastService.presentToast('タスクを削除しました', 'success');
               this.onModalDismiss();
             } catch (error) {

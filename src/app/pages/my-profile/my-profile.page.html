@@ -63,6 +63,7 @@
         *ngFor="let task of taskList | async; trackBy: trackByFnTaskList"
         [user]="user"
         [task]="task"
+        (presentEditTaskModal)="onPresentActionSheet($event)"
         profilePath=""
         tagPath="profile/{{ user.id }}/{{ task.tag.id }}"
       ></app-task-detail-card>
@@ -81,6 +82,7 @@
         *ngFor="let like of likeList | async; trackBy: trackByFnLikeList"
         [user]="like.user"
         [task]="{ like: like.like, task: like.task, tag: like.tag }"
+        (presentEditTaskModal)="onPresentActionSheet($event)"
         profilePath="profile/{{ like.user.id }}"
         tagPath="profile/{{ like.user.id }}/{{ like.tag.id }}"
       ></app-task-detail-card>

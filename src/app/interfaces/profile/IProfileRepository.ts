@@ -2,6 +2,7 @@ import { Observable } from 'rxjs';
 
 import { ILikedTaskCard } from '~/interfaces/profile/ILikedTaskCard';
 import { ITagChart } from '~/interfaces/profile/ITagChart';
+import { ITask } from '~/interfaces/task/ITask';
 import { ITaskCard } from '~/interfaces/timeline/ITaskCard';
 import { IUser } from '~/interfaces/user/IUser';
 
@@ -17,4 +18,6 @@ export interface IProfileRepository {
   getUserIsDoneTaskCount(profileUserId: IUser['id']): Promise<number>;
   getUserLikeCount(profileUserId: IUser['id']): Promise<number>;
   getTagChartData(userId: IUser['id']): Promise<ITagChart[]>;
+  afterTaskUpdate(task: ITask): Promise<void>;
+  afterTaskDelete(taskId: ITask['id']): Promise<void>;
 }
